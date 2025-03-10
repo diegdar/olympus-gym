@@ -1,4 +1,4 @@
-<header class="relative bg-[#757575] shadow-xl dark:bg-bg_darkMode text-white ring-1 ring-gray-900/5">
+<header class="relative bg-[#757575] darK:bg-bg_darkMode shadow-xl dark:bg-bg_darkMode text-white ring-1 ring-gray-900/5">
         {{-- navbar --}}
         <nav class="px-4 py-4 sm:flex sm:items-center">
             {{-- logo and menu button --}}
@@ -22,17 +22,17 @@
             <div id="nav-links" class="sm:flex sm:justify-between sm:m-0 w-full hidden">
                 {{-- web-links --}}
                 <div class="sm:flex sm:flex-row sm:items-center gap-4">
-                    <article class="hover:bg-gray-200 w-full text-left rounded hover:text-gray-900">
+                    <article class="w-full pt-3 text-left border-b border-transparent hover:border-yellow-400 transition-colors duration-300">
                         <a href="">
                             Inicio
                         </a>
                     </article>
-                    <article class="hover:bg-gray-200 w-full text-left rounded hover:text-gray-900">
+                    <article class="w-full pt-3 text-left border-b border-transparent hover:border-yellow-400 transition-colors duration-300">
                         <a href="">
                             Actividades
                         </a>
                     </article>
-                    <article class="hover:bg-gray-200 w-full text-left rounded hover:text-gray-900">
+                    <article class="w-full pt-3 text-left border-b border-transparent hover:border-yellow-400 transition-colors duration-300">
                         <a href="">
                             Contacto
                         </a>
@@ -48,12 +48,12 @@
                             </a>
                         @else
                             <a href="{{ route('login') }}"
-                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#1f1f1f] hover:border-white border dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border border-[#3E3E3A] hover:border-yellow-400 transition-colors duration-300 rounded-sm text-sm">
                                 Log in
                             </a>
                             @if (Route::has('register'))
                                 <a href="{{ route('register') }}"
-                                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#1f1f1f] hover:border-white border dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border border-[#3E3E3A] hover:border-yellow-400 transition-colors duration-300 rounded-sm text-sm">
                                     Register
                                 </a>
                             @endif

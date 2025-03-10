@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -19,7 +19,7 @@
     <title>{{ $title ?? 'Home' }}</title>
 </head>
 
-<body class="bg-white-100 text-black">
+<body class="bg-white-100 text-black dark:bg-bg_darkMode dark:text-white">
 <x-navbar>    
 </x-navbar>
 <main>
