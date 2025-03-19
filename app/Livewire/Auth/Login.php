@@ -33,14 +33,14 @@ class Login extends Component
         $this->ensureIsNotRateLimited();
 
         if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
-            RateLimiter::hit($this->throttleKey());
+            RateLimiter::hit($this->throttleKey());//increment number of failed login attempts
 
             throw ValidationException::withMessages([
                 'email' => __('auth.failed'),
             ]);
         }
 
-        RateLimiter::clear($this->throttleKey());
+        RateLimiter::clear($this->throttleKey());//clear failed login attempts
         Session::regenerate();
 
         $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
@@ -55,16 +55,16 @@ class Login extends Component
             return;
         }
 
-        event(new Lockout(request()));
+        event(new Lockout(request()));//trigger the lockout event for logging against
 
-        $seconds = RateLimiter::availableIn($this->throttleKey());
+        $seconds = RateLimiter::availableIn($this->throttleKey());//get the number of seconds until the user can try again
 
         throw ValidationException::withMessages([
             'email' => __('auth.throttle', [
                 'seconds' => $seconds,
                 'minutes' => ceil($seconds / 60),
             ]),
-        ]);
+        ]);//throw a validation exception showing the user the number of seconds they should wait
     }
 
     /**
@@ -72,6 +72,6 @@ class Login extends Component
      */
     protected function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->email).'|'.request()->ip());
+        return Str::transliterate(Str::lower($this->email).'|'.request()->ip());//get the throttle key combining the email and ip to track the number of failed login attempts
     }
 }

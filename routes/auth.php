@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\GitHubAuthController;
+use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Livewire\Auth\ConfirmPassword;
 use App\Livewire\Auth\ForgotPassword;
@@ -14,6 +16,16 @@ Route::middleware('guest')->group(function () {
     Route::get('register', Register::class)->name('register');
     Route::get('forgot-password', ForgotPassword::class)->name('password.request');
     Route::get('reset-password/{token}', ResetPassword::class)->name('password.reset');
+// Github Auth
+    Route::prefix('auth/github')->group(function () {
+        Route::get('/', [GitHubAuthController::class, 'redirectToGitHub'])->name('auth.github');
+        Route::get('callback', [GitHubAuthController::class, 'handleGitHubCallback']);
+    });    
+// Google Auth
+    Route::prefix('auth/google')->group(function () {
+        Route::get('/', [GoogleAuthController::class, 'redirectToGoogle'])->name('auth.google');
+        Route::get('callback', [GoogleAuthController::class, 'handleGoogleCallback']);
+    });    
 });
 
 Route::middleware('auth')->group(function () {
