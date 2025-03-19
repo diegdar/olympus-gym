@@ -63,12 +63,20 @@
             </flux:button>
         </div>
     </form>
-
+    <!-- Github login -->
     <div class="flex items-center justify-center">
         <a href="{{ route('auth.github') }}"
             class="inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-md transition duration-150 ease-in-out dark:bg-gray-700 dark:hover:bg-gray-600">
             {{ __('Iniciar sesión con GitHub') }}
             <i class="fa-brands fa-github fa-lg ml-3" style="color: #eef6ff;"></i>
+        </a>
+    </div>
+    <!-- Google login -->
+    <div class="flex items-center justify-center">
+        <a href="{{ route('auth.google') }}"
+            class="inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-md transition duration-150 ease-in-out dark:bg-gray-700 dark:hover:bg-gray-600">
+            {{ __('Iniciar sesión con Google') }}
+            <i class="fa-brands fa-google fa-lg ml-3" style="color: red;"></i>
         </a>
     </div>
 
