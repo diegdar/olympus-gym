@@ -1,6 +1,6 @@
 <div class="flex flex-col gap-6">
-{{-- Font Awesome: icons --}}
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">    
+    {{-- Font Awesome: icons --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <x-auth-header title="Crear cuenta" description="Introduce tus datos para crear tu cuenta" />
 
     <!-- Session Status -->
@@ -29,7 +29,6 @@
             required
             autocomplete="email"
             placeholder="email@example.com" />
-
         <!-- Password -->
         <flux:input
             wire:model="password"
@@ -40,7 +39,6 @@
             required
             autocomplete="new-password"
             placeholder="Contraseña" />
-
         <!-- Confirm Password -->
         <flux:input
             wire:model="password_confirmation"
@@ -51,7 +49,14 @@
             required
             autocomplete="new-password"
             placeholder="Confimar contraseña" />
-
+        <!-- privacy policy -->
+         <div class="flex items-center">
+            <flux:checkbox 
+                wire:model="privacy"
+                />
+            <a href="{{ route('privacy.policy') }}"  target="_blank" class="ml-2">acepto la <span class="text-sm text-zinc-600 dark:text-zinc-400 underline hover:text-zinc-500">politica de privacidad</span></a>
+         </div>
+        <!-- create account button -->
         <div class="flex items-center justify-end">
             <flux:button type="submit" variant="primary" class="w-full">
                 {{ __('Crear cuenta') }}
@@ -71,4 +76,5 @@
         Ya tienes una cuenta?
         <flux:link :href="route('login')" wire:navigate> Iniciar de sesion</flux:link>
     </div>
+
 </div>

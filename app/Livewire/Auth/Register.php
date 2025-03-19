@@ -21,6 +21,8 @@ class Register extends Component
 
     public string $password_confirmation = '';
 
+    public bool $privacy = false;
+
     /**
      * Handle an incoming registration request.
      */
@@ -30,6 +32,9 @@ class Register extends Component
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+            'privacy' => ['required', 'accepted'],
+        ], [
+            'privacy.accepted' => 'Debes aceptar la política de privacidad.',
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
