@@ -56,6 +56,7 @@
                 />
             <a href="{{ route('privacy.policy') }}"  target="_blank" class="ml-2">acepto la <span class="text-sm text-zinc-600 dark:text-zinc-400 underline hover:text-zinc-500">politica de privacidad</span></a>
          </div>
+         @error('privacy') <span class="error text-red-500">{{ $message }}</span> @enderror
         <!-- create account button -->
         <div class="flex items-center justify-end">
             <flux:button type="submit" variant="primary" class="w-full">
