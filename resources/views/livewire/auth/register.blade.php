@@ -1,5 +1,7 @@
 <div class="flex flex-col gap-6">
-    <x-auth-header title="Create an account" description="Enter your details below to create your account" />
+{{-- Font Awesome: icons --}}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">    
+    <x-auth-header title="Crear cuenta" description="Introduce tus datos para crear tu cuenta" />
 
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />
@@ -9,14 +11,13 @@
         <flux:input
             wire:model="name"
             id="name"
-            :label="__('Name')"
+            :label="__('Nombre')"
             type="text"
             name="name"
             required
             autofocus
             autocomplete="name"
-            placeholder="Full name"
-        />
+            placeholder="Nombre y apellidos" />
 
         <!-- Email Address -->
         <flux:input
@@ -27,42 +28,47 @@
             name="email"
             required
             autocomplete="email"
-            placeholder="email@example.com"
-        />
+            placeholder="email@example.com" />
 
         <!-- Password -->
         <flux:input
             wire:model="password"
             id="password"
-            :label="__('Password')"
+            :label="__('Contraseña')"
             type="password"
             name="password"
             required
             autocomplete="new-password"
-            placeholder="Password"
-        />
+            placeholder="Contraseña" />
 
         <!-- Confirm Password -->
         <flux:input
             wire:model="password_confirmation"
             id="password_confirmation"
-            :label="__('Confirm password')"
+            :label="__('Confimar contraseña')"
             type="password"
             name="password_confirmation"
             required
             autocomplete="new-password"
-            placeholder="Confirm password"
-        />
+            placeholder="Confimar contraseña" />
 
         <div class="flex items-center justify-end">
             <flux:button type="submit" variant="primary" class="w-full">
-                {{ __('Create account') }}
+                {{ __('Crear cuenta') }}
             </flux:button>
         </div>
     </form>
 
+    <div class="flex items-center justify-center">
+        <a href="{{ route('auth.github') }}"
+            class="inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-md transition duration-150 ease-in-out dark:bg-gray-700 dark:hover:bg-gray-600">
+            {{ __('Iniciar sesión con GitHub') }}
+            <i class="fa-brands fa-github fa-lg ml-3" style="color: #eef6ff;"></i>
+        </a>
+    </div>
+
     <div class="space-x-1 text-center text-sm text-zinc-600 dark:text-zinc-400">
-        Already have an account?
-        <flux:link :href="route('login')" wire:navigate>Log in</flux:link>
+        Ya tienes una cuenta?
+        <flux:link :href="route('login')" wire:navigate> Iniciar de sesion</flux:link>
     </div>
 </div>
