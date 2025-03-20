@@ -24,7 +24,7 @@ Route::middleware('guest')->group(function () {
 // Google Auth
     Route::prefix('auth/google')->group(function () {
         Route::get('/', [GoogleAuthController::class, 'redirectToGoogle'])->name('auth.google');
-        Route::get('callback', [GoogleAuthController::class, 'handleGoogleCallback']);
+        Route::get('callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
     });    
 });
 
