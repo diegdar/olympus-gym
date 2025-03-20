@@ -28,6 +28,6 @@ class GitHubAuthController extends Controller
 
         Auth::login($user);
 
-        return view(route('dashboard', absolute: false));
+        return redirect()->route('dashboard');
     }
 }

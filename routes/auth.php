@@ -19,12 +19,12 @@ Route::middleware('guest')->group(function () {
 // Github Auth
     Route::prefix('auth/github')->group(function () {
         Route::get('/', [GitHubAuthController::class, 'redirectToGitHub'])->name('auth.github');
-        Route::get('callback', [GitHubAuthController::class, 'handleGitHubCallback']);
+        Route::get('callback', [GitHubAuthController::class, 'handleGitHubCallback'])->name('auth.github.callback');
     });    
 // Google Auth
     Route::prefix('auth/google')->group(function () {
         Route::get('/', [GoogleAuthController::class, 'redirectToGoogle'])->name('auth.google');
-        Route::get('callback', [GoogleAuthController::class, 'handleGoogleCallback']);
+        Route::get('callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
     });    
 });
 
