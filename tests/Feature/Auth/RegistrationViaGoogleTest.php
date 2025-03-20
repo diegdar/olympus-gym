@@ -21,7 +21,7 @@ class RegistrationViaGoogleTest extends TestCase
 
         $response = $this->get(route('auth.google'));
 
-        $response->assertStatus(302);
+        $response->assertStatus(543);
         $response->assertRedirectContains('https://google.com/login/oauth/authorize');
     }
 
