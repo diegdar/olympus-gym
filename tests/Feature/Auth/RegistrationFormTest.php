@@ -1,24 +1,25 @@
 <?php
 
-namespace Tests\Feature\User;
+namespace Tests\Feature\Auth;
 
 use App\Livewire\Auth\Register;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
 use Tests\TestCase;
 
-class UserRegisterTest extends TestCase
+class RegistrationFormTest extends TestCase
 {
     use RefreshDatabase;
 
     public function test_it_renders_the_register_component()
     {
-        $this->get(route('register'))->assertSeeLivewire(Register::class);
+        $response = $this->get(route('register'))->assertSeeLivewire(Register::class);
+
+        $response->assertStatus(200);
     }
 
     public function test_it_requires_valid_inputs()
@@ -28,11 +29,13 @@ class UserRegisterTest extends TestCase
             ->set('email', 'invalid-email')
             ->set('password', 'short')
             ->set('password_confirmation', 'mismatch')
+            ->set('privacy', false)
             ->call('register')
             ->assertHasErrors([
                 'name' => 'required',
                 'email' => 'email',
                 'password' => 'confirmed',
+                'privacy' => 'accepted',
             ]);
     }
 
@@ -45,44 +48,20 @@ class UserRegisterTest extends TestCase
             ->set('email', 'joe.doe@example.com')
             ->set('password', 'SecurePassword123!')
             ->set('password_confirmation', 'SecurePassword123!')
+            ->set('privacy', true)
             ->call('register')
-            ->assertRedirect(route('dashboard'));
+            ->assertHasNoErrors()
+            ->assertRedirect(route('dashboard', absolute: false));
 
         $this->assertDatabaseHas('users', [
             'name' => 'Joe Doe',
             'email' => 'joe.doe@example.com',
         ]);
+        $this->assertAuthenticated();
 
         $user = User::where('email', 'joe.doe@example.com')->first();
         $this->assertTrue(Hash::check('SecurePassword123!', $user->password));
 
         Event::assertDispatched(Registered::class);// check if the event was dispatched 
     }
-
-    public function test_it_logs_in_the_user_after_registration()
-    {
-        Livewire::test(Register::class)
-            ->set('name', 'Joe Doe')
-            ->set('email', 'joe.doe@example.com')
-            ->set('password', 'SecurePassword123!')
-            ->set('password_confirmation', 'SecurePassword123!')
-            ->call('register');
-
-        $this->assertAuthenticated();
-        $this->assertEquals('joe.doe@example.com', Auth::user()->email);
-    }
-
-    public function test_it_redirects_to_dashboard_after_registration()
-    {
-        Livewire::test(Register::class)
-            ->set('name', 'Joe Doe')
-            ->set('email', 'joe.doe@example.com')
-            ->set('password', 'SecurePassword123!')
-            ->set('password_confirmation', 'SecurePassword123!')
-            ->call('register')
-            ->assertRedirect(route('dashboard'));
-    }
 }
-
-
-
