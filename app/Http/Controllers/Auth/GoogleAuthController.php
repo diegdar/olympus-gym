@@ -26,6 +26,10 @@ class GoogleAuthController extends Controller
                 ]
             );
 
+        if (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified(); // mark email as verified to avoid verify-email view
+        }     
+
         Auth::login($user);
 
         return redirect()->route('dashboard');
