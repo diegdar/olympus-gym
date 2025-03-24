@@ -1,5 +1,7 @@
 <div class="flex flex-col gap-6">
     <x-auth-header title="Iniciar sesion en tu cuenta" description="Introduce tu email y contraseña" />
+    {{-- Font Awesome: icons --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">    
 
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />
@@ -43,6 +45,22 @@
             <flux:button variant="primary" type="submit" class="w-full">{{ __('Iniciar sesion') }}</flux:button>
         </div>
     </form>
+    <!-- Github login -->
+    <div class="flex items-center justify-center">
+        <a href="{{ route('auth.github') }}"
+            class="inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-md transition duration-150 ease-in-out dark:bg-gray-700 dark:hover:bg-gray-600">
+            {{ __('Iniciar sesión con GitHub') }}
+            <i class="fa-brands fa-github fa-lg ml-3" style="color: #eef6ff;"></i>
+        </a>
+    </div>
+    <!-- Google login -->
+    <div class="flex items-center justify-center">
+        <a href="{{ route('auth.google') }}"
+            class="inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-md transition duration-150 ease-in-out dark:bg-gray-700 dark:hover:bg-gray-600">
+            {{ __('Iniciar sesión con Google') }}
+            <i class="fa-brands fa-google fa-lg ml-3" style="color: red;"></i>
+        </a>
+    </div>
 
     @if (Route::has('register'))
       <div class="space-x-1 text-center text-sm text-zinc-600 dark:text-zinc-400">
