@@ -10,20 +10,33 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-.permanent-marker {
+.font-permanent-marker {
+    font-family: "Permanent Marker", cursive;
+}
+
+.font-shadows-light {
+    font-family: "Shadows Into Light", cursive;
+}
+
+h1 {
     font-family: "Permanent Marker", cursive;
     font-weight: 400;
     font-style: normal;
 }
 
-.shadows-into-light {
+h2, h3, h4, h5, h6 {
     font-family: "Shadows Into Light", cursive;
-    font-weight: 400;
+    font-weight: bold;
     font-style: normal;
 }
-  
-  
-  
+
+h2{
+    @apply text-3xl font-bold mt-3;
+}
+
+p{
+    margin-bottom: 10px;
+}
 
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -40,6 +53,7 @@
     --color-zinc-900: #171717;
     --color-zinc-950: #0a0a0a;
     --color-bg_darkMode: #0c0c0c;
+    --color-2nd: #fec544;
 
     --color-accent: var(--color-neutral-800);
     --color-accent-content: var(--color-neutral-800);
