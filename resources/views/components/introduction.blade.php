@@ -1,7 +1,7 @@
 <div>
-    <h1 class="text-4xl font-bold text-center mb-2">Bienvenido a Olympus Gym</h1>
+    <h1 class="text-4xl font-bold text-center mb-2 permanent-marker">Bienvenido a Olympus Gym</h1>
     <!-- abanico de imagenes -->
-    <section class="flex  w-full h-[430px]">
+    <section class="flex w-full h-[430px]">
         <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/pict/crossfit_class.webp') }}" alt="personas haciendo crossfit">
         <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/pict/exercise_two_girls.webp') }}" alt="una chica instruyendo a otra como hacer ejercicio">
         <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/pict/girl_using_small_weights.webp') }}" alt="chica haciendo ejercicio con pequeños pesos">
