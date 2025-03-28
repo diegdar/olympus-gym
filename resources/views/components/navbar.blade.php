@@ -1,5 +1,5 @@
 <header
-    class="sticky top-0  bg-[#757575] darK:bg-bg_darkMode shadow-xl dark:bg-bg_darkMode text-white ring-1 ring-gray-900/5 z-50">
+    class="sticky top-0  bg-[#757575] darK:bg-bg_darkMode shadow-xl dark:bg-bg_darkMode text-white ring-1 ring-gray-900/5 z-50 opacity-80">
     {{-- navbar --}}
     <nav class="px-4 py-4 sm:flex sm:items-center">
         {{-- my-web-logo, gym-logo and icon-menu --}}
