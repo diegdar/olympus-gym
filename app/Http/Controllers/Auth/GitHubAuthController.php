@@ -18,17 +18,11 @@ class GitHubAuthController extends Controller
     {
         $githubUser = Socialite::driver('github')->user();
 
-        $user = User::updateOrCreate(
-        ['email' => $githubUser->email],
-            [
-                        'name' => $githubUser->nickname,
-                        'email' => $githubUser->email,
-                    ]
-        );
+        $user = User::where('email', $githubUser->email)->first();
 
-        if (!$user->hasVerifiedEmail()) {
-            $user->markEmailAsVerified(); // mark email as verified to avoid verify-email view
-        }        
+        if (!$user) {
+            return redirect()->route('register', ['registerMessage'=>'No estas registrado aun!']);
+        }            
 
         Auth::login($user);
 

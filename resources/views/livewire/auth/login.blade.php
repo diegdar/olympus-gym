@@ -45,6 +45,8 @@
             <flux:button variant="primary" type="submit" class="w-full">{{ __('Iniciar sesion') }}</flux:button>
         </div>
     </form>
+    <!-- social register -->
+    <p class="text-lg font-bold">Si ya estas registrado puedes iniciar sesion tambien con:</p>
     <!-- Github login -->
     <div class="flex items-center justify-center">
         <a href="{{ route('auth.github') }}"

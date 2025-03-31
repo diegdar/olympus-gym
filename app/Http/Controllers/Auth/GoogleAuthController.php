@@ -18,17 +18,11 @@ class GoogleAuthController extends Controller
     {
         $googleUser = Socialite::driver('google')->user();
 
-        $user = User::updateOrCreate(
-    ['email' => $googleUser->email],
-        [
-                    'name' => $googleUser->name ?? $googleUser->email,
-                    'email' => $googleUser->email,
-                ]
-            );
+        $user = User::where('email', $googleUser->email)->first();
 
-        if (!$user->hasVerifiedEmail()) {
-            $user->markEmailAsVerified(); // mark email as verified to avoid verify-email view
-        }     
+        if (!$user) {
+            return redirect()->route('register', ['registerMessage'=>'No estas registrado aun!']);
+        }    
 
         Auth::login($user);
 
