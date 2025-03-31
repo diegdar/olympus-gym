@@ -24,14 +24,14 @@ h1 {
     font-style: normal;
 }
 
+h2{
+    @apply text-4xl font-bold mt-3 text-center;
+}
+
 h2, h3, h4, h5, h6 {
     font-family: "Shadows Into Light", cursive;
     font-weight: bold;
     font-style: normal;
-}
-
-h2{
-    @apply text-3xl font-bold mt-3;
 }
 
 p{
