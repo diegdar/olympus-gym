@@ -1,5 +1,5 @@
 <header
-    class="sticky top-0 relative bg-[#757575] darK:bg-bg_darkMode shadow-xl dark:bg-bg_darkMode text-white ring-1 ring-gray-900/5">
+    class="sticky top-0  bg-[#757575] darK:bg-bg_darkMode shadow-xl dark:bg-bg_darkMode text-white ring-1 ring-gray-900/5 z-50 opacity-80">
     {{-- navbar --}}
     <nav class="px-4 py-4 sm:flex sm:items-center">
         {{-- my-web-logo, gym-logo and icon-menu --}}
@@ -16,7 +16,7 @@
                 <p class="text-sm fond-bold">Olympus Gym</p>
             </div>
             {{-- button menu --}}
-            <button id="menu-toggle" class="text-gray-700 sm:hidden">
+            <button id="menu-toggle" class="text-gray-700 sm:hidden cursor-pointer">
                 <svg class="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" width="100" height="100"
                     viewBox="0 0 50 50">
                     <path

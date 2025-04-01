@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyecto: Gimnasio</title>
     {{-- SEO --}}
     <meta name="description" content="Portafolio de Diego Chacón Delgado, desarrollador web">
     <meta name="keywords"

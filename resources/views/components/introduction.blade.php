@@ -1,60 +1,104 @@
 <div>
-    <h1 class="text-4xl font-bold text-center">Bienvenido a nuestro Gimnasio</h1>
-    <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde fugiat cum beatae harum corporis vitae, aspernatur perferendis doloremque id optio aperiam reiciendis, quae illum sequi ad expedita adipisci aliquam quia?
-        Magni laboriosam tenetur illum voluptates. Et modi nobis placeat dignissimos doloribus consequatur mollitia fugit impedit quas quam omnis explicabo possimus eveniet nulla asperiores ab quisquam, laboriosam nam ducimus dolore dolorem?
-        Consequatur possimus illum sed fugiat nihil fuga porro! Fugit porro, dolore voluptatibus eveniet adipisci soluta tenetur vitae quibusdam laboriosam harum praesentium tempore alias ullam dignissimos. Voluptates saepe quas autem cupiditate!
-        Id, quo. Nam, officiis ut nihil magnam dolorem delectus. Sint expedita natus est, magni rem unde quaerat quibusdam ex. Veritatis voluptatem ad temporibus natus aperiam nostrum minima rerum aliquam error?
-        Dolores quo id minus, non magni, veniam ex a fugiat repellendus quaerat itaque, sint recusandae nisi ut esse pariatur vel! Aut vero nulla, voluptatem placeat sit labore minima voluptatum ullam.
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Molestiae assumenda debitis voluptatibus, facilis explicabo possimus corrupti maxime deserunt iure reprehenderit cumque harum vel odit at ipsa neque eligendi perspiciatis praesentium.
-        Minima sapiente accusantium esse id a, facilis odit natus eveniet voluptatibus nostrum deleniti quas nisi aliquid deserunt, provident, repudiandae illo rem adipisci voluptate? Quisquam vel veritatis, repellendus impedit ea omnis?
-        Delectus sapiente culpa rerum eaque repudiandae, animi deleniti, mollitia ex non hic ipsam veniam reprehenderit, qui velit nam inventore facilis. Dolor pariatur debitis minima quidem, quaerat itaque velit aut veniam!
-        Quidem similique facilis vel architecto perspiciatis incidunt. Consequatur a perspiciatis deleniti alias voluptatum error aut, qui expedita saepe eius, modi natus quam quidem nam necessitatibus unde quasi harum sequi odit.
-        Suscipit praesentium nam corrupti iusto vitae aliquam quo architecto saepe, at ipsa aperiam autem quaerat incidunt accusantium inventore unde perspiciatis officia quidem voluptate fugit, sint numquam et. Nisi, voluptatibus possimus.
-        Eius vitae, sint repudiandae nisi explicabo, accusamus quae, vel rerum rem nihil delectus ab nobis doloribus? Porro qui rerum sint cumque aliquid obcaecati quod nemo voluptatem eveniet. Voluptas, vero totam!
-        Ad neque commodi libero id itaque consectetur aliquid, perspiciatis quisquam error a esse, repellat mollitia ab cumque delectus, amet iure tenetur soluta repellendus! Fuga consectetur, voluptates ad dignissimos enim dolorem?
-        Ipsa modi ab reiciendis ratione soluta, delectus, odit dignissimos quibusdam fuga distinctio voluptatibus minus, iusto sit perferendis dolores asperiores aliquid corrupti? Dicta, repudiandae ad reprehenderit in repellendus voluptatibus veritatis quibusdam.
-        Vero, quidem earum. Qui dolore fugit suscipit necessitatibus commodi expedita, quas itaque officiis perferendis atque saepe earum repellat cumque deserunt beatae dolorum nulla, amet enim perspiciatis velit magni, ab libero?
-        Quas perferendis, veniam voluptatum repudiandae quo ex delectus corporis impedit sequi tenetur at adipisci! Similique officiis excepturi iure eaque fugiat. Accusantium veniam voluptas porro quaerat pariatur animi rerum facilis unde.
-        At, mollitia culpa vitae, voluptas alias illum ab magni quae, doloremque possimus deleniti nisi dolorem officia voluptatem sequi placeat necessitatibus voluptatibus laborum quod hic ratione labore soluta! Ea, illo numquam.
-        Doloribus voluptas reprehenderit, dolores, distinctio provident numquam eligendi delectus sequi nesciunt cumque voluptatibus perferendis veniam? Est, at aperiam. Possimus recusandae voluptas molestiae corrupti nemo cum eveniet facere, esse provident nesciunt.
-        Similique, excepturi, facere nulla optio amet numquam animi ullam ducimus atque veritatis voluptate, neque nemo autem iste iure quia quaerat! Voluptates quasi dolore dicta quas, cum est nobis adipisci pariatur!
-        Optio consequuntur expedita incidunt aliquid deserunt. Perspiciatis cum reiciendis recusandae molestias sapiente minima sequi et suscipit, sunt omnis dolores. Iusto natus neque laboriosam aperiam sit harum? Nostrum fugiat ut reprehenderit.
-        Odit sunt voluptatibus iste vero quas in tempore id illo, corrupti iusto labore error optio odio exercitationem voluptatem aliquid? Consequuntur ratione odio soluta accusantium architecto quasi dolorum quaerat possimus natus!
-        Laboriosam repellendus, cupiditate voluptas sit odio neque pariatur, sint quod aut, sed et atque. Nulla mollitia voluptates ut pariatur, enim natus cum suscipit debitis? Ut maxime perspiciatis praesentium veniam alias.
-        Ad quaerat, accusantium temporibus perferendis ut sunt repudiandae cum commodi atque quisquam repellendus itaque quod! Perferendis cumque accusamus quae commodi, sit eveniet cum eum recusandae quo doloremque quisquam placeat animi.
-        Provident deserunt debitis ut odit praesentium? Maxime quaerat quisquam tempore ut quidem libero voluptatum commodi autem, veniam nobis! Est eius unde consequatur iste pariatur impedit corrupti fuga doloremque atque? Temporibus!
-        Optio minus asperiores dolorem reiciendis? Debitis, officia deserunt in commodi atque doloribus? Soluta ipsam tempore error incidunt maiores fugit totam mollitia sapiente ut delectus asperiores, fugiat, ipsum corrupti cupiditate sint.
-        Nam alias suscipit nobis quidem odio sit eius accusamus quam? Quo commodi explicabo architecto ducimus dolor numquam accusantium porro odio quidem exercitationem, vel distinctio impedit accusamus, dolores nemo sed voluptates.
-        Consectetur enim officiis officia, labore possimus corporis, quidem, in consequuntur quasi molestiae aliquam eligendi quas? Earum perspiciatis veniam nesciunt vel fuga consequuntur cupiditate dolores incidunt corrupti, aut alias magnam laboriosam!
-        Adipisci sapiente explicabo ipsam expedita laboriosam quasi quam laudantium placeat? Assumenda facere quas nostrum debitis nobis iure, corporis dolorum, dolorem veniam nesciunt fugiat modi aut tenetur ab ipsa quibusdam labore?
-        Distinctio, alias! Quia eum blanditiis minima, suscipit dolorem consequatur amet reprehenderit! Quisquam quis expedita tenetur molestiae optio incidunt error dignissimos, facilis blanditiis earum est deleniti odio nesciunt similique sapiente non.
-        Adipisci quis tempore quae qui magnam ea quos, modi voluptates iusto nemo voluptate vitae nisi cum alias inventore reiciendis veritatis molestiae quaerat officia laborum culpa ratione. Officiis repellendus enim quas.
-        Reprehenderit amet beatae, labore atque, magnam similique nam temporibus debitis rem blanditiis molestiae eum dolore facilis dicta ut molestias laudantium accusantium recusandae tempore vero. Labore sint ut molestiae dolore nulla?
-        Ipsum amet cupiditate magni, vel, blanditiis deleniti temporibus sunt illo iure corrupti ullam fugit possimus nobis. Eveniet blanditiis, excepturi dicta unde ipsam animi consequuntur, ex culpa, pariatur laborum obcaecati ab.
-        Velit assumenda exercitationem, ipsam laudantium odio neque qui hic omnis quis magni quibusdam nemo in, sit error enim aspernatur vero sapiente explicabo corporis cumque quia quasi excepturi blanditiis? Doloremque, alias.
-        Quia, veritatis. Harum quas, quae odit ut ullam libero nobis? Veritatis perferendis quis alias ducimus esse at quasi deleniti id voluptate tempore accusamus, illum est, mollitia quia. Sed, odio at.
-        Nemo voluptate aliquam dolor laboriosam pariatur inventore voluptatem rerum iure, adipisci totam blanditiis nam saepe neque sequi ipsam aut consequatur consectetur aspernatur odit molestias! Modi velit atque vel hic ex.
-        Deserunt quaerat quidem officia, laboriosam odio reprehenderit. Iure repellendus adipisci sequi. Neque iste rerum in suscipit! Laudantium sint, necessitatibus itaque tenetur ipsa culpa assumenda, placeat quo aliquid totam quidem illum.
-        Blanditiis fuga quasi expedita aspernatur! Deserunt possimus necessitatibus neque deleniti reprehenderit hic excepturi odit libero corporis dolorum iusto, id voluptates sequi dolorem! Blanditiis dicta laudantium voluptatem voluptas, in doloremque omnis!
-        Quos eligendi perspiciatis exercitationem, ullam minima eum libero, vel facilis suscipit ex mollitia repellendus nobis accusantium perferendis. Necessitatibus quas corporis accusantium ea tempora dicta adipisci nostrum, esse dolore fugit eaque.
-        Repudiandae odit consectetur sint earum commodi error consequuntur esse numquam id unde a exercitationem accusamus aliquam, nisi blanditiis architecto, deleniti eum illum repellat dolorum illo accusantium. Sint iusto numquam illo.
-        Harum accusantium ullam asperiores ipsam aliquam ducimus voluptatibus unde, earum optio, enim eos odio, totam consectetur libero magnam impedit ut distinctio quibusdam quisquam consequatur non animi sapiente sunt! Repellendus, esse.
-        Quis tenetur fugiat aut sit, incidunt adipisci consectetur minima nisi, natus deserunt itaque vero quasi ipsam, corporis accusamus eligendi quibusdam molestias accusantium! Perferendis aspernatur pariatur id libero maxime, odio accusantium.
-        Inventore a exercitationem temporibus facere adipisci consequatur fugit iusto, commodi minima in maxime est aliquam! Expedita dolores assumenda aliquid aperiam quae itaque, dolor impedit cumque recusandae doloribus iusto facere suscipit?
-        Quas error veritatis necessitatibus quod quos eum laborum atque maxime illum alias dignissimos illo voluptatibus a reprehenderit velit commodi ipsam aliquam autem, enim reiciendis nemo. Amet sequi recusandae unde exercitationem.
-        Soluta laborum quis odit autem quos, saepe veritatis tenetur minima, amet veniam eaque. Temporibus, numquam. Sapiente assumenda optio dicta, deleniti et aliquid saepe quia dolores fugit reiciendis? Odio, voluptatem aperiam?
-        Deleniti, quo perferendis provident cupiditate eveniet consequatur velit id praesentium, omnis repudiandae fugit tenetur debitis eos labore reprehenderit voluptas delectus aut voluptatem facilis! Possimus porro cumque qui ipsum saepe minus!
-        Exercitationem quo nam, aliquam modi ipsum corrupti, nemo illum quia debitis adipisci natus quae quos iste quod quisquam officiis pariatur hic rem repellendus eveniet. Consequuntur debitis quidem mollitia dolorem ratione.
-        Dignissimos nesciunt id magnam earum vel, delectus excepturi mollitia unde? Commodi, explicabo. Ad itaque natus minus voluptas odio, sequi unde quasi repellat nesciunt voluptates. Quis magni placeat officia error in!
-        Facere, provident itaque recusandae voluptate, quibusdam ullam deleniti culpa atque dicta ad pariatur ex. Repudiandae iusto rem dignissimos nemo. Reiciendis itaque dolore, nemo amet recusandae ipsum deleniti obcaecati cumque sed!
-        Obcaecati repellat praesentium accusantium! Excepturi earum beatae magnam error ad eligendi architecto at ut! In a deleniti ad nostrum natus rem at cumque, perspiciatis reprehenderit ut quia magnam inventore ipsam.
-        Nemo officiis neque ex! Quod debitis, minima quis aliquid magnam quam eligendi asperiores eum magni numquam deleniti odit eaque mollitia modi dignissimos iure aliquam quo placeat soluta incidunt facere alias?
-        Officia consequuntur libero nesciunt fugiat nihil quod culpa neque nostrum rem, iure, praesentium minus sint quia ab itaque nulla natus? Nemo iusto delectus suscipit saepe, reprehenderit assumenda quas perferendis consequatur.
-        Laborum saepe libero mollitia voluptates itaque consectetur expedita est dignissimos aut numquam quidem, consequatur soluta laboriosam, tempora atque exercitationem vel corporis possimus? Expedita voluptatum quae optio autem alias nihil neque.
-        Voluptatum ipsam praesentium dolores non commodi esse dolorem quos eaque sed. Ut aperiam minus delectus deleniti quis fuga molestias amet voluptas sit laudantium. Quasi maiores, sunt sed ex omnis explicabo!
-        Sunt soluta quibusdam, vel incidunt maxime possimus, rem expedita provident minus, dignissimos fugiat? Modi laborum tempore nam magnam ipsum praesentium, sed placeat quidem velit quasi saepe, dolore numquam obcaecati facilis.
-        Magni ipsa pariatur veritatis quae beatae soluta nesciunt voluptates nemo quis provident iusto hic eveniet, repudiandae porro optio delectus maiores possimus distinctio voluptate et quas veniam natus. Quas, commodi laudantium!
-        Provident doloribus omnis esse maxime laborum ad quam fugit sint architecto ipsum totam aut corporis reprehenderit beatae cumque eum cum illo voluptas in eius, deleniti repudiandae nesciunt inventore nemo? Sed!
-    </p>
+    <h1 class="text-4xl sm:text-5xl font-bold text-center mb-2">Bienvenido a Olympus Gym</h1>
+    <p class="text-3xl font-semibold text-center font-shadows-light text-2nd">tu santuario del fitness</p>
+    <!-- abanico de imagenes -->
+    <section class="flex w-full h-[430px]">
+        <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/pict/crossfit_class.webp') }}" alt="personas haciendo crossfit">
+        <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/pict/exercise_two_girls.webp') }}" alt="una chica instruyendo a otra como hacer ejercicio">
+        <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/pict/girl_using_small_weights.webp') }}" alt="chica haciendo ejercicio con pequeños pesos">
+        <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/pict/spinning.webp') }}" alt="chico haciendo spinning">
+        <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/pict/zumba_class.webp') }}" alt="personas haciendo una clase de zumba">
+    </section>
+    <!-- introduction gym text -->
+    <section class="m-5 mt-15">
+        <h2>¿Qué nos hace únicos?</h2>
+        <p>
+            En Olympus Gym, no solo encontrarás un gimnasio, sino una comunidad apasionada por el bienestar y el crecimiento personal. Nos enorgullece ofrecerte un espacio donde puedes desafiar tus límites, alcanzar tus metas y descubrir tu máximo potencial.
+        </p>
+        <ul>
+            <li>
+                <p><span class="text-2nd font-semibold">Entrenadores expertos: </span>Nuestro equipo de profesionales certificados te guiará en cada paso de tu camino, diseñando planes personalizados y brindándote el apoyo que necesitas para alcanzar tus objetivos.
+                </p>
+            </li>
+            <li>
+                <p><span class="text-2nd font-semibold">Variedad de clases: </span>Desde sesiones de alta intensidad hasta clases de yoga y pilates, ofrecemos una amplia gama de opciones para que encuentres la actividad que mejor se adapte a tus gustos y necesidades.
+                </p>
+            </li>
+            <li>
+                <p><span class="text-2nd font-semibold">Comunidad inspiradora: </span>Únete a un grupo de personas motivadas que comparten tu pasión por el fitness y te impulsarán a superar tus propios límites.</p>
+            </li>
+            <li>
+                <p><span class="text-2nd font-semibold">Ambiente motivador: </span>En Olympus Gym, te sentirás como en casa. Nuestra atmósfera cálida y acogedora te inspirará a dar lo mejor de ti en cada entrenamiento.
+                </p>
+            </li>
+        </ul>
+        <p>
+            Te invitamos a explorar nuestra página web y descubrir todo lo que Olympus Gym tiene para ofrecerte. ¡Contáctanos para programar una visita y comenzar a construir la mejor versión de ti mismo!
+        </p>
+        <p class="font-permanent-marker text-right text-2nd text-2xl">
+            ¡En Olympus Gym, tu éxito es nuestra meta!
+        </p>
+    </section>
+    <!-- Fees -->
+    <section class="m-5 mt-20">
+        <h2 class="mb-5">Elige tu cuota</h2>
+        <article class="flex flex-wrap justify-center gap-4">
+            <!-- fee-card 1 -->
+            <div class="w-full min-w-[200px] max-w-[280px] mx-3 border-1 min-h-[300px]  rounded-lg shadow-md p-6 flex flex-col justify-between hover:cursor-pointer hover:scale-105
+            ">
+                <a href="/register?fee=quarterly">
+                    <h3 class="text-2xl font-semibold text-center mb-8">Cuota Mensual</h3>
+                    <p class="mb-2">-Acceso ilimitado al gimnasio</p>
+                    <p class="mb-2">-Clases grupales incluidas</p>
+                    <p class="text-3xl text-center font-bold text-green-500 mt-17">50€ / mes</p>
+                    <p href="/register?fee=quarterly" class="mt-9 bg-green-500 hover:bg-green-600 font-semibold py-2 px-4 rounded w-full text-center block">
+                        ¡Inscríbete!
+                    </p>
+                </a>
+            </div>             
+            <!-- fee-card 2 -->
+            <div class="w-full min-w-[200px] max-w-[280px] mx-3 border-1 min-h-[300px]  rounded-lg shadow-md p-6 flex flex-col justify-between hover:cursor-pointer hover:scale-105
+            ">
+                <a href="/register?fee=quarterly">
+                    <h3 class="text-2xl font-semibold text-center mb-8">Cuota Trimestral</h3>
+                    <p class="mb-2">-Acceso ilimitado al gimnasio</p>
+                    <p class="mb-2">-Clases grupales incluidas</p>
+                    <p class="mb-2">-1 sesión de entrenamiento personal</p>
+                    <p class="text-3xl text-center font-bold text-blue-500 mt-3">135€ / trimestre</p>
+                    <p href="/register?fee=quarterly" class="mt-8 bg-blue-500 hover:bg-blue-600 font-semibold py-2 px-4 rounded w-full text-center block">
+                        ¡Inscríbete!
+                    </p>
+                </a>
+            </div>
+            <!-- fee-card 3 -->
+            <div class="w-full min-w-[200px] max-w-[280px] mx-3 border-1 min-h-[300px]  rounded-lg shadow-md p-6 flex flex-col justify-between hover:cursor-pointer hover:scale-105
+            ">
+                <a href="/register?fee=yearly">
+                    <h3 class="text-2xl font-semibold text-center mb-8">Cuota Anual</h3>
+                    <p class="mb-2">-Acceso ilimitado al gimnasio</p>
+                    <p class="mb-2">-Clases grupales incluidas</p>
+                    <p class="mb-2">-4 sesiones de entrenamiento personal</p>
+                    <p class="text-3xl text-center font-bold text-purple-500">480€ / año</p>
+                    <p class="mt-8 bg-purple-500 hover:bg-purple-600 font-semibold py-2 px-4 rounded w-full text-center block">
+                        ¡Inscríbete!
+                    </p>
+                </a>
+            </div>
+        </article>
+    </section>
+    <!-- classes schedule -->
+    <section class="m-5 mt-20">
+    </section>
+    <!-- gym schedule -->
+    <section class="m-5">
+        <h2>Horario del gym</h2>
+        <ul>
+            <li class="my-2"><span class="font-bold text-2nd">Lunes a viernes: </span>de 07:00 a 23:00 h</li>
+            <li class="my-2"><span class="font-bold text-2nd">Sábados: </span>de 09:00 a 21:00 h</li>
+            <li class="my-2"><span class="font-bold text-2nd">Domingos: </span>de 09:00 a 14:00 h</li>
+        </ul>
+        <p class="italic mt-3">
+            *Club abierto todo el año, salvo 25 de diciembre y 1 de enero.
+        </p>
+    </section>
 </div>

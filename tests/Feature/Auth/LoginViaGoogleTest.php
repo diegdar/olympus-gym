@@ -2,16 +2,23 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Socialite\Facades\Socialite;
-use Mockery;
+use App\Models\User;
 use Tests\TestCase;
+use Mockery;
+use Laravel\Socialite\Facades\Socialite;
 
-class RegistrationViaGoogleTest extends TestCase
+class LoginViaGoogleTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function test_login_screen_can_be_rendered(): void
+    {
+        $response = $this->get('/login');
+
+        $response->assertStatus(200);
+    }
 
     public function test_redirect_to_google()
     {
@@ -25,39 +32,13 @@ class RegistrationViaGoogleTest extends TestCase
         $response->assertRedirectContains('https://google.com/login/oauth/authorize');
     }
 
-    public function test_handle_google_callback_new_user()
-    {
-        $googleUser = (object) [
-            'id' => 12345,
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'avatar' => 'https://example.com/avatar.jpg',
-        ];
-
-        Socialite::shouldReceive('driver')
-            ->with('google')
-            ->andReturn($this->mockSocialiteDriver($googleUser));
-
-        $this->assertDatabaseMissing('users', ['email' => 'test@example.com']);
-
-        $response = $this->get(route('auth.google.callback'));
-
-        $response->assertStatus(302);
-        $response->assertRedirect(route('dashboard', absolute: false));
-        $this->assertTrue(Auth::check());
-        $this->assertAuthenticatedAs(User::where('email', 'test@example.com')->first());
-        $this->assertDatabaseHas('users', [
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-    }
-
     public function test_handle_google_callback_existing_user()
     {
         $existingUser = User::factory()->create(['email' => 'test@example.com']);
 
         $googleUser = (object) [
             'id' => 12345,
+            'nickname' => 'testuser',
             'name' => 'Test User',
             'email' => 'test@example.com',
             'avatar' => 'https://example.com/avatar.jpg',
@@ -66,8 +47,6 @@ class RegistrationViaGoogleTest extends TestCase
         Socialite::shouldReceive('driver')
             ->with('google')
             ->andReturn($this->mockSocialiteDriver($googleUser));
-
-        $this->assertDatabaseHas('users', ['email' => 'test@example.com']);
 
         $response = $this->get('/auth/google/callback');
 
@@ -75,11 +54,29 @@ class RegistrationViaGoogleTest extends TestCase
         $response->assertRedirect(route('dashboard', absolute: false));
         $this->assertTrue(Auth::check());
         $this->assertAuthenticatedAs($existingUser);
-        $this->assertDatabaseHas('users', [
+    }
+
+    public function test_handle_google_callback_not_existing_user()
+    {
+        $googleUser = (object) [
+            'id' => 12345,
+            'nickname' => 'testuser',
             'name' => 'Test User',
             'email' => 'test@example.com',
-        ]);
+            'avatar' => 'https://example.com/avatar.jpg',
+        ];
+
+        Socialite::shouldReceive('driver')
+            ->with('google')
+            ->andReturn($this->mockSocialiteDriver($googleUser));
+
+        $response = $this->get(route('auth.google.callback'));
+
+        $response->assertStatus(302);
+        $response->assertRedirect('register?registerMessage=No%20estas%20registrado%20aun%21');
     }
+
+
 
     protected function mockSocialiteDriver($user = null)
     {
@@ -89,10 +86,12 @@ class RegistrationViaGoogleTest extends TestCase
         $mock->shouldReceive('user')
             ->andReturn($user ?: (object) [
                 'id' => 12345,
+                'nickname' => 'default_testuser',
                 'name' => 'Default Test User',
                 'email' => 'default_test@example.com',
                 'avatar' => 'https://example.com/default_avatar.jpg',
             ]);
         return $mock;
-    }
+    }    
+
 }

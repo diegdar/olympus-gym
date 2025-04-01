@@ -1,3 +1,5 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;1,500&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Permanent+Marker&family=Shadows+Into+Light&display=swap');
 @import 'tailwindcss';
 @import '../../vendor/livewire/flux/dist/flux.css';
 
@@ -7,6 +9,34 @@
 @source '../../vendor/livewire/flux/stubs/**/*.blade.php';
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+.font-permanent-marker {
+    font-family: "Permanent Marker", cursive;
+}
+
+.font-shadows-light {
+    font-family: "Shadows Into Light", cursive;
+}
+
+h1 {
+    font-family: "Permanent Marker", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h2{
+    @apply text-4xl font-bold mt-3 text-center;
+}
+
+h2, h3, h4, h5, h6 {
+    font-family: "Shadows Into Light", cursive;
+    font-weight: bold;
+    font-style: normal;
+}
+
+p{
+    margin-bottom: 10px;
+}
 
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -23,6 +53,7 @@
     --color-zinc-900: #171717;
     --color-zinc-950: #0a0a0a;
     --color-bg_darkMode: #0c0c0c;
+    --color-2nd: #fec544;
 
     --color-accent: var(--color-neutral-800);
     --color-accent-content: var(--color-neutral-800);

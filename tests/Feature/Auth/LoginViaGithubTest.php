@@ -2,17 +2,23 @@
 
 namespace Tests\Feature\Auth;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use Mockery;
 use Tests\TestCase;
 
-class RegistrationViaGithubTest extends TestCase
+class LoginViaGithubTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function test_login_screen_can_be_rendered(): void
+    {
+        $response = $this->get('/login');
+
+        $response->assertStatus(200);
+    }
 
     public function test_redirect_to_github()
     {
@@ -24,34 +30,6 @@ class RegistrationViaGithubTest extends TestCase
 
         $response->assertStatus(302);
         $response->assertRedirectContains('https://github.com/login/oauth/authorize');
-    }
-
-    public function test_handle_github_callback_new_user()
-    {
-        $githubUser = (object) [
-            'id' => 12345,
-            'nickname' => 'testuser',
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'avatar' => 'https://example.com/avatar.jpg',
-        ];
-
-        Socialite::shouldReceive('driver')
-            ->with('github')
-            ->andReturn($this->mockSocialiteDriver($githubUser));
-
-        $this->assertDatabaseMissing('users', ['email' => 'test@example.com']);
-
-        $response = $this->get(route('auth.github.callback'));
-
-        $response->assertStatus(302);
-        $response->assertRedirect(route('dashboard', absolute: false));
-        $this->assertTrue(Auth::check());
-        $this->assertAuthenticatedAs(User::where('email', 'test@example.com')->first());
-        $this->assertDatabaseHas('users', [
-            'name' => 'testuser',
-            'email' => 'test@example.com',
-        ]);
     }
 
     public function test_handle_github_callback_existing_user()
@@ -70,18 +48,32 @@ class RegistrationViaGithubTest extends TestCase
             ->with('github')
             ->andReturn($this->mockSocialiteDriver($githubUser));
 
-        $this->assertDatabaseHas('users', ['email' => 'test@example.com']);
-
         $response = $this->get('/auth/github/callback');
 
         $response->assertStatus(302);
         $response->assertRedirect(route('dashboard', absolute: false));
         $this->assertTrue(Auth::check());
         $this->assertAuthenticatedAs($existingUser);
-        $this->assertDatabaseHas('users', [
-            'name' => 'testuser',
+    }
+
+    public function test_handle_github_callback_not_existing_user()
+    {
+        $githubUser = (object) [
+            'id' => 12345,
+            'nickname' => 'testuser',
+            'name' => 'Test User',
             'email' => 'test@example.com',
-        ]);
+            'avatar' => 'https://example.com/avatar.jpg',
+        ];
+
+        Socialite::shouldReceive('driver')
+            ->with('github')
+            ->andReturn($this->mockSocialiteDriver($githubUser));
+
+        $response = $this->get(route('auth.github.callback'));
+
+        $response->assertStatus(302);
+        $response->assertRedirect('register?registerMessage=No%20estas%20registrado%20aun%21');
     }
 
     protected function mockSocialiteDriver($user = null)
@@ -98,5 +90,6 @@ class RegistrationViaGithubTest extends TestCase
                 'avatar' => 'https://example.com/default_avatar.jpg',
             ]);
         return $mock;
-    }
+    }    
+
 }
