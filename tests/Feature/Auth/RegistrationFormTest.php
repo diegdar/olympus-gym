@@ -46,6 +46,7 @@ class RegistrationFormTest extends TestCase
         Livewire::test(Register::class)
             ->set('name', 'Joe Doe')
             ->set('email', 'joe.doe@example.com')
+            ->set('fee', 'monthly')
             ->set('password', 'SecurePassword123!')
             ->set('password_confirmation', 'SecurePassword123!')
             ->set('privacy', true)
