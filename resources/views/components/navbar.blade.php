@@ -31,7 +31,7 @@
             <div class="sm:flex justify-center me-6 sm:flex-row w-full gap-4 text-md sm:text-lg md:text-2xl lg:text-2xl xl:text-3xl fond-bold">
                 <article
                     class="flex sm:justify-center min-w-[70px] pt-3 border-b border-transparent hover:border-yellow-400 transition-colors duration-300">
-                    <a href="">
+                    <a href="/">
                         Inicio
                     </a>
                 </article>
