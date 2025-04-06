@@ -46,12 +46,12 @@
             <!-- fee-card 1 -->
             <div class="w-full min-w-[200px] max-w-[280px] mx-3 border-1 min-h-[300px]  rounded-lg shadow-md p-6 flex flex-col justify-between hover:cursor-pointer hover:scale-105
             ">
-                <a href="/register?fee=quarterly">
+                <a href="/register?fee=monthly">
                     <h3 class="text-2xl font-semibold text-center mb-8">Cuota Mensual</h3>
                     <p class="mb-2">-Acceso ilimitado al gimnasio</p>
                     <p class="mb-2">-Clases grupales incluidas</p>
                     <p class="text-3xl text-center font-bold text-green-500 mt-17">50€ / mes</p>
-                    <p href="/register?fee=quarterly" class="mt-9 bg-green-500 hover:bg-green-600 font-semibold py-2 px-4 rounded w-full text-center block">
+                    <p class="mt-9 bg-green-500 hover:bg-green-600 font-semibold py-2 px-4 rounded w-full text-center block">
                         ¡Inscríbete!
                     </p>
                 </a>
@@ -65,7 +65,7 @@
                     <p class="mb-2">-Clases grupales incluidas</p>
                     <p class="mb-2">-1 sesión de entrenamiento personal</p>
                     <p class="text-3xl text-center font-bold text-blue-500 mt-3">135€ / trimestre</p>
-                    <p href="/register?fee=quarterly" class="mt-8 bg-blue-500 hover:bg-blue-600 font-semibold py-2 px-4 rounded w-full text-center block">
+                    <p class="mt-8 bg-blue-500 hover:bg-blue-600 font-semibold py-2 px-4 rounded w-full text-center block">
                         ¡Inscríbete!
                     </p>
                 </a>
