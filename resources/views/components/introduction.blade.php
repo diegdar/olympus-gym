@@ -41,7 +41,7 @@
     </section>
     <!-- Fees -->
     <section class="m-5 mt-20">
-        <h2 class="mb-5">Elige tu cuota</h2>
+        <h2 class="mb-8">Elige tu cuota</h2>
         <article class="flex flex-wrap justify-center gap-4">
             <!-- fee-card 1 -->
             <div class="w-full min-w-[200px] max-w-[280px] mx-3 border-1 min-h-[300px]  rounded-lg shadow-md p-6 flex flex-col justify-between hover:cursor-pointer hover:scale-105
@@ -85,9 +85,6 @@
                 </a>
             </div>
         </article>
-    </section>
-    <!-- classes schedule -->
-    <section class="m-5 mt-20">
     </section>
     <!-- gym schedule -->
     <section class="m-5">

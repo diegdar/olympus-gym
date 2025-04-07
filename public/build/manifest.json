@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-fTZ7wn32.css",
+    "file": "assets/app-2gF6xg5h.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -14,6 +14,12 @@
     "file": "assets/navbar-Ctblzi0y.js",
     "name": "navbar",
     "src": "resources/js/navbar.js",
+    "isEntry": true
+  },
+  "resources/js/passwordVisibility.js": {
+    "file": "assets/passwordVisibility-DYMLNBUU.js",
+    "name": "passwordVisibility",
+    "src": "resources/js/passwordVisibility.js",
     "isEntry": true
   }
 }
