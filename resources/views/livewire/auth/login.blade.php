@@ -21,19 +21,25 @@
 
         <!-- Password -->
         <div class="relative">
-            <flux:input
+            <input
                 wire:model="password"
-                :label="__('Contraseña')"
+                id="password"
                 type="password"
                 name="password"
                 required
                 autocomplete="current-password"
-                placeholder="Password"
+                placeholder="Contraseña"
+                class="w-full pr-10 py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
             />
+            <!-- eye-icon visibility-->
+            <i id="toggle-password"
+            class="fa-solid fa-eye absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 cursor-pointer"
+            style="z-index: 2;">
+            </i>
 
             @if (Route::has('password.request'))
-                <flux:link class="absolute right-0 top-0 text-sm" :href="route('password.request')" wire:navigate>
-                    {{ __('Has olvidado tu contraseña?') }}
+                <flux:link class="absolute right-0 -bottom-6 text-sm" :href="route('password.request')" wire:navigate>
+                    {{ __('¿Has olvidado tu contraseña?') }}
                 </flux:link>
             @endif
         </div>
@@ -70,4 +76,5 @@
           <flux:link :href="route('register')" wire:navigate> Registrarse</flux:link>
       </div>
     @endif
+    @vite('resources/js/passwordVisibility.js')
 </div>
