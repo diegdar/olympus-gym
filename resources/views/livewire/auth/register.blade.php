@@ -70,7 +70,7 @@
         <!-- Password Confirmation -->
         <div class="relative mt-4">
             <input
-                wire:model="passwordConfirmation"
+                wire:model="password_confirmation"
                 id="password_confirmation"
                 type="password"
                 name="password_confirmation"
@@ -89,7 +89,11 @@
         <div class="flex items-center">
             <flux:checkbox
                 wire:model="privacy" />
-            <a href="{{ route('privacy.policy') }}" target="_blank" class="ml-2">acepto la <span class="text-sm text-zinc-600 dark:text-zinc-400 underline hover:text-zinc-500">politica de privacidad</span></a>
+            <section class="flex flex-wrap items-center ml-2">
+                <span >Estoy de acuerdo con la</span>
+                <a href="{{ route('privacy.policy') }}" target="_blank" class="ml-2 text-sm text-zinc-600 dark:text-zinc-400 underline hover:text-zinc-500">politica de privacidad</a>
+            </section>
+            <!-- <a href="{{ route('privacy.policy') }}" target="_blank" class="ml-2">acepto la <span class="text-sm text-zinc-600 dark:text-zinc-400 underline hover:text-zinc-500">politica de privacidad</span></a> -->
         </div>
         @error('privacy') <span class="error text-red-500">{{ $message }}</span> @enderror
         <!-- create account button -->

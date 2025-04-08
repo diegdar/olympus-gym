@@ -21,7 +21,7 @@ class GitHubAuthController extends Controller
         $user = User::where('email', $githubUser->email)->first();
 
         if (!$user) {
-            return redirect()->route('register', ['registerMessage'=>'No estas registrado aun!']);
+            return redirect()->route('register', ['registerMessage'=>'No estas registrado con tu email que tienes en Github. Puedes hacerlo ahora!']);
         }            
 
         Auth::login($user);

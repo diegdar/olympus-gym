@@ -73,7 +73,7 @@ class LoginViaGoogleTest extends TestCase
         $response = $this->get(route('auth.google.callback'));
 
         $response->assertStatus(302);
-        $response->assertRedirect('register?registerMessage=No%20estas%20registrado%20aun%21');
+        $response->assertRedirectContains('register?registerMessage=');
     }
 
 

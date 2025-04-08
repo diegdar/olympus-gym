@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -34,6 +38,30 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'remember_token',
     ];
+
+    public function subscriptions(): BelongsToMany
+    {
+        return $this->belongsToMany(Subscription::class);
+    }
+
+    public function subscribeTo(Subscription $subscription)
+    {
+        if ($this->subscriptions->contains($subscription)) {
+            return false;
+        }
+
+        $startDate = Carbon::now();
+
+        $endDate = $startDate->copy()->addMonths($subscription->duration);
+
+        $this->subscriptions()->attach($subscription, [
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+            'payment_date' => Carbon::now(),
+        ]);
+
+        return true;
+    }
 
     /**
      * Get the attributes that should be cast.
