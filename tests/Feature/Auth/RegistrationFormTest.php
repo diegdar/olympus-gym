@@ -29,8 +29,6 @@ class RegistrationFormTest extends TestCase
         Livewire::test(Register::class)
             ->set('name', 'Joe Doe')
             ->set('email', 'joe.doe@example.com')
-            ->set('phone', '1234567890')
-            ->set('birthday', '2000-01-01')
             ->set('fee', 'monthly')
             ->set('password', 'SecurePassword123!')
             ->set('password_confirmation', 'SecurePassword123!')
@@ -42,6 +40,7 @@ class RegistrationFormTest extends TestCase
         $this->assertDatabaseHas('users', [
             'name' => 'Joe Doe',
             'email' => 'joe.doe@example.com',
+            'fee' => 'monthly',
         ]);
         $this->assertAuthenticated();
 
@@ -56,9 +55,8 @@ class RegistrationFormTest extends TestCase
         Livewire::test(Register::class)
             ->set('name', '')
             ->set('email', 'invalid-email')
+            ->set('fee', 'not-a-fee')
             ->set('password', 'short')
-            ->set('phone', 'this-is-not-a-phone-number')
-            ->set('birthday', 'not-a-date')
             ->set('password_confirmation', 'mismatch')
             ->set('privacy', false)
             ->call('register')
