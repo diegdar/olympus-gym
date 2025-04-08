@@ -15,7 +15,9 @@ use Illuminate\Http\Request;
 class Register extends Component
 {
     public string $name = '';
-    public string $email = '';   
+    public string $email = '';
+    public string $phone = '';
+    public string $birthday = '';    
     public string $password = '';
     public string $fee = '';
     public string $password_confirmation = '';
@@ -30,7 +32,7 @@ class Register extends Component
 
     public function register(): void
     {
-        $validated = $this->validate($this->rules(), $this->messages());
+        $validated = $this->validate($this->rules());
 
         $validated['password'] = Hash::make($validated['password']);
 
@@ -49,33 +51,6 @@ class Register extends Component
             'fee' => ['required', 'in:monthly,quarterly,yearly'],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
             'privacy' => ['required', 'accepted'],
-        ];
-    }
-
-    protected function messages(): array
-    {
-        return [
-            // name
-            'name.required' => 'El nombre es obligatorio.',
-            'name.string' => 'El nombre debe ser una cadena de texto.',
-            'name.max' => 'El nombre debe tener menos de 255 caracteres.',     
-            // email   
-            'email.required' => 'El email es obligatorio.',
-            'email.string' => 'El email debe ser una cadena de texto.',
-            'email.lowercase' => 'El email debe estar en minúsculas.',
-            'email.email' => 'El email debe tener un formato válido.',
-            'email.max' => 'El email debe tener menos de 255 caracteres.',
-            'email.unique' => 'El email ya está registrado.', 
-            // fee
-            'fee.required' => 'Debes seleccionar una cuota.',
-            'fee.in' => 'La cuota seleccionada no es válida.',
-            // password
-            'password.required' => 'La contraseña es obligatoria.',
-            'password.string' => 'La contraseña debe ser una cadena de texto.',
-            'password.confirmed' => 'Las contraseñas no coinciden.',
-            // privacy
-            'privacy.required' => 'Debes aceptar la política de privacidad.',
-            'privacy.accepted' => 'Debes aceptar la política de privacidad.',
         ];
     }
 }
