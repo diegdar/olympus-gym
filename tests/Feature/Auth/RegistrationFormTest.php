@@ -3,6 +3,7 @@
 namespace Tests\Feature\Auth;
 
 use App\Livewire\Auth\Register;
+use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -25,6 +26,7 @@ class RegistrationFormTest extends TestCase
     public function test_it_registers_a_user_successfully()
     {
         Event::fake();// disable the events and pretends they were triggered
+        $subscription = Subscription::factory()->create(['fee' => 'monthly']);
 
         Livewire::test(Register::class)
             ->set('name', 'Joe Doe')
@@ -40,8 +42,19 @@ class RegistrationFormTest extends TestCase
         $this->assertDatabaseHas('users', [
             'name' => 'Joe Doe',
             'email' => 'joe.doe@example.com',
-            'fee' => 'monthly',
         ]);
+
+        $subscriptionId = Subscription::where('fee', 'monthly')->first()->id;
+
+        $userId = User::where('email', 'joe.doe@example.com')->first()->id;
+
+        $this->assertDatabaseHas('subscription_user', [
+            'user_id' => User::where('email', 'joe.doe@example.com')->first()->id,
+            'subscription_id' => $subscriptionId,
+        ]);
+
+
+
         $this->assertAuthenticated();
 
         $user = User::where('email', 'joe.doe@example.com')->first();
