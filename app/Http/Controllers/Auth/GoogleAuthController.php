@@ -21,7 +21,7 @@ class GoogleAuthController extends Controller
         $user = User::where('email', $googleUser->email)->first();
 
         if (!$user) {
-            return redirect()->route('register', ['registerMessage'=>'No estas registrado aun!']);
+            return redirect()->route('register', ['registerMessage'=>'No estas registrado con tu email que tienes en Google. Puedes hacerlo ahora!']);
         }    
 
         Auth::login($user);
