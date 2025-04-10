@@ -17,6 +17,12 @@ class RegistrationFormTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed();        
+    }
+
     public function test_it_renders_the_register_component()
     {
         $response = $this->get(route('register'))->assertSeeLivewire(Register::class);
@@ -27,8 +33,6 @@ class RegistrationFormTest extends TestCase
     public function test_it_registers_a_user_successfully()
     {
         Event::fake();// disable the events and pretends they were triggered
-        $subscription = Subscription::factory()->create(['fee' => 'monthly']);
-
         Livewire::test(Register::class)
             ->set('name', 'Joe Doe')
             ->set('email', 'joe.doe@example.com')
