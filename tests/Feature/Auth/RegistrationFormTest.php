@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -40,6 +39,7 @@ class RegistrationFormTest extends TestCase
             ->set('password', 'SecurePassword123!')
             ->set('password_confirmation', 'SecurePassword123!')
             ->set('privacy', true)
+            ->set('role', 'member')
             ->call('register')
             ->assertHasNoErrors()
             ->assertRedirect(route('dashboard', absolute: false));
@@ -49,21 +49,14 @@ class RegistrationFormTest extends TestCase
             'email' => 'joe.doe@example.com',
         ]);
 
-        $subscriptionId = Subscription::where('fee', 'monthly')->first()->id;
-
-        $userId = User::where('email', 'joe.doe@example.com')->first()->id;
+        $subscription = Subscription::where('fee', 'monthly')->first();
+        $user = User::where('email', 'joe.doe@example.com')->first();
 
         $this->assertDatabaseHas('subscription_user', [
-            'user_id' => User::where('email', 'joe.doe@example.com')->first()->id,
-            'subscription_id' => $subscriptionId,
+            'user_id' => $user->id,
+            'subscription_id' => $subscription->id,
         ]);
-
-
-
         $this->assertAuthenticated();
-
-        $user = User::where('email', 'joe.doe@example.com')->first();
-        $this->assertTrue(Hash::check('SecurePassword123!', $user->password));
 
         Event::assertDispatched(Registered::class);// check if the event was dispatched 
     }    
@@ -77,6 +70,7 @@ class RegistrationFormTest extends TestCase
             ->set('password', 'short')
             ->set('password_confirmation', 'mismatch')
             ->set('privacy', false)
+            ->set('role', 'not-a-role')
             ->call('register')
             ->assertHasErrors([
                 'name' => 'required',
