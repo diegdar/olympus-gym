@@ -44,7 +44,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Subscription::class);
     }
 
-    public function subscribeTo(Subscription $subscription)
+    public function subscribeTo(Subscription $subscription, ?string $paymentDate = null)
     {
         if ($this->subscriptions->contains($subscription)) {
             return false;
@@ -57,7 +57,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->subscriptions()->attach($subscription, [
             'start_date' => $startDate,
             'end_date' => $endDate,
-            'payment_date' => Carbon::now(),
+            'payment_date' => $paymentDate ?? Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
         return true;

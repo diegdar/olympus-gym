@@ -24,7 +24,7 @@ class CreateSubscriptionUserTable extends Migration
                     ->onDelete('no action');
             $table->date('start_date')->nullable(false)->now();
             $table->date('end_date');
-            $table->date('payment_date')->nullable(false)->now();
+            $table->dateTime('payment_date')->nullable(false)->now();
             $table->timestamps();
 
             $table->primary(['user_id', 'subscription_id']);

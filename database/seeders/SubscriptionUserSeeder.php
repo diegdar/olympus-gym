@@ -17,7 +17,7 @@ class SubscriptionUserSeeder extends Seeder
 
         foreach ($users as $user) {
             $subscription = $this->getUniqueSubscriptionForUser($user, $subscriptions);
-            $startDate = fake()->date('Y-m-d');
+            $startDate = fake()->dateTime('Y-m-d H:i:s');
             $endDate = Carbon::parse($startDate)->addMonths($subscription->duration);
 
             $user->subscriptions()->attach($subscription->id, [
