@@ -84,16 +84,17 @@
                 style="z-index: 2;">
             </i>
         </div>
-        
-        <!-- privacy policy -->
+
+        <!-- privacy -->
         <div class="flex items-center">
-            <flux:checkbox
-                wire:model="privacy" />
+            <input
+                wire:model="privacy"
+                type="checkbox"                
+                value="privacy" />
             <section class="flex flex-wrap items-center ml-2">
                 <span >Estoy de acuerdo con la</span>
                 <a href="{{ route('privacy.policy') }}" target="_blank" class="ml-2 text-sm text-zinc-600 dark:text-zinc-400 underline hover:text-zinc-500">politica de privacidad</a>
             </section>
-            <!-- <a href="{{ route('privacy.policy') }}" target="_blank" class="ml-2">acepto la <span class="text-sm text-zinc-600 dark:text-zinc-400 underline hover:text-zinc-500">politica de privacidad</span></a> -->
         </div>
         @error('privacy') <span class="error text-red-500">{{ $message }}</span> @enderror
         <!-- create account button -->
