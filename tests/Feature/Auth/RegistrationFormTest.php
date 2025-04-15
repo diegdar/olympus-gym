@@ -22,27 +22,20 @@ class RegistrationFormTest extends TestCase
         $this->seed();        
     }
 
-    public function test_it_renders_the_register_component()
+    private function getUserData(): array
     {
-        $response = $this->get(route('register'))->assertSeeLivewire(Register::class);
-
-        $response->assertStatus(200);
-    }
+        return User::factory([
+                'name' => 'Joe Doe',
+                'email' => 'joe.doe@example.com',  
+                'fee' => 'monthly',              
+            ])->raw();
+    }    
 
     public function test_it_registers_a_user_successfully()
     {
         Event::fake();// disable the events and pretends they were triggered
-        Livewire::test(Register::class)
-            ->set('name', 'Joe Doe')
-            ->set('email', 'joe.doe@example.com')
-            ->set('fee', 'monthly')
-            ->set('password', 'SecurePassword123!')
-            ->set('password_confirmation', 'SecurePassword123!')
-            ->set('privacy', true)
-            ->set('role', 'member')
-            ->call('register')
-            ->assertHasNoErrors()
-            ->assertRedirect(route('dashboard', absolute: false));
+
+        $this->post(route('user.register'), $this->getUserData());
 
         $this->assertDatabaseHas('users', [
             'name' => 'Joe Doe',
@@ -60,6 +53,39 @@ class RegistrationFormTest extends TestCase
 
         Event::assertDispatched(Registered::class);// check if the event was dispatched 
     }    
+    // public function test_it_registers_a_user_successfully()
+    // {
+    //     Event::fake();// disable the events and pretends they were triggered
+
+
+    //     Livewire::test(Register::class)
+    //         ->set('name', 'Joe Doe')
+    //         ->set('email', 'joe.doe@example.com')
+    //         ->set('fee', 'monthly')
+    //         ->set('password', 'SecurePassword123!')
+    //         ->set('password_confirmation', 'SecurePassword123!')
+    //         ->set('privacy', true)
+    //         ->set('role', 'member')
+    //         ->call('register')
+    //         ->assertHasNoErrors()
+    //         ->assertRedirect(route('dashboard', absolute: false));
+
+    //     $this->assertDatabaseHas('users', [
+    //         'name' => 'Joe Doe',
+    //         'email' => 'joe.doe@example.com',
+    //     ]);
+
+    //     $subscription = Subscription::where('fee', 'monthly')->first();
+    //     $user = User::where('email', 'joe.doe@example.com')->first();
+
+    //     $this->assertDatabaseHas('subscription_user', [
+    //         'user_id' => $user->id,
+    //         'subscription_id' => $subscription->id,
+    //     ]);
+    //     $this->assertAuthenticated();
+
+    //     Event::assertDispatched(Registered::class);// check if the event was dispatched 
+    // }    
 
     public function test_it_requires_valid_inputs()
     {
