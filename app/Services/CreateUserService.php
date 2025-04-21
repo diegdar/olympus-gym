@@ -24,9 +24,9 @@ class CreateUserService
         return DB::transaction(function () use ($validated) {
             $user = User::create($validated);
             $user->assignRole($validated['role'] ?? 'member');
-    
-            if (!$this->subscribeOrFail($user, $validated['fee'])) {
-                throw new \RuntimeException('El usuario ya estaba suscripto');
+
+            if(isset($validated['fee']) ){
+                $this->subscribeOrFail($user, $validated['fee']);
             }
     
             event(new Registered($user));
@@ -35,11 +35,15 @@ class CreateUserService
         });
     }
     
-    private function subscribeOrFail(User $user, string $subscriptionValue): bool
+    private function subscribeOrFail(User $user, string $subscriptionValue): void
     {
         $subscription = Subscription::where('fee', $subscriptionValue)->first();
-    
-        return $user->subscribeTo($subscription); 
+        
+        if($user->subscribeTo($subscription)) {
+            return;
+        }
+
+        throw new \RuntimeException('Ocurrio un error al tratar de suscribir al usuario');            
     }  
 
 }

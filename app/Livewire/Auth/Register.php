@@ -48,8 +48,6 @@ class Register extends Component
         $validated['password'] = Hash::make($validated['password']);
     
         $user = $createUserService($validated);
-
-        event(new Registered($user));
         Auth::login($user);        
     
         $this->redirect(route('dashboard', absolute: false), navigate: true);
