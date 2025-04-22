@@ -22,16 +22,16 @@
 
             <flux:spacer />
 
+        @can('admin.users.index')            
             <flux:navlist variant="outline">
-                <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                {{ __('Repository') }}
-                </flux:navlist.item>
-
-                <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits" target="_blank">
-                {{ __('Documentation') }}
-                </flux:navlist.item>
+                <flux:navlist.group heading="Admin" class="grid">
+                    <flux:navlist.item icon="users" :href="route('admin.users.index')" :current="request()->routeIs('dashboard')" wire:navigate>
+                        {{ __('Listado Usuarios') }}
+                    </flux:navlist.item>
+                </flux:navlist.group>
             </flux:navlist>
-
+        @endcan
+        
             <!-- Desktop User Menu -->
             <flux:dropdown position="bottom" align="start">
                 <flux:profile
