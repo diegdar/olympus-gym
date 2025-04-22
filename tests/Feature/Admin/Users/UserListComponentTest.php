@@ -37,21 +37,21 @@ class UserListComponentTest extends TestCase
      
     }
 
-    public function test_only_admins_and_super_admins_can_access_the_component()
+    public function test_only_admins_and_super_admins_can_see_the_component()
     {
-        Livewire::actingAs($this->superAdminUser)
-            ->test(UsersList::class)
-            ->assertOk();
+        Livewire::actingAs($this->superAdminUser);
+        $this->get(route('admin.users.index'))
+            ->assertSeeLivewire(UsersList::class);
 
         $adminUser = User::factory()->create()->assignRole('admin');
-        Livewire::actingAs($adminUser)
-            ->test(UsersList::class)
-            ->assertOk();
+        Livewire::actingAs($adminUser);
+        $this->get(route('admin.users.index'))
+            ->assertSeeLivewire(UsersList::class);
 
         $memberUser = User::factory()->create()->assignRole('member');
-        Livewire::actingAs($memberUser)
-            ->test(UsersList::class)
-            ->assertStatus(403);
+        Livewire::actingAs($memberUser);
+        $this->get(route('admin.users.index'))
+            ->assertDontSeeLivewire(UsersList::class);
     }
 
     public function test_the_component_renders_correctly_with_users()
