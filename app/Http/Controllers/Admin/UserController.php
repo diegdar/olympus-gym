@@ -9,9 +9,20 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class UserController extends Controller
-{
+class UserController extends Controller implements HasMiddleware
+{    
+    public static function middleware(): array
+    {
+        return [            
+            new Middleware('permission:admin.users.index', only: ['index']),
+            new Middleware('permission:admin.users.edit', only: ['edit', 'update']),
+            new Middleware('permission:admin.users.destroy', only: ['destroy']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
