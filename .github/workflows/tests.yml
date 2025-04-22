@@ -3,7 +3,7 @@ name: tests
 on:
   push:
     branches:
-      - '**'  # Ejecuta en todas las ramas
+      - '**'
   pull_request:
     branches:
       - main
@@ -11,6 +11,13 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     environment: Testing
+    env:
+      SUPER_ADMIN_NAME: ${{ secrets.SUPER_ADMIN_NAME }}
+      SUPER_ADMIN_EMAIL: ${{ secrets.SUPER_ADMIN_EMAIL }}
+      SUPER_ADMIN_PASSWORD: ${{ secrets.SUPER_ADMIN_PASSWORD }}
+      ADMIN_NAME: ${{ secrets.ADMIN_NAME }}
+      ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
 
     steps:
       - name: Checkout
@@ -40,6 +47,9 @@ jobs:
 
       - name: Generate Application Key
         run: php artisan key:generate
+
+      - name: Migrate Database
+        run: php artisan migrate --seed
 
       - name: Build Assets
         run: npm run build
