@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{const e=Array.from(document.querySelectorAll("table thead th")).map(t=>t.textContent.trim());document.querySelectorAll("table tbody tr").forEach(t=>{Array.from(t.querySelectorAll("td")).forEach((r,o)=>{r.setAttribute("data-label",e[o]+":")})})});

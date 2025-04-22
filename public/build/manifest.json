@@ -1,13 +1,24 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-CijUIFzU.css",
+    "file": "assets/app-B1hTMNMc.css",
     "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/css/tableList.css": {
+    "file": "assets/tableList-DChFt-JK.css",
+    "src": "resources/css/tableList.css",
     "isEntry": true
   },
   "resources/js/app.js": {
     "file": "assets/app-l0sNRNKZ.js",
     "name": "app",
     "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/hideTableHeaders.js": {
+    "file": "assets/hideTableHeaders-DKQDBfi0.js",
+    "name": "hideTableHeaders",
+    "src": "resources/js/hideTableHeaders.js",
     "isEntry": true
   },
   "resources/js/navbar.js": {
