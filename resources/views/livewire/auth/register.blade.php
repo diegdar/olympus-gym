@@ -86,17 +86,21 @@
         </div>
 
         <!-- privacy -->
-        <div class="flex items-center">
-            <input
-                wire:model="privacy"
-                type="checkbox"                
-                value="privacy" />
-            <section class="flex flex-wrap items-center ml-2">
-                <span >Estoy de acuerdo con la</span>
-                <a href="{{ route('privacy.policy') }}" target="_blank" class="ml-2 text-sm text-zinc-600 dark:text-zinc-400 underline hover:text-zinc-500">politica de privacidad</a>
-            </section>
+        <div class="flex items-center flex-wrap">
+            <div class="flex items-center">
+                <input
+                    wire:model="privacy"
+                    type="checkbox"                
+                    name="privacy" />
+                <section class="flex flex-wrap items-center ml-2">
+                    <span >Acepto la</span>
+                    <a href="{{ route('privacy.policy') }}" target="_blank" class="ml-2 text-sm text-zinc-600 dark:text-zinc-400 underline hover:text-zinc-500">politica de privacidad</a>
+                </section>
+            </div>
+            @error('privacy') 
+                <span class="error text-red-500">{{ $message }}</span> 
+            @enderror
         </div>
-        @error('privacy') <span class="error text-red-500">{{ $message }}</span> @enderror
         <!-- create account button -->
         <div class="flex items-center justify-end">
             <flux:button type="submit" variant="primary" class="w-full">
