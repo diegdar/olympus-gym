@@ -19,7 +19,13 @@ class UserSeeder extends Seeder
             'name' => env('SUPER_ADMIN_NAME'),
             'email' => env('SUPER_ADMIN_EMAIL'),
             'password' => Hash::make(env('SUPER_ADMIN_PASSWORD'))
-        ])->assignRole('super-admin');        
+        ])->assignRole('super-admin'); 
+
+        User::factory()->create([
+            'name' => env('ADMIN_NAME'),
+            'email' => env('ADMIN_EMAIL'),
+            'password' => Hash::make(env('ADMIN_PASSWORD'))
+        ])->assignRole('admin');        
 
         User::factory()->create([
             'name' => 'Test User',
@@ -27,7 +33,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('Password%123')
         ])->assignRole('member'); 
         
-        User::factory(10)->create()
+        User::factory(15)->create()
             ->each(function ($user) {
                 $user->assignRole('member');
         });

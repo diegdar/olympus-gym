@@ -17,11 +17,11 @@ class CreateSubscriptionUserTable extends Migration
             $table->foreignId('user_id')
                 ->constrained()
                     ->onUpdate('cascade')
-                    ->onDelete('no action');
+                    ->onDelete('cascade');
             $table->foreignId('subscription_id')
                 ->constrained()
                     ->onUpdate('cascade')
-                    ->onDelete('no action');
+                    ->onDelete('cascade');
             $table->date('start_date')->nullable(false)->now();
             $table->date('end_date');
             $table->dateTime('payment_date')->nullable(false)->now();
