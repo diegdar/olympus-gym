@@ -109,48 +109,10 @@
             </tbody>
         </table>
     @else
-        <p class= font-bold text-gray-500 dark:text-gray-400">No hay registros</p>
+        <p class= "font-bold text-gray-500 dark:text-gray-400">No hay registros</p>
     @endif
-    <style>
-        @media (max-width: 767px) {
-            table thead {
-                display: none;
-            }
-    
-            table tbody tr {
-                display: block;
-                margin-bottom: 1rem;
-                border: 1px solid grey;
-                border-radius: theme('borderRadius.md');
-                padding: 1rem;
-            }
-    
-            table tbody td {
-                display: block;
-                padding: 0.5rem 0;
-            }
-    
-            table tbody td:before {
-                content: attr(data-label);
-                font-weight: bold;
-                display: inline-block;
-                margin-right: 0.5rem;
-            }
-    
-            table tbody td:last-child {
-                border-bottom: 0;
-            }
-        }
-    </style>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const headers = Array.from(document.querySelectorAll('table thead th')).map(th => th.textContent.trim());
-            document.querySelectorAll('table tbody tr').forEach(tr => {
-                Array.from(tr.querySelectorAll('td')).forEach((td, index) => {
-                    td.setAttribute('data-label', headers[index] + ':');
-                });
-            });
-        });
-    </script>
+
+    @vite('resources/css/tableList.css')
+    @vite('resources/js/hideTableHeaders.js')
+
 </div>
