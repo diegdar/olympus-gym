@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Users;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Rule;
 use App\Services\CreateUserService;
@@ -12,9 +11,6 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-
 
 class CreateUser extends Component
 {
@@ -29,14 +25,7 @@ class CreateUser extends Component
     #[Rule(['required','exists:roles,id'])]
     public string $role;
 
-    public Collection $roles;
-
-    public function __construct()
-    {
-        if (!Auth::check() || !Auth::user()->hasPermissionTo('admin.users.create')) {
-            throw new AccessDeniedHttpException('Solo los super-admin pueden acceder a este componente.');
-        }
-    }    
+    public Collection $roles;  
 
     /**
      * Creates a new user using the CreateUserService.

@@ -12,8 +12,6 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class UsersList extends Component
 {
@@ -23,11 +21,16 @@ class UsersList extends Component
     public int $numberRows = 15;
     public int $usersCount;
 
-    public function __construct()
+
+    /**
+     * This method is called automatically by Livewire when the component is mounted.
+     * It fetches the total number of users in the database and stores it in the
+     * `usersCount` property.
+     *
+     * @return void
+     */
+    public function mount(): void
     {
-        if (!Auth::check() || !Auth::user()->hasPermissionTo('admin.users.index')) {
-            throw new AccessDeniedHttpException('Solo los super-admin pueden acceder a este componente.');
-        }
         $this->usersCount = User::count();
     }
 
