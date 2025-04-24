@@ -1,0 +1,1 @@
+function t(){const e=document.getElementById("message");e&&setTimeout(function(){e.classList.add("fade-out"),setTimeout(function(){e.style.display="none"},2e3)},5e3)}document.addEventListener("DOMContentLoaded",t);

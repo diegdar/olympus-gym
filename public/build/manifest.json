@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-B1hTMNMc.css",
+    "file": "assets/app-CkQM_s08.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -19,6 +19,12 @@
     "file": "assets/hideTableHeaders-DKQDBfi0.js",
     "name": "hideTableHeaders",
     "src": "resources/js/hideTableHeaders.js",
+    "isEntry": true
+  },
+  "resources/js/messageTransition.js": {
+    "file": "assets/messageTransition-CB1kPXku.js",
+    "name": "messageTransition",
+    "src": "resources/js/messageTransition.js",
     "isEntry": true
   },
   "resources/js/navbar.js": {
