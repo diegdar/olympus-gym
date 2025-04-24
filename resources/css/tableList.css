@@ -1,0 +1,29 @@
+@media (max-width: 767px) {
+    table thead {
+        display: none;
+    }
+
+    table tbody tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid grey;
+        border-radius: theme('borderRadius.md');
+        padding: 1rem;
+    }
+
+    table tbody td {
+        display: block;
+        padding: 0.5rem 0;
+    }
+
+    table tbody td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: inline-block;
+        margin-right: 0.5rem;
+    }
+
+    table tbody td:last-child {
+        border-bottom: 0;
+    }
+}

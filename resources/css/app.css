@@ -28,6 +28,10 @@
     --color-bg_darkMode: #0c0c0c;
     --color-2nd: #fec544;
 
+    --breakpoint-2xs: 20rem; /* 320px */
+    --breakpoint-xs: 23rem; /* 368px */
+    --breakpoint-s: 26rem; /* 416px */
+
     --color-accent: var(--color-neutral-800);
     --color-accent-content: var(--color-neutral-800);
     --color-accent-foreground: var(--color-white);
@@ -89,7 +93,7 @@ h1 {
 }
 
 h2{
-    @apply text-2nd text-3xl font-bold mt-3;
+    @apply text-2nd text-3xl font-bold;
 }
 
 h2, h3, h4, h5, h6 {
@@ -100,4 +104,14 @@ h2, h3, h4, h5, h6 {
 
 p{
     margin-bottom: 10px;
+}
+
+/* Transicion mensajes */
+/* .fade-out-animate {
+    transition: opacity 2s ease-in-out; 
+    opacity: 0;
+} */
+.fade-out {
+    transition: opacity 2s ease-in-out; 
+    opacity: 0;
 }
