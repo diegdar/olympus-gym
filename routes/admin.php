@@ -11,4 +11,5 @@ Route::resource('users', UserController::class)
     ->names('admin.users');
 
 Route::resource('roles', RoleController::class)
+    ->except('show')
     ->names('admin.roles');

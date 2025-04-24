@@ -19,11 +19,15 @@ class RoleSeeder extends Seeder
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $member = Role::firstOrCreate(['name' => 'member']);
 
-        Permission::create(['name' => 'admin.users.index'])->syncRoles([$superAdmin, $admin]);
-        Permission::create(['name' => 'admin.users.create'])->syncRoles([$superAdmin]);
-        Permission::create(['name' => 'admin.users.edit'])->syncRoles([$superAdmin]);
-        Permission::create(['name' => 'admin.users.update'])->syncRoles([$superAdmin]);
-        Permission::create(['name' => 'admin.users.destroy'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'admin.users.index', 'description' => 'Ver listado de usuarios'])->syncRoles([$superAdmin, $admin]);
+        Permission::create(['name' => 'admin.users.create', 'description' => 'Crear un usuario'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'admin.users.edit', 'description' => 'Editar un usuario'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'admin.users.destroy', 'description' => 'Eliminar un usuario'])->syncRoles([$superAdmin]);
+
+        Permission::create(['name' => 'admin.roles.index', 'description' => 'Ver listado de roles'])->syncRoles([$superAdmin, $admin]);
+        Permission::create(['name' => 'admin.roles.create', 'description' => 'Crear un role'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'admin.roles.edit', 'description' => 'Editar/ver un role'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'admin.roles.destroy', 'description' => 'Eliminar un role'])->syncRoles([$superAdmin]);
 
     }
 }

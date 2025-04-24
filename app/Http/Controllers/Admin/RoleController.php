@@ -6,9 +6,22 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class RoleController extends Controller
+class RoleController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [            
+            new Middleware('permission:admin.roles.index', only: ['index']),
+            new Middleware('permission:admin.roles.create', only: ['create', 'store']),
+            new Middleware('permission:admin.roles.edit', only: ['edit', 'update']),
+            new Middleware('permission:admin.roles.destroy', only: ['destroy']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -23,7 +36,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('admin.roles.create');
+        $permissions = Permission::all();
+        return view('admin.roles.create', compact('permissions'));
     }
 
     /**
@@ -31,24 +45,25 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'name' => ['required', 'string', 'max:100', 'unique:roles,name'],
+            'permissions' => ['required','array', 'min:1'],
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Role $role)
-    {
-        return view('admin.roles.show', compact('role'));
-    }
+        $role = Role::create($request->all());
 
+        $role->permissions()->sync($request->permissions);
+
+        return redirect()->route('admin.roles.index')->with('msg', 'Role creado satisfactoriamente.');
+    }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Role $role)
     {
-        return view('admin.roles.edit', compact('role'));
+        $permissions = Permission::all();
+        return view('admin.roles.edit', compact('role', 'permissions'));
     }
 
     /**
@@ -56,6 +71,14 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
+        $request->validate([
+            'name' => ['required', 'string', 'max:100'],
+            'permissions' => ['required','array', 'min:1'],
+        ]);
+
+        $role->update($request->all());  
+        $role->permissions()->sync($request->permissions);
+        return redirect()->route('admin.roles.index')->with('msg', 'Role actualizado satisfactoriamente.');      
     }
 
     /**
@@ -63,5 +86,7 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
+        $role->delete();
+        return redirect()->route('admin.roles.index')->with('msg', 'Role eliminado satisfactoriamente.');
     }
 }
