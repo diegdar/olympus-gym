@@ -14,6 +14,7 @@ export default defineConfig({
                 'resources/js/navbar.js',
                 'resources/js/passwordVisibility.js',
                 'resources/js/hideTableHeaders.js',
+                'resources/js/messageTransition.js',
             ],
             refresh: [`resources/views/**/*`],
         }),

@@ -32,6 +32,7 @@
             </flux:navlist>
         @endcan
 
+        @can('admin.roles.index')
             <flux:navlist variant="outline">
                 <flux:navlist.group heading="Super Admin" class="grid">
                     <flux:navlist.item icon="identification" :href="route('admin.roles.index')" :current="request()->routeIs('dashboard')" wire:navigate>
@@ -39,6 +40,7 @@
                     </flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
+        @endcan
         
             <!-- Desktop User Menu -->
             <flux:dropdown position="bottom" align="start">
