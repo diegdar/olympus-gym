@@ -21,9 +21,9 @@ class UserListComponentTest extends TestCase
     {
         parent::setUp();
 
-        Permission::create(['name' => 'admin.users.index']);
-        Permission::create(['name' => 'admin.users.edit']);
-        Permission::create(['name' => 'admin.users.destroy']);
+        Permission::create(['name' => 'admin.users.index', 'description' => 'Ver pagina de listado de usuarios']);
+        Permission::create(['name' => 'admin.users.edit', 'description' => 'Editar un usuario']);
+        Permission::create(['name' => 'admin.users.destroy', 'description' => 'Eliminar un usuario']);
 
         $superAdminRole = Role::create(['name' => 'super-admin']);
         $superAdminRole->givePermissionTo(['admin.users.index', 'admin.users.edit', 'admin.users.destroy']);        
