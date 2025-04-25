@@ -89,7 +89,7 @@ class ActivityListTest extends TestCase
     private function getActivitiesIndexAs(string $roleName)
     {
         $user = User::factory()->create()->assignRole($roleName);
-        return $this->actingAs($user)->get(route('admin.activities.index'));
+        return $this->actingAs($user)->get(route('activities.index'));
     }
 
     public function test_authorized_user_can_see_activity_list()

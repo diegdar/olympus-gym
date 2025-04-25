@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use App\Livewire\Admin\Users\UsersList;
+use App\Http\Controllers\Admin\ActivityController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -22,11 +22,15 @@ Route::view('dashboard', 'dashboard')
 
 Route::middleware(['auth'])->group(function () {
 
+    // Settings
     Route::redirect('settings', 'settings/profile');
-
     Route::get('settings/profile', Profile::class)->name('settings.profile');
     Route::get('settings/password', Password::class)->name('settings.password');
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
+
+    // Activities
+    Route::resource('activities', ActivityController::class)
+    ->names('activities');    
 });
 
 require __DIR__.'/auth.php';
