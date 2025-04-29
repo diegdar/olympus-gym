@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->integer('duration')->nullable();
             $table->timestamps();
+
+            $table->index('name', 'idx_activities_name');
         });
     }
 

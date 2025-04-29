@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('password')->nullable(true);
             $table->rememberToken();
             $table->timestamps();
+
+            $table->index('email', 'idx_users_email');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

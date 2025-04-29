@@ -28,6 +28,9 @@ class CreateSubscriptionUserTable extends Migration
             $table->timestamps();
 
             $table->primary(['user_id', 'subscription_id']);
+
+            $table->index('start_date', 'idx_subscription_user_start_date');
+            $table->index(['user_id', 'subscription_id'], 'idx_subscription_user_combined');
         });
     }
 
