@@ -14,9 +14,9 @@ return new class extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name', 100)->unique();
             $table->string('description')->nullable();
-            $table->integer('duration')->nullable();
+            $table->integer('duration')->unsigned()->nullable()->comment('Duration in minutes');
             $table->timestamps();
 
             $table->index('name', 'idx_activities_name');

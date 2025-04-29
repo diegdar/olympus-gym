@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->string('fee')->nullable(false);
+            $table->string('fee', 150)->nullable(false);
             $table->decimal('price', 8, 2)->nullable(false);
-            $table->integer('duration')->nullable(false);
+            $table->integer('duration')->unsigned()->nullable(false)->comment('Duration in months');
             $table->string('description')->nullable(false);
             $table->timestamps();
         });
