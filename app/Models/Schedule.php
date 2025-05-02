@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Activity extends Model
+class Schedule extends Model
 {
     use HasFactory;
 
@@ -17,18 +17,30 @@ class Activity extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'description',
-        'duration',
-    ];    
+        'start_time',
+        'day_of_week',
+        'end_time',
+        'room_id',
+    ];
 
     /**
      * The activity schedules associated with the activity
      *
      * @return BelongsToMany
      */     
-    public function schedules(): BelongsToMany
+    public function activities(): BelongsToMany
     {
-        return $this->belongsToMany(Schedule::class);
-    }
+        return $this->belongsToMany(Activity::class);
+    } 
+
+    /**
+     * The activity schedules associated with the activity
+     *
+     * @return BelongsToMany
+     */     
+    public function rooms(): BelongsToMany
+    {
+        return $this->belongsToMany(Room::class);
+    }   
+   
 }
