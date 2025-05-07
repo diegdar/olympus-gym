@@ -89,7 +89,6 @@
             </table>
         </div>
         @vite('resources/css/tableList.css')
-        @vite('resources/js/hideTableHeaders.js')
         @vite('resources/js/messageTransition.js')
     </div>
 </x-layouts.app>

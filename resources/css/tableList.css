@@ -1,3 +1,5 @@
+@import 'tailwindcss';
+
 @media (max-width: 767px) {
     table thead {
         display: none;
@@ -13,11 +15,11 @@
 
     table tbody td {
         display: block;
-        padding: 0.5rem 0;
+        padding: 0.5rem;
     }
 
     table tbody td:before {
-        content: attr(data-label);
+        @apply dark:text-red-300;
         font-weight: bold;
         display: inline-block;
         margin-right: 0.5rem;

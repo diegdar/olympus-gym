@@ -125,6 +125,5 @@
     @endif
 
     @vite('resources/css/tableList.css')
-    @vite('resources/js/hideTableHeaders.js')
 
 </div>
