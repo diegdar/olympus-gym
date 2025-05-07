@@ -19,6 +19,9 @@ class DatabaseSeeder extends Seeder
         $this->call(SubscriptionSeeder::class);
         $this->call(SubscriptionUserSeeder::class);
         $this->call(ActivitySeeder::class);
+        $this->call(RoomSeeder::class);
+        $this->call(ScheduleSeeder::class);
+        $this->call(ActivityScheduleSeeder::class);
     }
 
 }

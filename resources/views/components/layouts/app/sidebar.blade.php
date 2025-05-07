@@ -21,7 +21,7 @@
             </flux:navlist>
 
             <flux:spacer />
-
+        {{-- Users List --}}
         @can('admin.users.index')            
             <flux:navlist variant="outline">
                 <flux:navlist.group heading="Admin" class="grid">
@@ -31,7 +31,7 @@
                 </flux:navlist.group>
             </flux:navlist>
         @endcan
-
+        {{-- Roles List --}}
         @can('admin.roles.index')
             <flux:navlist variant="outline">
                 <flux:navlist.group heading="Super Admin" class="grid">
@@ -41,6 +41,14 @@
                 </flux:navlist.group>
             </flux:navlist>
         @endcan
+        {{-- Activities List --}}
+            <flux:navlist variant="outline">
+                <flux:navlist.group heading="Activities" class="grid">
+                    <flux:navlist.item icon="identification" :href="route('activities.index')" :current="request()->routeIs('dashboard')" wire:navigate>
+                        {{ __('Listado Actividades') }}
+                    </flux:navlist.item>
+                </flux:navlist.group>
+            </flux:navlist>
         
             <!-- Desktop User Menu -->
             <flux:dropdown position="bottom" align="start">
