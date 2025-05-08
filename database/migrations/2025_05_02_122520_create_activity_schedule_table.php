@@ -12,18 +12,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('activity_schedule', function (Blueprint $table) {
+        Schema::create('activity_schedules', function (Blueprint $table) {
             $table->id();
             $table->foreignId('activity_id')
                     ->constrained('activities')
                         ->cascadeOnDelete()
                         ->cascadeOnUpdate()
                         ->index('idx_activity_schedule_activity_id');
-            $table->foreignId('schedule_id')
-                    ->constrained('schedules')
+            $table->foreignId('room_id')
+                    ->constrained('rooms')
                         ->cascadeOnDelete()
                         ->cascadeOnUpdate()
-                        ->index('idx_activity_schedule_schedule_id');
+                        ->index('idx_activity_schedule_room_id');
+            $table->enum('day_of_week', [
+                'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'
+            ])->nullable(false)
+              ->index('idx_schedules_day_of_week');
+            $table->time('start_time')
+            ->nullable(false)
+            ->index('idx_schedules_start_time');
             $table->time('end_time')
                 ->nullable(false);
             $table->integer('max_enrollment')
@@ -36,7 +43,7 @@ return new class extends Migration
                 ->default(0);
             $table->timestamps();
 
-            $table->unique(['activity_id', 'schedule_id'], 'uk_activity_schedule_activity_id_schedule_id');
+            $table->unique(['start_time', 'day_of_week', 'room_id'], 'uk_activity_schedules_start_time_day_of_week_room_id');
         });
     }
 

@@ -5,7 +5,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Activity extends Model
 {
@@ -25,10 +25,10 @@ class Activity extends Model
     /**
      * The activity schedules associated with the activity
      *
-     * @return BelongsToMany
+     * @return HasMany
      */     
-    public function schedules(): BelongsToMany
+    public function activitySchedules(): HasMany
     {
-        return $this->belongsToMany(Schedule::class);
+        return $this->hasMany(HasMany::class);
     }
 }

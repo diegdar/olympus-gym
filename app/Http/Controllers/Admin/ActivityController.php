@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Activity;
-use App\Models\Schedule;
 use App\Services\ActivityScheduleListService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -13,6 +11,9 @@ use Illuminate\Routing\Controllers\Middleware;
 
 class ActivityController extends Controller implements HasMiddleware
 {
+    
+    protected array $activitiesDaysOfWeek = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+
     public static function middleware(): array
     {
         return [            
@@ -27,12 +28,13 @@ class ActivityController extends Controller implements HasMiddleware
     public function index(ActivityScheduleListService $activityScheduleListService)
     {
         $records = $activityScheduleListService->getActivityScheduleRecords();
-        $daysOfWeek = $records->pluck('day_of_week')->unique()->toArray();
+        $daysOfWeek = $this->activitiesDaysOfWeek;
         $timeSlots  = $records->pluck('start_time')->unique()->sort()->toArray();       
         $recordsMatrix = $activityScheduleListService
-                            ->createScheduleMatrix($daysOfWeek, $timeSlots);
+                            ->createScheduleMatrix($records, $daysOfWeek, $timeSlots);
             
         return view('activities.index', compact('daysOfWeek', 'timeSlots', 'recordsMatrix'));
+
     }
 
     /**

@@ -1,8 +1,6 @@
 <x-layouts.app>
     <div class="relative transform-none">
         <x-slot name="title">Tabla de horarios</x-slot>
-        <h1 class="mb-3 text-2xl font-bold">Horario Semanal del Gimnasio</h1>
-
         {{-- Mensaje de alerta --}}
         @if (session('msg'))
             <div id="message"
@@ -13,28 +11,46 @@
                 </span>
             </div>
         @endif
+        <h1 class="mb-3 text-2xl font-bold mt-2">Horario Actividades</h1>
 
-        <div class="overflow-x-auto mb-4">
-            <table class="min-w-full leading-normal bg-white dark:bg-gray-800">
-                <thead>
+        {{-- <div class="overflow-x-auto mb-4">
+            <table class="min-w-full leading-normal  dark:bg-gray-800">
+                <thead class="bg-gray-100 dark:bg-gray-900 z-10">
                     <tr class="bg-gray-100 dark:bg-gray-900">
                         <th
-                            class="px-5 py-3 border-b-2 border-gray-200 dark:border-gray-700 text-lg font-bold uppercase text-center dark:text-red-300">
+                            class="px-5 py-3 border-b-2 border-gray-200 dark:border-gray-700 text-lg font-bold uppercase text-center dark:text-red-300 hidden md:table-cell">
                             Hora
                         </th>
                         @foreach ($daysOfWeek as $day)
                             <th
-                                class="px-5 py-3 border-b-2 border-gray-200 dark:border-gray-700 text-lg font-bold uppercase text-center dark:text-red-300">
+                                class="px-5 py-3 border-b-2 border-gray-200 dark:border-gray-700 text-lg font-bold text-center dark:text-red-300">
                                 {{ ucfirst($day) }}
                             </th>
                         @endforeach
                     </tr>
-                </thead>
+                </thead> --}}
+
+        <div class="overflow-x-auto mb-4 sm:overflow-y-auto sm:max-h-[500px]">
+            <table class="table-auto w-full">
+                <thead>
+                    <tr class="bg-gray-100 dark:bg-gray-900">
+                        <th
+                            class="sticky top-0 bg-gray-100 dark:bg-gray-900 px-5 py-3 border-b-2 border-gray-200 dark:border-gray-700 text-lg font-bold uppercase text-center dark:text-red-300 hidden md:table-cell">
+                            Hora
+                        </th>
+                        @foreach ($daysOfWeek as $day)
+                            <th
+                                class="sticky top-0 bg-gray-100 dark:bg-gray-900 px-5 py-3 border-b-2 border-gray-200 dark:border-gray-700 text-lg font-bold uppercase text-center dark:text-red-300">
+                                {{ ucfirst($day) }}
+                            </th>
+                        @endforeach
+                    </tr>
+                </thead>                
                 <tbody>
                     @foreach ($timeSlots as $time)
-                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-100">
                             <td
-                                class="px-5 py-5 border-b border-gray-200 dark:border-gray-700 text-sm text-left sm:text-center font-medium bg-white dark:bg-gray-900">
+                                class="px-5 py-5 border-b border-gray-200 dark:border-gray-700 text-xl text-center font-medium bg-white dark:bg-gray-900">
                                 <span class="md:hidden font-bold dark:text-red-300">Hora:</span>
                                 {{ \Carbon\Carbon::createFromFormat('H:i:s', $time)->format('H:i') }}
                             </td>
@@ -44,6 +60,9 @@
                                 @endphp
                                 <td
                                     class="px-5 py-5 border-b border-gray-200 dark:border-gray-700 align-top bg-white dark:bg-gray-900">
+                                    <span class="md:hidden font-bold dark:text-red-300">
+                                        {{ ucfirst($day) }}:
+                                    </span>    
                                     @forelse ($entries as $entry)
                                         <div class="mb-2 p-2 bg-blue-50 dark:bg-gray-700 rounded">
                                             <p class="font-semibold text-sm dark:text-gray-200">
@@ -70,7 +89,6 @@
 
         {{-- Opciones adicionales o scripts --}}
         @vite('resources/css/tableList.css')
-        @vite('resources/js/hideTableHeaders.js')
         @vite('resources/js/messageTransition.js')
     </div>
 </x-layouts.app>
