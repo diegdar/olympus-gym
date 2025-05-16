@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 use Illuminate\Database\Migrations\Migration;
@@ -13,12 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subscriptions', function (Blueprint $table) {
+        Schema::create('rooms', function (Blueprint $table) {
             $table->id();
-            $table->string('fee', 150)->nullable(false);
-            $table->decimal('price', 8, 2)->nullable(false);
-            $table->integer('duration')->unsigned()->nullable(false)->comment('Duration in months');
-            $table->string('description')->nullable(false);
+            $table->string('name', 100)
+                ->unique()
+                ->index('idx_rooms_name');
+            $table->string('description', 255)->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subscriptions');
+        Schema::dropIfExists('rooms');
     }
 };

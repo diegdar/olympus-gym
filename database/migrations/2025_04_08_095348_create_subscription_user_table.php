@@ -27,7 +27,10 @@ class CreateSubscriptionUserTable extends Migration
             $table->dateTime('payment_date')->nullable(false)->now();
             $table->timestamps();
 
-            $table->primary(['user_id', 'subscription_id']);
+            $table->primary(['user_id', 'subscription_id'], 'pk_subscription_user');
+
+            $table->index('start_date', 'idx_subscription_user_start_date');
+            $table->index(['user_id', 'subscription_id'], 'idx_subscription_user_combined');
         });
     }
 
