@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Activity extends Model
+class Room extends Model
 {
     use HasFactory;
 
@@ -19,10 +19,10 @@ class Activity extends Model
     protected $fillable = [
         'name',
         'description',
-        'duration',
-    ];    
+        'capacity'
+    ];
 
-    /**
+     /**
      * The activity schedules associated with the activity
      *
      * @return BelongsToMany
