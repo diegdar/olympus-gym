@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Feature\Admin\Activities;
+namespace Tests\Feature\Activities;
 
 use App\Models\Activity;
 use App\Models\User;
