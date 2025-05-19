@@ -18,6 +18,7 @@ class RoleSeeder extends Seeder
         $superAdmin = Role::firstOrCreate(['name' => 'super-admin']);
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $member = Role::firstOrCreate(['name' => 'member']);
+        $guest = Role::firstOrCreate(['name' => 'guest']);
 
         // user CRUD
         Permission::create(['name' => 'admin.users.index', 'description' => 'Ver listado de usuarios'])->syncRoles([$superAdmin, $admin]);
