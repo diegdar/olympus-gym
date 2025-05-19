@@ -7,76 +7,42 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Database\Seeders\RoleSeeder;
 use Tests\TestCase;
+use Illuminate\Testing\TestResponse;
+use Tests\Helpers\RoleTestHelper;
 
 class CreateRoleTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, RoleTestHelper;
 
-    protected array $rolesToSeed = [
-        'super-admin',
-        'admin',
-        'member',
-        'guest',
-    ];
+    protected array $authorizedRoles;
 
-    protected array $permissionsToSeed = [
-        [
-            'name' => 'admin.roles.index',
-            'description' => 'Ver listado de roles',
-        ],
-        [
-            'name' => 'admin.roles.create',
-            'description' => 'Editar/ver un role',
-        ],
-        [
-            'name' => 'admin.roles.store',
-            'description' => 'Actualizar un role',
-        ],
-    ];
+    protected array $unauthorizedRoles;
 
-    protected array $authorizedRoles = [
-        'super-admin',
-        'admin',
-    ];
+    protected const PERMISSION_NAME = 'admin.roles.create';
 
-    protected array $unauthorizedRoles = [
-        'member',
-        'guest',
-    ];
+    protected const ROUTE_CREATE_ROLE_FORM = 'admin.roles.create';
+    protected const ROUTE_STORE_ROLE = 'admin.roles.store';
 
     protected function setUp(): void
     {
         parent::setUp();
+        $this->seed(RoleSeeder::class);
+        $this->authorizedRoles = $this->getAuthorizedRoles(self::PERMISSION_NAME);
 
-        // create roles
-        foreach ($this->rolesToSeed as $roleName) {
-            Role::firstOrCreate(['name' => $roleName]);
-        }
-
-        // create permissions and sync to roles
-        foreach ($this->permissionsToSeed as $permData) {
-            $permission = Permission::firstOrCreate([
-                'name' => $permData['name'],
-                'description' => $permData['description'] ?? null,
-            ]);
-
-            $roles = Role::whereIn('name', $this->authorizedRoles)->get();
-            $permission->syncRoles($roles);
-        }
+        $this->unauthorizedRoles = $this->getUnauthorizedRoles(self::PERMISSION_NAME);              
     }
-
-    private function actingAsRole(string $roleName): self
+    
+    private function getCreateRoleFormAs(string $roleName): TestResponse
     {
-        $user = User::factory()->create()->assignRole($roleName);
-        return $this->actingAs($user);
-    }    
+        return $this->actingAsRole($roleName)->get(route(self::ROUTE_CREATE_ROLE_FORM));
+    }
 
     public function test_authorized_user_can_view_create_role_form()
     {
         foreach ($this->authorizedRoles as $authorizedRole) {
-            $user = $this->actingAsRole($authorizedRole);
-            $response = $user->get(route('admin.roles.create'));
+            $response = $this->getCreateRoleFormAs($authorizedRole);
 
             $response->assertStatus(200)
                      ->assertSee('Crear role')
@@ -87,8 +53,7 @@ class CreateRoleTest extends TestCase
     public function test_unauthorized_user_cannot_view_create_role_form()
     {
         foreach ($this->unauthorizedRoles as $unauthorizedRole) {
-            $user = $this->actingAsRole($unauthorizedRole);
-            $response = $user->get(route('admin.roles.create'));
+            $response = $this->getCreateRoleFormAs($unauthorizedRole);
 
             $response->assertStatus(403)
                      ->assertDontSee('Crear role')
@@ -96,17 +61,22 @@ class CreateRoleTest extends TestCase
         }        
     }
 
+    private function getCreateRoleAs(string $AuthorizedRole, array $newRoleData): TestResponse
+    {
+        return $this->actingAsRole($AuthorizedRole)
+            ->from(route(self::ROUTE_CREATE_ROLE_FORM))
+            ->post(route(self::ROUTE_STORE_ROLE, $newRoleData));
+    }    
+
     public function test_validation_errors_are_shown_if_name_field_is_empty()
     {
         foreach ($this->authorizedRoles as $authorizedRole) {
-            $user = $this->actingAsRole($authorizedRole);
-            $response = $user->from(route('admin.roles.create'))
-                ->post(route('admin.roles.store'), [
-                        'name' => '',
-                        'permissions' => [],
-                    ]);
+            $response = $this->getCreateRoleAs($authorizedRole, [
+                'name' => '',
+                'permissions' => [],
+            ]);
 
-            $response->assertRedirect(route('admin.roles.create'))->assertSessionHasErrors(['name']);
+            $response->assertRedirect(route(self::ROUTE_CREATE_ROLE_FORM))->assertSessionHasErrors(['name']);
         }
     }
 
@@ -114,14 +84,12 @@ class CreateRoleTest extends TestCase
     {
         $newRoleNumber = 1;
         foreach ($this->authorizedRoles as $authorizedRole) {
-            $user = $this->actingAsRole($authorizedRole);
-            $response = $user->from(route('admin.roles.create'))
-                ->post(route('admin.roles.store'), [
-                        'name' => 'role-name' . $newRoleNumber,
-                        'permissions' => [],
-                    ]);
+            $response = $this->getCreateRoleAs($authorizedRole, [
+                'name' => 'role-name' . $newRoleNumber,
+                'permissions' => [],
+            ]);
 
-            $response->assertRedirect(route('admin.roles.create'))->assertSessionHasErrors(['permissions']);
+            $response->assertRedirect(route(self::ROUTE_CREATE_ROLE_FORM))->assertSessionHasErrors(['permissions']);
 
             ++$newRoleNumber;
         }
@@ -134,12 +102,10 @@ class CreateRoleTest extends TestCase
 
         $newRoleNumber = 1;
         foreach ($this->authorizedRoles as $authorizedRole) {
-            $user = $this->actingAsRole($authorizedRole);
-            $response = $user->from(route('admin.roles.create'))
-                ->post(route('admin.roles.store'), [
-                        'name' => 'role-name' . $newRoleNumber,
-                        'permissions' => [$p1->id, $p2->id],
-                    ]);
+            $response = $this->getCreateRoleAs($authorizedRole, [
+                'name' => 'role-name' . $newRoleNumber,
+                'permissions' => [$p1->id, $p2->id],
+            ]);
 
             $response->assertRedirect(route('admin.roles.index'))->assertStatus(302);
 
@@ -159,12 +125,10 @@ class CreateRoleTest extends TestCase
 
         $newRoleNumber = 1;
         foreach ($this->unauthorizedRoles as $unauthorizedRole) {
-            $user = $this->actingAsRole($unauthorizedRole);
-            $response = $user->from(route('admin.roles.create'))
-                ->post(route('admin.roles.store', $role), [
-                        'name' => 'role-name' . $newRoleNumber,
-                        'permissions' => [$p1->id, $p2->id],
-                    ]);
+            $response = $this->getCreateRoleAs($unauthorizedRole, [
+                'name' => 'role-name' . $newRoleNumber,
+                'permissions' => [$p1->id, $p2->id],
+            ]);
 
             $response->assertStatus(403);
             $this->assertDatabaseMissing('roles', [
