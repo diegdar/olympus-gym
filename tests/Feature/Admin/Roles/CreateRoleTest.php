@@ -22,7 +22,7 @@ class CreateRoleTest extends TestCase
 
     protected const PERMISSION_NAME = 'admin.roles.create';
 
-    protected const ROUTE_CREATE_ROLE_FORM = 'admin.roles.create';
+    protected const ROUTE_CREATE_ROLE_VIEW = 'admin.roles.create';
     protected const ROUTE_STORE_ROLE = 'admin.roles.store';
 
     protected function setUp(): void
@@ -36,7 +36,7 @@ class CreateRoleTest extends TestCase
     
     private function getCreateRoleFormAs(string $roleName): TestResponse
     {
-        return $this->actingAsRole($roleName)->get(route(self::ROUTE_CREATE_ROLE_FORM));
+        return $this->actingAsRole($roleName)->get(route(self::ROUTE_CREATE_ROLE_VIEW));
     }
 
     public function test_authorized_user_can_view_create_role_form()
@@ -64,7 +64,7 @@ class CreateRoleTest extends TestCase
     private function getCreateRoleAs(string $AuthorizedRole, array $newRoleData): TestResponse
     {
         return $this->actingAsRole($AuthorizedRole)
-            ->from(route(self::ROUTE_CREATE_ROLE_FORM))
+            ->from(route(self::ROUTE_CREATE_ROLE_VIEW))
             ->post(route(self::ROUTE_STORE_ROLE, $newRoleData));
     }    
 
@@ -76,7 +76,7 @@ class CreateRoleTest extends TestCase
                 'permissions' => [],
             ]);
 
-            $response->assertRedirect(route(self::ROUTE_CREATE_ROLE_FORM))->assertSessionHasErrors(['name']);
+            $response->assertRedirect(route(self::ROUTE_CREATE_ROLE_VIEW))->assertSessionHasErrors(['name']);
         }
     }
 
@@ -89,7 +89,7 @@ class CreateRoleTest extends TestCase
                 'permissions' => [],
             ]);
 
-            $response->assertRedirect(route(self::ROUTE_CREATE_ROLE_FORM))->assertSessionHasErrors(['permissions']);
+            $response->assertRedirect(route(self::ROUTE_CREATE_ROLE_VIEW))->assertSessionHasErrors(['permissions']);
 
             ++$newRoleNumber;
         }
