@@ -4,52 +4,45 @@ declare(strict_types=1);
 namespace Tests\Feature\Activities;
 
 use App\Models\Activity;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Illuminate\Database\Eloquent\Collection;
+use Tests\Traits\RoleTestHelper;
 
 class ActivityListTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, RoleTestHelper;
 
-    protected array $authorizedRoles = [
-        'super-admin',
-        'admin',
-        'member'
-    ];
-    
-    protected Collection $activities;
+    protected array $authorizedRoles;
+
+    protected array $unauthorizedRoles;
+
+    protected const PERMISSION_NAME = 'activities.index';
+    protected const ROUTE_ACTIVITIES_INDEX = 'activities.index';
 
     protected function setUp(): void
     {
         parent::setUp();
+        $this->seed();
+        $this->authorizedRoles = $this->getAuthorizedRoles(self::PERMISSION_NAME);
 
-        $this->seed();         
-        $this->activities = Activity::all();
-    }
-
-    private function actingAsRole(string $roleName): self
-    {
-        $user = User::factory()->create()->assignRole($roleName);
-        return $this->actingAs($user);
+        $this->unauthorizedRoles = $this->getUnauthorizedRoles(self::PERMISSION_NAME);              
     }
 
     private function getActivitiesIndexAs(?string $roleName = null)
     {
-        $user = User::factory()->create()->assignRole($roleName);
-        return $this->actingAs($user)->get(route('activities.index'));
+        return $this->actingAsRole($roleName)->get(route(self::ROUTE_ACTIVITIES_INDEX));
     }
 
     public function test_authorized_user_can_see_activity_list()
     {
-        foreach ($this->authorizedRoles as $roleName) {
-            $response = $this->getActivitiesIndexAs($roleName);
+        $activities = Activity::all();
+        foreach ($this->authorizedRoles as $authorizedRole) {
+            $response = $this->getActivitiesIndexAs($authorizedRole);
 
             $response->assertStatus(200)
                         ->assertSee('Horario Actividades')
                         ->assertSee('Hora');
-            foreach ($this->activities as $activity) {
+            foreach ($activities as $activity) {
                 $response->assertSee($activity->name);
             }
         }
@@ -57,7 +50,12 @@ class ActivityListTest extends TestCase
 
     public function test_unauthorized_user_gets_403()
     {
-            $response = $this->getActivitiesIndexAs();
-            $response->assertStatus(403);
+        foreach ($this->unauthorizedRoles as $unauthorizedRole) {
+            $response = $this->getActivitiesIndexAs($unauthorizedRole);
+
+            $response->assertStatus(403)
+                        ->assertDontSee('Horario Actividades')
+                        ->assertDontSee('Hora');
+        }
     }
 }

@@ -8,75 +8,41 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
+use Database\Seeders\RoleSeeder;
+use Illuminate\Testing\TestResponse;
+use Tests\Traits\RoleTestHelper;
 
 class EditRoleTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, RoleTestHelper;
 
-    protected array $rolesToSeed = [
-        'super-admin',
-        'admin',
-        'member',
-    ];
+    protected array $authorizedRoles;
 
-    protected array $permissionsToSeed = [
-        [
-            'name' => 'admin.roles.index',
-            'description' => 'Ver listado de roles',
-        ],
-        [
-            'name' => 'admin.roles.edit',
-            'description' => 'Editar/ver un role',
-        ],
-        [
-            'name' => 'admin.roles.update',
-            'description' => 'Actualizar un role',
-        ],
-    ];
+    protected array $unauthorizedRoles;
 
-    protected array $authorizedRoles = [
-        'super-admin',
-        'admin',
-    ];
-
-    protected array $unauthorizedRoles = [
-        'member',
-    ];
+    protected const PERMISSION_NAME = 'admin.roles.edit';
 
     protected function setUp(): void
     {
         parent::setUp();
+        $this->seed(RoleSeeder::class);
+        $this->authorizedRoles = $this->getAuthorizedRoles(self::PERMISSION_NAME);
 
-        // create roles
-        foreach ($this->rolesToSeed as $roleName) {
-            Role::firstOrCreate(['name' => $roleName]);
-        }
+        $this->unauthorizedRoles = $this->getUnauthorizedRoles(self::PERMISSION_NAME);              
+    }   
 
-        // create permissions and sync to roles
-        foreach ($this->permissionsToSeed as $permData) {
-            $permission = Permission::firstOrCreate([
-                'name' => $permData['name'],
-                'description' => $permData['description'] ?? null,
-            ]);
-
-            $roles = Role::whereIn('name', $this->authorizedRoles)->get();
-            $permission->syncRoles($roles);
-        }
-    }
-
-    private function actingAsRole(string $roleName): self
+    private function getEditRoleAs(string $roleName, Role $role): TestResponse
     {
         $user = User::factory()->create()->assignRole($roleName);
-        return $this->actingAs($user);
-    }    
+        return $this->actingAs($user)->get(route('admin.roles.edit', $role));
+    }
 
     public function test_authorized_user_can_view_edit_role_form()
     {
         $roleToEdit = Role::create(['name' => 'test-role']);
 
         foreach ($this->authorizedRoles as $authorizedRole) {
-            $user = $this->actingAsRole($authorizedRole);
-            $response = $user->get(route('admin.roles.edit', $roleToEdit));
+            $response = $this->getEditRoleAs($authorizedRole, $roleToEdit);
 
             $response->assertStatus(200)
                      ->assertSee('Editar role')
@@ -90,8 +56,7 @@ class EditRoleTest extends TestCase
         $roleToEdit = Role::create(['name' => 'test-role']);
 
         foreach ($this->unauthorizedRoles as $unauthorizedRole) {
-            $user = $this->actingAsRole($unauthorizedRole);
-            $response = $user->get(route('admin.roles.edit', $roleToEdit));
+            $response = $this->getEditRoleAs($unauthorizedRole, $roleToEdit);
 
             $response->assertStatus(403)
                      ->assertDontSee('Editar role')
@@ -100,19 +65,23 @@ class EditRoleTest extends TestCase
         }        
     }
 
+    private function submitRoleToUpdate(string $roleName, Role $role, array $data): TestResponse
+    {
+        return $this->actingAsRole($roleName)
+            ->from(route('admin.roles.edit', $role))
+            ->put(route('admin.roles.update', $role), $data);
+    }    
+
     public function test_validation_errors_are_shown_if_name_field_is_empty()
     {
-        $role = Role::create(['name' => 'test-role']);
+        $roleToEdit = Role::create(['name' => '']);
 
         foreach ($this->authorizedRoles as $authorizedRole) {
-            $user = $this->actingAsRole($authorizedRole);
-            $response = $user->from(route('admin.roles.edit', $role))
-                             ->put(route('admin.roles.update', $role), [
-                                 'name' => '',
-                                 'permissions' => [],
-                             ]);
-
-            $response->assertRedirect(route('admin.roles.edit', $role))
+            $response = $this->submitRoleToUpdate($authorizedRole, $roleToEdit, [
+                'name' => '',
+                'permissions' => [],
+            ]);
+            $response->assertRedirect(route('admin.roles.edit', $roleToEdit))
                      ->assertSessionHasErrors(['name']);
         }
     }
@@ -122,12 +91,10 @@ class EditRoleTest extends TestCase
         $role = Role::create(['name' => 'test-role']);
 
         foreach ($this->authorizedRoles as $authorizedRole) {
-            $user = $this->actingAsRole($authorizedRole);
-            $response = $user->from(route('admin.roles.edit', $role))
-                             ->put(route('admin.roles.update', $role), [
-                                 'name' => 'new-name',
-                                 'permissions' => [],
-                             ]);
+            $response = $this->submitRoleToUpdate($authorizedRole, $role, [
+                'name' => 'new-name',
+                'permissions' => [],
+            ]);
 
             $response->assertRedirect(route('admin.roles.edit', $role))
                      ->assertSessionHasErrors(['permissions']);
@@ -141,12 +108,10 @@ class EditRoleTest extends TestCase
         $p2 = Permission::create(['name' => 'perm-2', 'description' => 'Permiso 2']);
 
         foreach ($this->authorizedRoles as $authorizedRole) {
-            $user = $this->actingAsRole($authorizedRole);
-            $response = $user->from(route('admin.roles.edit', $role))
-                             ->put(route('admin.roles.update', $role), [
-                                 'name' => 'new-name',
-                                 'permissions' => [$p1->id, $p2->id],
-                             ]);
+            $response = $this->submitRoleToUpdate($authorizedRole, $role, [
+                'name' => 'new-name',
+                'permissions' => [$p1->id, $p2->id],
+            ]);
 
             $response->assertRedirect(route('admin.roles.index'))
                      ->assertStatus(302);
@@ -167,12 +132,10 @@ class EditRoleTest extends TestCase
         $p2 = Permission::create(['name' => 'perm-2', 'description' => 'Permiso 2']);
 
         foreach ($this->unauthorizedRoles as $unauthorizedRole) {
-            $user = $this->actingAsRole($unauthorizedRole);
-            $response = $user->from(route('admin.roles.edit', $role))
-                             ->put(route('admin.roles.update', $role), [
-                                 'name' => 'new-name',
-                                 'permissions' => [$p1->id, $p2->id],
-                             ]);
+            $response = $this->submitRoleToUpdate($unauthorizedRole, $role, [
+                'name' => 'new-name',
+                'permissions' => [$p1->id, $p2->id],
+            ]);
 
             $response->assertStatus(403);
             $this->assertDatabaseMissing('roles', [
