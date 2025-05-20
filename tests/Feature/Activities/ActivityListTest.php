@@ -17,7 +17,7 @@ class ActivityListTest extends TestCase
     protected array $unauthorizedRoles;
 
     protected const PERMISSION_NAME = 'activities.index';
-    protected const ROUTE_LIST_ACTIVITIES = 'activities.index';
+    protected const ROUTE_ACTIVITIES_INDEX = 'activities.index';
 
     protected function setUp(): void
     {
@@ -30,7 +30,7 @@ class ActivityListTest extends TestCase
 
     private function getActivitiesIndexAs(?string $roleName = null)
     {
-        return $this->actingAsRole($roleName)->get(route(self::ROUTE_LIST_ACTIVITIES));
+        return $this->actingAsRole($roleName)->get(route(self::ROUTE_ACTIVITIES_INDEX));
     }
 
     public function test_authorized_user_can_see_activity_list()

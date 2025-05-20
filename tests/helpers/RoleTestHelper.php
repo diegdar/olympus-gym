@@ -9,7 +9,6 @@ use App\Models\User;
 
 trait RoleTestHelper
 {
-
     /**
      * Get an array of authorized roles for a given permission name.
      *
@@ -39,7 +38,6 @@ trait RoleTestHelper
         })->get()->pluck('name')->toArray();
     }
 
-
     /**
      * Perform an action as a user with the specified role.
      *
@@ -50,5 +48,19 @@ trait RoleTestHelper
     {
         $user = User::factory()->create()->assignRole($roleName);
         return $this->actingAs($user);
-    }    
+    }
+    
+    /**
+     * Create a user with the specified attributes and assign a role to the user.
+     *
+     * @param string $roleName The name of the role to assign to the user. Defaults to 'member'.
+     * @param array $attributes An array of attributes to set on the user.
+     * @return User The created user instance with the assigned role.
+     */
+    public function createUserAndAssignRole(string $roleName = 'member', array $attributes = []): User
+    {
+        $user = User::factory()->create($attributes);
+        $user->assignRole($roleName);
+        return $user;
+    }
 }
