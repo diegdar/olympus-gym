@@ -9,7 +9,7 @@ use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
-use Tests\Helpers\RoleTestHelper;
+use Tests\Traits\RoleTestHelper;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 

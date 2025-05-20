@@ -9,7 +9,7 @@ use Tests\TestCase;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Testing\TestResponse;
 use Spatie\Permission\Models\Role;
-use Tests\Helpers\RoleTestHelper;
+use Tests\Traits\RoleTestHelper;
 
 class RoleListTest extends TestCase
 {

@@ -10,7 +10,7 @@ use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Testing\TestResponse;
-use Tests\Helpers\RoleTestHelper;
+use Tests\Traits\RoleTestHelper;
 
 class EditRoleTest extends TestCase
 {

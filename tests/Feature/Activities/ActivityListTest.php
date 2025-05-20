@@ -6,7 +6,7 @@ namespace Tests\Feature\Activities;
 use App\Models\Activity;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Tests\Helpers\RoleTestHelper;
+use Tests\Traits\RoleTestHelper;
 
 class ActivityListTest extends TestCase
 {

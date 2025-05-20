@@ -11,7 +11,7 @@ use Livewire\Livewire;
 use Spatie\Permission\Models\Role;
 use Illuminate\Database\Eloquent\Collection;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\Helpers\RoleTestHelper;
+use Tests\Traits\RoleTestHelper;
 use Tests\TestCase;
 
 class CreateUserComponentTest extends TestCase
