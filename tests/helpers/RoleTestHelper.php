@@ -9,7 +9,7 @@ use App\Models\User;
 
 trait RoleTestHelper
 {
-    /**
+    /** 
      * Get an array of authorized roles for a given permission name.
      *
      * @param string $permissionName
