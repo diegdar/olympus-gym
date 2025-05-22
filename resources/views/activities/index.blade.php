@@ -14,7 +14,7 @@
             </div>
         @endif
         <h1 class="mb-3 text-2xl font-bold mt-2">Horario Actividades</h1>
-        <div class="overflow-x-auto mb-4 sm:overflow-y-auto sm:max-h-[500px]">
+        <div class="overflow-auto mb-4 sm:overflow-y-auto sm:max-h-[500px]">
             <table class="table-auto w-full">
                 <thead>
                     <tr class="bg-gray-100 dark:bg-gray-900">
@@ -38,40 +38,50 @@
                 </thead>
                 <tbody>
                     @foreach ($allTimes as $time)
-                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-100">
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-100 hover:border-2">
                             <td
                                 class="sticky left-0 px-5 py-5 border-b 
                                     border-gray-200 dark:border-gray-700 
                                     text-xl text-center font-medium bg-white
                                     dark:bg-gray-900 hidden md:table-cell">
-                                {{ \Carbon\Carbon::createFromFormat('H:i', $time)
-                                    ->format('H:i') }}
+                                {{ \Carbon\Carbon::createFromFormat('H:i', $time)->format('H:i') }}
                             </td>
                             @foreach ($schedules as $day => $slots)
                                 <td
-                                    class="px-5 py-5 border-b border-gray-200 
+                                    class="px-5 py-5 border-b 
+                                        border-gray-200 
                                         dark:border-gray-700 align-top bg-white 
                                         dark:bg-gray-900">
                                     <span class="md:hidden font-bold dark:text-red-300">
                                         {{ ucfirst($day) }}:
                                     </span>
-                                    @if (isset($slots[$time]))
-                                        @foreach ($slots[$time] as $entry)
-                                            <div class="m-3 sm:mb-2 p-2 bg-blue-50 
+                                    <div class="flex justify-center align-content gap-2">
+                                        @if (isset($slots[$time]))
+                                            {{-- Mostrar las actividades --}}
+                                            @foreach ($slots[$time] as $entry)
+                                                <div
+                                                    class="w-fit m-2 md:m-0 sm:mb-2 p-2 bg-blue-50 
                                                 dark:bg-gray-700 rounded">
-                                                <p
-                                                    class="font-semibold text-sm 
+                                                    <p
+                                                        class="font-semibold text-sm 
                                                     dark:text-gray-200 text-center">
-                                                    {{ $entry['activity_name'] }}
-                                                </p>
-                                            </div>
-                                        @endforeach
-                                    @else
-                                        <p class="text-gray-400 dark:text-gray-600 
+                                                        {{ $entry['activity_name'] }}
+                                                    </p>
+                                                    <p
+                                                        class="font-semibold text-sm 
+                                                    dark:text-yellow-200 text-center">
+                                                        {{ $entry['room_name'] }}
+                                                    </p>
+                                                </div>
+                                            @endforeach
+                                        @else
+                                            <div
+                                                class="text-gray-400 dark:text-gray-600 
                                             text-center text-sm">
-                                            —
-                                        </p>
-                                    @endif
+                                                —
+                                            </div>
+                                        @endif
+                                    </div>
                                 </td>
                             @endforeach
                         </tr>
