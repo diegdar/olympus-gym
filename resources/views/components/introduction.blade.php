@@ -17,22 +17,22 @@
         </p>
         <ul>
             <li>
-                <p><span class="text-2nd font-semibold">Entrenadores expertos: </span>Nuestro equipo de profesionales certificados te guiará en cada paso de tu camino, diseñando planes personalizados y brindándote el apoyo que necesitas para alcanzar tus objetivos.
+                <p class="mt-2"><span class="text-2nd font-semibold">Entrenadores expertos: </span>Nuestro equipo de profesionales certificados te guiará en cada paso de tu camino, diseñando planes personalizados y brindándote el apoyo que necesitas para alcanzar tus objetivos.
                 </p>
             </li>
             <li>
-                <p><span class="text-2nd font-semibold">Variedad de clases: </span>Desde sesiones de alta intensidad hasta clases de yoga y pilates, ofrecemos una amplia gama de opciones para que encuentres la actividad que mejor se adapte a tus gustos y necesidades.
+                <p class="mt-2"><span class="text-2nd font-semibold">Variedad de clases: </span>Desde sesiones de alta intensidad hasta clases de yoga y pilates, ofrecemos una amplia gama de opciones para que encuentres la actividad que mejor se adapte a tus gustos y necesidades.
                 </p>
             </li>
             <li>
-                <p><span class="text-2nd font-semibold">Comunidad inspiradora: </span>Únete a un grupo de personas motivadas que comparten tu pasión por el fitness y te impulsarán a superar tus propios límites.</p>
+                <p class="mt-2"><span class="text-2nd font-semibold">Comunidad inspiradora: </span>Únete a un grupo de personas motivadas que comparten tu pasión por el fitness y te impulsarán a superar tus propios límites.</p>
             </li>
             <li>
-                <p><span class="text-2nd font-semibold">Ambiente motivador: </span>En Olympus Gym, te sentirás como en casa. Nuestra atmósfera cálida y acogedora te inspirará a dar lo mejor de ti en cada entrenamiento.
+                <p class="mt-2"><span class="text-2nd font-semibold">Ambiente motivador: </span>En Olympus Gym, te sentirás como en casa. Nuestra atmósfera cálida y acogedora te inspirará a dar lo mejor de ti en cada entrenamiento.
                 </p>
             </li>
         </ul>
-        <p>
+        <p class="mt-2">
             Te invitamos a explorar nuestra página web y descubrir todo lo que Olympus Gym tiene para ofrecerte. ¡Contáctanos para programar una visita y comenzar a construir la mejor versión de ti mismo!
         </p>
         <p class="font-permanent-marker text-right text-2nd text-2xl">
