@@ -15,6 +15,7 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
+        Role::truncate();
         $superAdmin = Role::firstOrCreate(['name' => 'super-admin']);
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $member = Role::firstOrCreate(['name' => 'member']);
@@ -34,6 +35,7 @@ class RoleSeeder extends Seeder
 
         // activity CRUD
         Permission::create(['name' => 'activities.index', 'description' => 'Ver listado de actividades'])->syncRoles([$superAdmin, $admin, $member]);
+        Permission::create(['name' => 'activities.show', 'description' => 'Ver una actividad especifica'])->syncRoles([$superAdmin, $admin, $member]);
   
     }
 }

@@ -62,16 +62,25 @@
                                                 <div
                                                     class="w-fit m-2 md:m-0 sm:mb-2 p-2 bg-blue-50 
                                                 dark:bg-gray-700 rounded">
-                                                    <p
+                                                    <article
                                                         class="font-semibold text-sm 
                                                     dark:text-gray-200 text-center">
                                                         {{ $entry['activity_name'] }}
-                                                    </p>
-                                                    <p
+                                                    </article>
+                                                    <article
                                                         class="font-semibold text-sm 
                                                     dark:text-yellow-200 text-center">
                                                         {{ $entry['room_name'] }}
-                                                    </p>
+                                                    </article>
+                                                    @can('activities.show')
+                                                        <article
+                                                            class="font-semibold text-sm 
+                                                    dark:text-blue-200 text-center">
+                                                            <a href="{{ route('activities.show', $entry['activity_schedule_id']) }}"
+                                                                class="text-green-500 hover:text-green-700">
+                                                                Ver Actividad
+                                                        </article>
+                                                    @endcan
                                                 </div>
                                             @endforeach
                                         @else
