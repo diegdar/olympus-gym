@@ -15,7 +15,6 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::truncate();
         $superAdmin = Role::firstOrCreate(['name' => 'super-admin']);
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $member = Role::firstOrCreate(['name' => 'member']);
