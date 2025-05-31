@@ -72,11 +72,11 @@
                                                     dark:text-yellow-200 text-center">
                                                         {{ $entry['room_name'] }}
                                                     </article>
-                                                    @can('activities.show')
+                                                    @can('activities.schedule.show')
                                                         <article
                                                             class="font-semibold text-sm 
                                                     dark:text-blue-200 text-center">
-                                                            <a href="{{ route('activities.show', $entry['activity_schedule_id']) }}"
+                                                            <a href="{{ route('activities.schedule.show', $entry['activity_schedule_id']) }}"
                                                                 class="text-green-500 hover:text-green-700">
                                                                 Ver Actividad
                                                         </article>

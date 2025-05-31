@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\ActivityScheduleController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -29,8 +29,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 
     // Activities
-    Route::resource('activities', ActivityController::class)
-    ->names('activities');    
+    Route::resource('activities/schedule', ActivityScheduleController::class)
+    ->names('activities.schedule');    
 });
 
 require __DIR__.'/auth.php';

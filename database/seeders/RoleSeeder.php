@@ -33,8 +33,8 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'admin.roles.destroy', 'description' => 'Eliminar un role'])->syncRoles([$superAdmin]);
 
         // activity CRUD
-        Permission::create(['name' => 'activities.index', 'description' => 'Ver listado de actividades'])->syncRoles([$superAdmin, $admin, $member]);
-        Permission::create(['name' => 'activities.show', 'description' => 'Ver una actividad especifica'])->syncRoles([$superAdmin, $admin, $member]);
+        Permission::create(['name' => 'activities.schedule.index', 'description' => 'Ver horario de actividades'])->syncRoles([$superAdmin, $admin, $member]);
+        Permission::create(['name' => 'activities.schedule.show', 'description' => 'Ver ficha horario de una actividad'])->syncRoles([$superAdmin, $admin, $member]);
   
     }
 }

@@ -10,12 +10,12 @@ use App\Services\ActivityScheduleListService;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
-class ActivityController extends Controller implements HasMiddleware
+class ActivityScheduleController extends Controller implements HasMiddleware
 {
     public static function middleware(): array
     {
         return [
-            new Middleware('permission:activities.index', only: ['index']),
+            new Middleware('permission:activities.schedule.index', only: ['index']),
         ];
     }
 
@@ -23,12 +23,12 @@ class ActivityController extends Controller implements HasMiddleware
     {
         [$schedules, $allTimes] = $scheduleService();
 
-        return view('activities.index', compact('schedules', 'allTimes'));
+        return view('activitiesSchedule.index', compact('schedules', 'allTimes'));
     }
 
     public function show(Activity $activity)
     {
-        return view('activities.show', compact('activity'));
+        return view('activitiesSchedule.show', compact('activity'));
     }
 
 }
