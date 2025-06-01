@@ -2,8 +2,8 @@
     <!-- Users list -->
     <div class="w-full px-4">
         <hr class="border-t border-gray-300 my-2 dark:border-gray-700">
-        <h2 class= "sm:text-start text-2xl dark:text-gray-100">
-            Listado de usuarios ({{ $usersCount }})
+        <h2 class= "text-center sm:text-start text-2xl dark:text-gray-100">
+            Usuarios totales ({{ $usersCount }})
         </h2>
     </div>
     {{-- filter and search --}}

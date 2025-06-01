@@ -46,13 +46,13 @@
                     @foreach ($roles as $role)
                         <tr class="dark:bg-gray-800 dark:border-gray-700 block md:table-row dark:hover:bg-gray-100">
                             <td
-                                class="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 block md:table-cell text-left sm:text-center">
+                                class="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 block md:table-cell text-left md:text-center">
                                 <span class="md:hidden font-bold dark:text-red-300">
                                     ID:
                                 </span> {{ $role->id }}
                             </td>
                             <td
-                                class="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 block md:table-cell text-left sm:text-center">
+                                class="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 block md:table-cell text-left md:text-center">
                                 <span class="md:hidden font-bold dark:text-red-300">
                                     Role:
                                 </span> {{ $role->name }}

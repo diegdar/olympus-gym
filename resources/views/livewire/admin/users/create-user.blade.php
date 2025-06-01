@@ -1,7 +1,7 @@
-<div wire:poll.5s class="container mx-auto dark:bg-gray-800 dark:text-gray-100 p-0">
+<div wire:poll.5s class="w-full mx-auto dark:bg-gray-800 dark:text-gray-100 p-0">
     <div class="flex flex-wrap">
         <!-- title -->
-        <h1 class="mt-6 text-center w-full my-4 text-2nd text-3xl dark:text-gray-100">Usuarios </h1>
+        <h1 class="text-center w-full text-2nd text-3xl dark:text-gray-100">Usuarios </h1>
         <hr class="w-full border-t border-gray-300 my-2 dark:border-gray-700">
         <div class="w-full flex flex-col">
             <!-- create user -->
