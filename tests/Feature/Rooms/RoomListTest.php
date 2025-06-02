@@ -40,8 +40,9 @@ class RoomListTest extends TestCase
             $response = $this->getRoomsListAs($authorizedRole);
 
             $response->assertStatus(200)
-                        ->assertSee('nombre')
-                        ->assertSee('descripción');
+                        ->assertSee('Id')
+                        ->assertSee('Sala')
+                        ->assertSee('Descripción');
             foreach ($rooms as $room) {
                 $response->assertSee($room->name);
             }
@@ -54,8 +55,9 @@ class RoomListTest extends TestCase
             $response = $this->getRoomsListAs($unauthorizedRole);
 
             $response->assertStatus(403)
-                        ->assertDontSee('nombre')
-                        ->assertDontSee('descripción');
+                        ->assertDontSee('Id')
+                        ->assertDontSee('Sala')
+                        ->assertDontSee('Descripción');
         }
     }
 
