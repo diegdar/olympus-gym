@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\ActivityScheduleController;
+use App\Http\Controllers\RoomController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -28,7 +29,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/password', Password::class)->name('settings.password');
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 
-    // Activities
+    // Rooms
+    Route::resource('rooms', RoomController::class)->names('rooms');
+
+    // ActivitiesSchedule
     Route::resource('activities/schedule', ActivityScheduleController::class)
     ->names('activities.schedule');    
 });
