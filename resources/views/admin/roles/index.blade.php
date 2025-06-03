@@ -17,7 +17,7 @@
             <div class="text-right mb-4 mt-3">
                 <a href="{{ route('admin.roles.create') }}"
                     class="bg-yellow-500 hover:bg-yellow-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline dark:bg-yellow-600 dark:hover:bg-yellow-700 cursor-pointer">
-                    Nuevo role
+                    Crear role
                 </a>
             </div>
         @endcan

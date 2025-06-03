@@ -80,13 +80,13 @@ class RoleListTest extends TestCase
         // super-admin has create permission
         $this->getIndexAs('super-admin')
              ->assertStatus(200)
-             ->assertSee('Nuevo role')
+             ->assertSee('Crear role')
              ->assertSee(route(self::ROUTE_CREATE_ROLE_VIEW));
 
         // admin does not
         $this->getIndexAs('admin')
              ->assertStatus(200)
-             ->assertDontSee('Nuevo role')
+             ->assertDontSee('Crear role')
              ->assertDontSee(route(self::ROUTE_CREATE_ROLE_VIEW));
     }
     
