@@ -15,6 +15,7 @@ class RoomController extends Controller implements HasMiddleware
     {
         return [
             new Middleware('permission:rooms.index', only: ['index']),
+            new Middleware('permission:rooms.create', only: ['create', 'store']),
         ];
     }
         
@@ -36,7 +37,7 @@ class RoomController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        //
+        return view('rooms.create');
     }
 
     /**
@@ -44,7 +45,14 @@ class RoomController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'min:3', 'max:50', 'unique:rooms,name'],
+            'description' => ['nullable', 'min:10', 'string', 'max:1000'],
+        ]);
+
+        Room::create($request->all());
+
+        return redirect()->route('rooms.index')->with('msg', 'Sala creada satisfactoriamente.');
     }
 
     /**

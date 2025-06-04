@@ -20,6 +20,9 @@ class RoleSeeder extends Seeder
         $member = Role::firstOrCreate(['name' => 'member']);
         $guest = Role::firstOrCreate(['name' => 'guest']);
 
+        // Operational management
+        Permission::create(['name' => 'admin.panel', 'description' => 'Ver el panel administrativo'])->syncRoles([$superAdmin, $admin]);
+
         // user CRUD
         Permission::create(['name' => 'admin.users.index', 'description' => 'Ver listado de usuarios'])->syncRoles([$superAdmin, $admin]);
         Permission::create(['name' => 'admin.users.create', 'description' => 'Crear un usuario'])->syncRoles([$superAdmin]);
@@ -33,7 +36,8 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'admin.roles.destroy', 'description' => 'Eliminar un role'])->syncRoles([$superAdmin]);
 
         // room CRUD
-        Permission::create(['name' => 'rooms.index', 'description' => 'Ver listado de salas'])->syncRoles([$superAdmin, $admin, $member]);
+        Permission::create(['name' => 'rooms.index', 'description' => 'Ver listado de salas'])->syncRoles([$superAdmin, $admin]);
+        Permission::create(['name' => 'rooms.create', 'description' => 'Crear una sala'])->syncRoles([$superAdmin, $admin]);
 
         // activitySchedule CRUD
         Permission::create(['name' => 'activities.schedule.index', 'description' => 'Ver horario de actividades'])->syncRoles([$superAdmin, $admin, $member]);
