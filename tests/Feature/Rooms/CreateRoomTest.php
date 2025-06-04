@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Rooms;
 
+use App\Models\Room;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Traits\RoleTestHelper;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -18,6 +19,8 @@ class CreateRoomTest extends TestCase
     protected array $unauthorizedRoles;
 
     protected const PERMISSION_NAME = 'rooms.create';
+
+    protected const ROUTE_ROOMS_INDEX = 'rooms.index';
 
     protected const ROUTE_CREATE_ROOM_VIEW = 'rooms.create';
     protected const ROUTE_STORE_ROOM = 'rooms.store';
@@ -46,7 +49,7 @@ class CreateRoomTest extends TestCase
                      ->assertSee('Nombre')
                      ->assertSee('Descripción');
         }
-    }    
+    }   
 
     public function test_unauthorized_user_cannot_view_create_room_form()
     {
@@ -65,6 +68,40 @@ class CreateRoomTest extends TestCase
         return $this->actingAsRole($roleName)
             ->from(route(self::ROUTE_CREATE_ROOM_VIEW))
             ->post(route(self::ROUTE_STORE_ROOM, $newData));
+    }    
+
+    public function test_authorized_user_can_create_a_room()
+    {
+        foreach ($this->authorizedRoles as $authorizedRole) {
+            $room = Room::factory()->raw();
+            $response = $this->CreateRoomAs($authorizedRole, $room);
+
+            $response->assertRedirect(route(self::ROUTE_ROOMS_INDEX))
+                     ->assertSessionHas('msg');
+
+            foreach ($room as $key => $value) {
+                $this->assertDatabaseHas('rooms', [
+                    $key => $value,
+                ]);
+            }
+        }
+    }
+
+    public function test_unauthorized_user_cannot_create_a_room()
+    {
+        foreach ($this->unauthorizedRoles as $unauthorizedRole) {
+            $room = Room::factory()->raw();
+            $response = $this->CreateRoomAs($unauthorizedRole, $room);
+
+            $response->assertStatus(403)
+                     ->assertSessionMissing('msg');
+
+            foreach ($room as $key => $value) {
+                $this->assertDatabaseMissing('rooms', [
+                    $key => $value,
+                ]);
+            }
+        }
     }
          
     #[DataProvider('invalidRoomDataProvider')]
