@@ -16,7 +16,8 @@ class RoomController extends Controller implements HasMiddleware
         return [
             new Middleware('permission:rooms.index', only: ['index']),
             new Middleware('permission:rooms.create', only: ['create', 'store']),
-        ];
+            new Middleware('permission:rooms.edit', only: ['edit', 'update']),
+        ];        
     }
         
     /**
@@ -56,27 +57,26 @@ class RoomController extends Controller implements HasMiddleware
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Room $room)
     {
-        //
+        return view('rooms.edit', compact('room'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Room $room)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'min:3', 'max:50', 'unique:rooms,name,' . $room->id],
+            'description' => ['nullable', 'min:10', 'string', 'max:1000'],
+        ]);
+
+        $room->update($request->all());
+
+        return redirect()->route('rooms.index')->with('msg', 'Sala actualizada satisfactoriamente.');
     }
 
     /**
