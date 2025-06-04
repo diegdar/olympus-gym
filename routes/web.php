@@ -30,7 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 
     // Rooms
-    Route::resource('rooms', RoomController::class)->names('rooms');
+    Route::resource('rooms', RoomController::class)->names('rooms')->except(['show']);
 
     // ActivitiesSchedule
     Route::resource('activities/schedule', ActivityScheduleController::class)

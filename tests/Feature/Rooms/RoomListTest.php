@@ -21,6 +21,8 @@ class RoomListTest extends TestCase
     protected const PERMISSION_CREATE_ROOM = 'rooms.create';
     protected const ROUTE_ROOMS_INDEX = 'rooms.index';
     protected const ROUTE_CREATE_ROOM_VIEW = 'rooms.create';
+    protected const ROUTE_STORE_ROOM = 'rooms.store';
+    protected const ROUTE_EDIT_ROOM_VIEW = 'rooms.edit';
 
     protected function setUp(): void
     {
@@ -75,7 +77,7 @@ class RoomListTest extends TestCase
             $response->assertStatus(403);
             $this->assertRoomTableHeadersNotVisible($response);
         }
-    }
+    }  
 
     public function test_authorized_user_can_see_create_room_button(): void
     {
@@ -95,6 +97,34 @@ class RoomListTest extends TestCase
             if ($response->status() === 200) {
                 $response->assertDontSeeText('Crear sala');
                 $response->assertDontSee(route(self::ROUTE_CREATE_ROOM_VIEW), false);
+            } else {
+                $response->assertStatus(403);
+            }
+        }
+    }
+
+    public function test_authorized_user_can_see_edit_room_button(): void
+    {
+        $room = Room::factory()->create();
+
+        foreach ($this->authRolesForRoomsList as $role) {
+            $response = $this->getRoomsListAs($role);
+            $response->assertStatus(200);
+            $response->assertSeeText('Editar');
+            $response->assertSee(route(self::ROUTE_EDIT_ROOM_VIEW, $room->id), false);
+        }
+    }
+
+    public function test_unauthorized_user_does_not_see_edit_room_button(): void
+    {
+        $room = Room::factory()->create();
+
+        foreach ($this->unauthRolesForRoomsList as $role) {
+            $response = $this->getRoomsListAs($role);
+
+            if ($response->status() === 200) {
+                $response->assertDontSeeText('Editar');
+                $response->assertDontSee(route(self::ROUTE_EDIT_ROOM_VIEW, $room->id), false);
             } else {
                 $response->assertStatus(403);
             }
