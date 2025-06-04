@@ -5,7 +5,6 @@
     <!-- form -->
     <form action="{{ route('rooms.store') }}" method="post" class="mt-4">
         @csrf
-        {{-- <section class="flex justify-center items-center flex-wrap sm:flex-nowrap "> --}}
         <section class="ml-3">
             <!-- submit boton -->
             <div class="flex-col text-center mb-5 mt-8">
