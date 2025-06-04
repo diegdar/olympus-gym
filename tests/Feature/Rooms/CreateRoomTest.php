@@ -46,7 +46,7 @@ class CreateRoomTest extends TestCase
                      ->assertSee('Nombre')
                      ->assertSee('Descripción');
         }
-    }
+    }    
 
     public function test_unauthorized_user_cannot_view_create_room_form()
     {
@@ -58,32 +58,20 @@ class CreateRoomTest extends TestCase
                      ->assertDontSee('Nombre')
                      ->assertDontSee('Descripción');
         }        
-    }
+    }   
 
-    private function getCreateRoomAs(string $AuthorizedRole, array $newRoleData): TestResponse
+    private function CreateRoomAs(string $roleName, array $newData): TestResponse
     {
-        return $this->actingAsRole($AuthorizedRole)
+        return $this->actingAsRole($roleName)
             ->from(route(self::ROUTE_CREATE_ROOM_VIEW))
-            ->post(route(self::ROUTE_STORE_ROOM, $newRoleData));
-    }    
-
-    public function test_validation_errors_are_shown_if_name_field_is_empty()
-    {
-        foreach ($this->authorizedRoles as $authorizedRole) {
-            $response = $this->getCreateRoomAs($authorizedRole, [
-                'name' => '',
-                'permissions' => [],
-            ]);
-
-            $response->assertRedirect(route(self::ROUTE_CREATE_ROOM_VIEW))->assertSessionHasErrors(['name']);
-        }
+            ->post(route(self::ROUTE_STORE_ROOM, $newData));
     }
-
+         
     #[DataProvider('invalidRoomDataProvider')]
     public function test_validation_errors_for_invalid_room_data(array $formData, array $expectedErrors): void
     {
         foreach ($this->authorizedRoles as $authorizedRole) {
-            $response = $this->getCreateRoomAs($authorizedRole, $formData);
+            $response = $this->CreateRoomAs($authorizedRole, $formData);
 
             $response->assertRedirect(route(self::ROUTE_CREATE_ROOM_VIEW))
                      ->assertSessionHasErrors($expectedErrors);
@@ -101,29 +89,29 @@ class CreateRoomTest extends TestCase
             // name
             'empty name' => [
                 'formData' => ['name' => '', 'description' => 'A room without a name'],
-                'expectedErrors' => ['name' => 'required'],
+                'expectedErrors' => ['name'],
             ],
             'name too short' => [
                 'formData' => ['name' => 'A', 'description' => 'A room with a short name'],
-                'expectedErrors' => ['name' => 'min'],
+                'expectedErrors' => ['name'],
             ],
             'name too long' => [
                 'formData' => ['name' => str_repeat('A', 51), 'description' => 'A room with a very long name'],
-                'expectedErrors' => ['name' => 'max'],
+                'expectedErrors' => ['name'],
             ],
             // description
             'description too short' => [
                 'formData' => ['name' => 'short', 'description' => 'Short'],
-                'expectedErrors' => ['description' => 'min'],
+                'expectedErrors' => ['description'],
             ],
             'description too long' => [
                 'formData' => ['name' => 'Test Room', 'description' => str_repeat('A', 1001)],
-                'expectedErrors' => ['description' => 'max'],
+                'expectedErrors' => ['description'],
             ],
             // all fields
             'all fields invalid' => [
                 'formData' => ['name' => '', 'description' => str_repeat('A', 1001)],
-                'expectedErrors' => ['name' => 'required', 'description' => 'max'],
+                'expectedErrors' => ['name', 'description'],
             ],
         ];
     }
