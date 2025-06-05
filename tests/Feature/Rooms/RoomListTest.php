@@ -17,7 +17,7 @@ class RoomListTest extends TestCase
     protected array $unauthRolesForRoomsList;
     protected array $unauthRolesForCreateRoom;
 
-    protected const PERMISSION_ROOMS_LIST = 'rooms.index';
+    protected const PERMISSION_LIST_ROOMS = 'rooms.index';
     protected const PERMISSION_CREATE_ROOM = 'rooms.create';
     protected const ROUTE_ROOMS_INDEX = 'rooms.index';
     protected const ROUTE_CREATE_ROOM_VIEW = 'rooms.create';
@@ -29,8 +29,8 @@ class RoomListTest extends TestCase
         parent::setUp();
         $this->seed();
 
-        $this->authRolesForRoomsList = $this->getAuthorizedRoles(self::PERMISSION_ROOMS_LIST);
-        $this->unauthRolesForRoomsList = $this->getUnauthorizedRoles(self::PERMISSION_ROOMS_LIST);
+        $this->authRolesForRoomsList = $this->getAuthorizedRoles(self::PERMISSION_LIST_ROOMS);
+        $this->unauthRolesForRoomsList = $this->getUnauthorizedRoles(self::PERMISSION_LIST_ROOMS);
 
         $this->authRolesForCreateRoom = $this->getAuthorizedRoles(self::PERMISSION_CREATE_ROOM);
         $this->unauthRolesForCreateRoom = $this->getUnauthorizedRoles(self::PERMISSION_CREATE_ROOM);
