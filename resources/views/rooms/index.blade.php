@@ -71,7 +71,7 @@
                                 </p>
                             </td>
                             {{-- Action buttons --}}
-                            @can(['rooms.edit'])
+                            @can(['rooms.edit', 'rooms.destroy'])
                                 <td
                                     class="py-0 sm:py-3 border-b border-gray-200 bg-white text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300  md:table-cell">
                                     <span class="md:hidden font-bold dark:text-red-300">
@@ -83,6 +83,16 @@
                                             href="{{ route('rooms.edit', $room->id) }}">
                                             Editar
                                         </a>
+                                        <form method="POST" action="{{ route('rooms.destroy', $room->id) }}"
+                                            class="inline-block ">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="block w-[50px] text-white-600 bg-red-500 hover:bg-red-600 px-2 py-1 rounded cursor-pointer"
+                                                onclick="return confirm('¿Estás seguro de que deseas eliminar el usuario {{ $room->name }}?')">
+                                                Borrar
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             @endcan

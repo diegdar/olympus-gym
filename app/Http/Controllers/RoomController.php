@@ -17,6 +17,7 @@ class RoomController extends Controller implements HasMiddleware
             new Middleware('permission:rooms.index', only: ['index']),
             new Middleware('permission:rooms.create', only: ['create', 'store']),
             new Middleware('permission:rooms.edit', only: ['edit', 'update']),
+            new Middleware('permission:rooms.destroy', only: ['destroy']),
         ];        
     }
         
@@ -82,8 +83,10 @@ class RoomController extends Controller implements HasMiddleware
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Room $room)
     {
-        //
+        $room->delete();
+        return redirect()->route('rooms.index')->with('msg', 'Sala eliminada satisfactoriamente.');
     }
+
 }
