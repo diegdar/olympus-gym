@@ -40,6 +40,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'rooms.create', 'description' => 'Crear una sala'])->syncRoles([$superAdmin, $admin]);
         Permission::create(['name' => 'rooms.edit', 'description' => 'Editar una sala'])->syncRoles([$superAdmin, $admin]);
         Permission::create(['name' => 'rooms.store', 'description' => 'Guardar una sala'])->syncRoles([$superAdmin, $admin]);
+        Permission::create(['name' => 'rooms.destroy', 'description' => 'Eliminar una sala'])->syncRoles([$superAdmin, $admin]);
 
         // activitySchedule CRUD
         Permission::create(['name' => 'activities.schedule.index', 'description' => 'Ver horario de actividades'])->syncRoles([$superAdmin, $admin, $member]);
