@@ -19,7 +19,7 @@ class RoomFactory extends Factory
     {
         return [
             'name' => 'sala ' . fake()->unique()->word(),
-            'description' => fake()->sentence(),
+            'description' => fake()->sentence( 150),
         ];
     }
 }
