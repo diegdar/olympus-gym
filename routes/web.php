@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ActivityScheduleController;
 use App\Http\Controllers\RoomController;
 use App\Livewire\Settings\Appearance;
@@ -30,7 +31,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 
     // Rooms
-    Route::resource('rooms', RoomController::class)->names('rooms')->except(['show']);
+    Route::resource('rooms', RoomController::class)->names('rooms');
+
+    // Activities
+    Route::resource('activities', ActivityController::class)->names('activities');
 
     // ActivitiesSchedule
     Route::resource('activities/schedule', ActivityScheduleController::class)
