@@ -1,6 +1,6 @@
 <x-layouts.app>
     <div class="relative transform-none">
-        <x-slot name="title">Listar salas</x-slot>
+        <x-slot name="title">Lista salas</x-slot>
         <h1 class="mb-3">Lista de salas</h1>
         {{-- Mensaje de alerta --}}
         @if (session('msg'))
@@ -34,10 +34,6 @@
                             class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-lg font-bold uppercase dark:bg-gray-900 dark:border-gray-700 dark:text-red-300">
                             Sala
                         </th>
-                        <th
-                            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-lg font-bold uppercase dark:bg-gray-900 dark:border-gray-700 dark:text-red-300">
-                            Descripción
-                        </th>
                         @can(['rooms.edit'])
                             <th
                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-lg font-bold uppercase dark:bg-gray-900 dark:border-gray-700 dark:text-red-300 text-center">
@@ -61,28 +57,29 @@
                                     Sala:
                                 </span> {{ $room->name }}
                             </td>
-                            <td
-                                class="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 block md:table-cell text-left sm:text-center">
-                                <span class="md:hidden font-bold dark:text-red-300">
-                                    Descripción:
-                                </span>
-                                <p class="pl-3">
-                                    {{ $room->description }}
-                                </p>
-                            </td>
                             {{-- Action buttons --}}
-                            @can(['rooms.edit', 'rooms.destroy'])
-                                <td
-                                    class="py-0 sm:py-3 border-b border-gray-200 bg-white text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300  md:table-cell">
-                                    <span class="md:hidden font-bold dark:text-red-300">
-                                        Acción:
-                                    </span>
-                                    <div class="flex flex-row justify-center items-center gap-4">
+                            <td
+                                class="py-0 sm:py-3 border-b border-gray-200 bg-white text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300  md:table-cell">
+                                <span class="md:hidden font-bold dark:text-red-300">
+                                    Acción:
+                                </span>
+                                <div class="flex flex-row justify-center items-center gap-4">
+                                    @can('rooms.show')
+                                        <a class=" text-center block w-[50px] text-white-600 
+                                    bg-yellow-500 dark:hover:bg-yellow-700 px-2 py-1 rounded dark:bg-yellow-600 cursor-pointer"
+                                            href="{{ route('rooms.show', $room->id) }}">
+                                            Ver
+                                        </a>
+                                    @endcan
+                                    @can('rooms.edit')
                                         <a class="block w-[50px] text-white-600 
                                     bg-blue-500 dark:hover:bg-blue-700 px-2 py-1 rounded dark:bg-blue-600 cursor-pointer"
                                             href="{{ route('rooms.edit', $room->id) }}">
                                             Editar
                                         </a>
+                                    @endcan
+                                    @can('rooms.destroy')
+                                        {{-- Delete button --}}
                                         <form method="POST" action="{{ route('rooms.destroy', $room->id) }}"
                                             class="inline-block ">
                                             @csrf
@@ -93,9 +90,9 @@
                                                 Borrar
                                             </button>
                                         </form>
-                                    </div>
-                                </td>
-                            @endcan
+                                    @endcan
+                                </div>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
