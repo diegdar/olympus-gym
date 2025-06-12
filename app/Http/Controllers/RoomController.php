@@ -15,6 +15,7 @@ class RoomController extends Controller implements HasMiddleware
     {
         return [
             new Middleware('permission:rooms.index', only: ['index']),
+            new Middleware('permission:rooms.show', only: ['show']),
             new Middleware('permission:rooms.create', only: ['create', 'store']),
             new Middleware('permission:rooms.edit', only: ['edit', 'update']),
             new Middleware('permission:rooms.destroy', only: ['destroy']),
@@ -35,6 +36,14 @@ class RoomController extends Controller implements HasMiddleware
     }
 
     /**
+     * Display the specified resource.
+     */
+    public function show(Room $room)
+    {
+        return view('rooms.show', compact('room'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create()
@@ -49,7 +58,7 @@ class RoomController extends Controller implements HasMiddleware
     {
         $request->validate([
             'name' => ['required', 'string', 'min:3', 'max:50', 'unique:rooms,name'],
-            'description' => ['nullable', 'min:10', 'string', 'max:1000'],
+            'description' => ['nullable', 'min:10', 'string', 'max:2000'],
         ]);
 
         Room::create($request->all());
@@ -72,7 +81,7 @@ class RoomController extends Controller implements HasMiddleware
     {
         $request->validate([
             'name' => ['required', 'string', 'min:3', 'max:50', 'unique:rooms,name,' . $room->id],
-            'description' => ['nullable', 'min:10', 'string', 'max:1000'],
+            'description' => ['nullable', 'min:10', 'string', 'max:2000'],
         ]);
 
         $room->update($request->all());
