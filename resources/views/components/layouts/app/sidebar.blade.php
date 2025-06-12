@@ -51,6 +51,13 @@
                             {{ __('Salas') }}
                         </flux:navlist.item>
                     @endcan
+                    {{-- Activities --}}
+                    @can('activities.index')
+                        <flux:navlist.item icon="list-bullet" :href="route('activities.index')"
+                            :current="request()->routeIs('activities.index')" wire:navigate>
+                            {{ __('Actividades') }}
+                        </flux:navlist.item>
+                    @endcan
                 </flux:navlist.group>
             </flux:navlist>
         @endcan
