@@ -36,11 +36,20 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'admin.roles.destroy', 'description' => 'Eliminar un role'])->syncRoles([$superAdmin]);
 
         // room CRUD
-        Permission::create(['name' => 'rooms.index', 'description' => 'Ver listado de salas'])->syncRoles([$superAdmin, $admin]);
+        Permission::create(['name' => 'rooms.index', 'description' => 'Ver listado de salas'])->syncRoles([$superAdmin, $admin, $member]);
+        permission::create(['name' => 'rooms.show', 'description' => 'Ver ficha de una sala'])->syncRoles([$superAdmin, $admin, $member]);
         Permission::create(['name' => 'rooms.create', 'description' => 'Crear una sala'])->syncRoles([$superAdmin, $admin]);
         Permission::create(['name' => 'rooms.edit', 'description' => 'Editar una sala'])->syncRoles([$superAdmin, $admin]);
         Permission::create(['name' => 'rooms.store', 'description' => 'Guardar una sala'])->syncRoles([$superAdmin, $admin]);
         Permission::create(['name' => 'rooms.destroy', 'description' => 'Eliminar una sala'])->syncRoles([$superAdmin, $admin]);
+
+        // activity CRUD
+        Permission::create(['name' => 'activities.index', 'description' => 'Ver listado de actividades'])->syncRoles([$superAdmin, $admin, $member]);
+        Permission::create(['name' => 'activities.show', 'description' => 'Ver ficha de una actividad'])->syncRoles([$superAdmin, $admin, $member]);
+        Permission::create(['name' => 'activities.create', 'description' => 'Crear una actividad'])->syncRoles([$superAdmin, $admin]);
+        Permission::create(['name' => 'activities.edit', 'description' => 'Editar una actividad'])->syncRoles([$superAdmin, $admin]);
+        Permission::create(['name' => 'activities.store', 'description' => 'Guardar una actividad'])->syncRoles([$superAdmin, $admin]);
+        Permission::create(['name' => 'activities.destroy', 'description' => 'Eliminar una actividad'])->syncRoles([$superAdmin, $admin]);
 
         // activitySchedule CRUD
         Permission::create(['name' => 'activities.schedule.index', 'description' => 'Ver horario de actividades'])->syncRoles([$superAdmin, $admin, $member]);

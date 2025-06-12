@@ -20,7 +20,7 @@ class ActivityFactory extends Factory
         return [
             'name' => fake()->unique()->word(),
             'description' => fake()->sentence(),
-            'duration' => fake()->ramdomElement(['30', '45', '60', '90']),
+            'duration' => fake()->randomElement(['30', '45', '60', '90']),
         ];
     }
 }
