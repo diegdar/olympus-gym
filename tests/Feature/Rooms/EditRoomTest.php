@@ -136,12 +136,12 @@ class EditRoomTest extends TestCase
                 'expectedErrors' => ['description'],
             ],
             'description too long' => [
-                'invalidData' => ['name' => 'Test Room', 'description' => str_repeat('A', 1001)],
+                'invalidData' => ['name' => 'Test Room', 'description' => str_repeat('A', 2001)],
                 'expectedErrors' => ['description'],
             ],
             // all fields
             'all fields invalid' => [
-                'invalidData' => ['name' => '', 'description' => str_repeat('A', 1001)],
+                'invalidData' => ['name' => '', 'description' => str_repeat('A', 2001)],
                 'expectedErrors' => ['name', 'description'],
             ],
         ];

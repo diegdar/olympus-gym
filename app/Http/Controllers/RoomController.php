@@ -80,7 +80,7 @@ class RoomController extends Controller implements HasMiddleware
     public function update(Request $request, Room $room)
     {
         $request->validate([
-            'name' => ['required', 'string', 'min:3', 'max:50', 'unique:rooms,name,' . $room->id],
+            'name' => ['required', 'string', 'min:3', 'max:50', 'unique:rooms,name,'],
             'description' => ['nullable', 'min:10', 'string', 'max:2000'],
         ]);
 
