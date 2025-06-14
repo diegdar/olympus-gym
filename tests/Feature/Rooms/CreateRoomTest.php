@@ -5,20 +5,18 @@ namespace Tests\Feature\Rooms;
 
 use App\Models\Room;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Traits\RoleTestHelper;
+use Tests\Traits\TestHelper;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
+use Database\Seeders\RoleSeeder;
 
 class CreateRoomTest extends TestCase
 {
-    use RefreshDatabase, RoleTestHelper;
+    use RefreshDatabase, TestHelper;
 
-    protected array $authorizedRoles;
-
-    protected array $unauthorizedRoles;
-
-    protected const PERMISSION_NAME = 'rooms.create';
+    protected const PERMISSION_CREATE_ROOM = 'rooms.create';
+    protected const PERMISSION_STORE_ROOM = 'rooms.store';
 
     protected const ROUTE_ROOMS_INDEX = 'rooms.index';
 
@@ -28,10 +26,7 @@ class CreateRoomTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
-        $this->authorizedRoles = $this->getAuthorizedRoles(self::PERMISSION_NAME);
-
-        $this->unauthorizedRoles = $this->getUnauthorizedRoles(self::PERMISSION_NAME);              
+        $this->seed(RoleSeeder::class);            
     }
     
     private function getCreateRoomFormAs(string $roleName): TestResponse
@@ -41,7 +36,11 @@ class CreateRoomTest extends TestCase
 
     public function test_authorized_user_can_view_create_room_form()
     {
-        foreach ($this->authorizedRoles as $authorizedRole) {
+        foreach (
+                $this->getAuthorizedRoles                (self::PERMISSION_CREATE_ROOM)       
+                as $authorizedRole
+            ) 
+        {            
             $response = $this->getCreateRoomFormAs($authorizedRole);
 
             $response->assertStatus(200)
@@ -53,7 +52,9 @@ class CreateRoomTest extends TestCase
 
     public function test_unauthorized_user_cannot_view_create_room_form()
     {
-        foreach ($this->unauthorizedRoles as $unauthorizedRole) {
+        foreach (
+            $this->getUnauthorizedRoles(self::PERMISSION_CREATE_ROOM) as $unauthorizedRole
+        ) {
             $response = $this->getCreateRoomFormAs($unauthorizedRole);
 
             $response->assertStatus(403)
@@ -72,7 +73,9 @@ class CreateRoomTest extends TestCase
 
     public function test_authorized_user_can_create_a_room()
     {
-        foreach ($this->authorizedRoles as $authorizedRole) {
+        foreach (
+            $this->getAuthorizedRoles(self::PERMISSION_STORE_ROOM) as $authorizedRole
+        ) {
             $room = Room::factory()->raw();
             $response = $this->CreateRoomAs($authorizedRole, $room);
 
@@ -89,7 +92,9 @@ class CreateRoomTest extends TestCase
 
     public function test_unauthorized_user_cannot_create_a_room()
     {
-        foreach ($this->unauthorizedRoles as $unauthorizedRole) {
+        foreach (
+            $this->getUnauthorizedRoles(self::PERMISSION_STORE_ROOM) as $unauthorizedRole
+        ) {
             $room = Room::factory()->raw();
             $response = $this->CreateRoomAs($unauthorizedRole, $room);
 
@@ -105,18 +110,21 @@ class CreateRoomTest extends TestCase
     }
          
     #[DataProvider('invalidRoomDataProvider')]
-    public function test_validation_errors_for_invalid_room_data(array $formData, array $expectedErrors): void
+    public function test_validation_errors_for_invalid_room_data(array $invalidData, array $expectedErrors): void
     {
-        foreach ($this->authorizedRoles as $authorizedRole) {
-            $response = $this->CreateRoomAs($authorizedRole, $formData);
+        foreach (
+            $this->getAuthorizedRoles(self::PERMISSION_STORE_ROOM) as $authorizedRole
+        ) {
+            $response = $this->CreateRoomAs($authorizedRole, $invalidData);
 
             $response->assertRedirect(route(self::ROUTE_CREATE_ROOM_VIEW))
                      ->assertSessionHasErrors($expectedErrors);
 
-            $this->assertDatabaseMissing('rooms', [
-                'name' => $formData['name'] ?? '',
-                'description' => $formData['description'] ?? '',
-            ]);                     
+            foreach($invalidData as $key => $value) {
+                $this->assertDatabaseMissing('rooms', [
+                    $key => $value,
+                ]);
+            }                            
         }
     }
 
@@ -125,29 +133,29 @@ class CreateRoomTest extends TestCase
         return [
             // name
             'empty name' => [
-                'formData' => ['name' => '', 'description' => 'A room without a name'],
+                'invalidData' => ['name' => '', 'description' => 'A room without a name'],
                 'expectedErrors' => ['name'],
             ],
             'name too short' => [
-                'formData' => ['name' => 'A', 'description' => 'A room with a short name'],
+                'invalidData' => ['name' => 'A', 'description' => 'A room with a short name'],
                 'expectedErrors' => ['name'],
             ],
             'name too long' => [
-                'formData' => ['name' => str_repeat('A', 51), 'description' => 'A room with a very long name'],
+                'invalidData' => ['name' => str_repeat('A', 51), 'description' => 'A room with a very long name'],
                 'expectedErrors' => ['name'],
             ],
             // description
             'description too short' => [
-                'formData' => ['name' => 'short', 'description' => 'Short'],
+                'invalidData' => ['name' => 'short', 'description' => 'Short'],
                 'expectedErrors' => ['description'],
             ],
             'description too long' => [
-                'formData' => ['name' => 'Test Room', 'description' => str_repeat('A', 1001)],
+                'invalidData' => ['name' => 'Test Room', 'description' => str_repeat('A', 2001)],
                 'expectedErrors' => ['description'],
             ],
             // all fields
             'all fields invalid' => [
-                'formData' => ['name' => '', 'description' => str_repeat('A', 1001)],
+                'invalidData' => ['name' => '', 'description' => str_repeat('A', 2001)],
                 'expectedErrors' => ['name', 'description'],
             ],
         ];

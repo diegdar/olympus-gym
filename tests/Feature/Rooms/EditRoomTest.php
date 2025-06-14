@@ -5,7 +5,7 @@ namespace Tests\Feature\Rooms;
 
 use App\Models\Room;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Traits\RoleTestHelper;
+use Tests\Traits\TestHelper;
 use Tests\TestCase;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Testing\TestResponse;
@@ -13,13 +13,9 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 class EditRoomTest extends TestCase
 {
-    use RefreshDatabase, RoleTestHelper;
+    use RefreshDatabase, TestHelper;
 
-    protected array $authorizedRoles;
-
-    protected array $unauthorizedRoles;
-
-    protected const PERMISSION_NAME = 'rooms.edit';
+    protected const PERMISSION = 'rooms.edit';
     protected const ROUTE_EDIT_ROOM_VIEW = 'rooms.edit';
     protected const ROUTE_UPDATE_ROOM = 'rooms.update';
     protected const ROUTE_INDEX = 'rooms.index';
@@ -28,9 +24,6 @@ class EditRoomTest extends TestCase
     {
         parent::setUp();
         $this->seed(RoleSeeder::class);
-        $this->authorizedRoles = $this->getAuthorizedRoles(self::PERMISSION_NAME);
-
-        $this->unauthorizedRoles = $this->getUnauthorizedRoles(self::PERMISSION_NAME);
     }
 
     private function getEditRoomFormAs(string $roleName, Room $room): TestResponse
@@ -40,9 +33,12 @@ class EditRoomTest extends TestCase
     }    
 
     public function test_authorized_user_can_view_edit_room_form()
-    {
-        
-        foreach ($this->authorizedRoles as $authorizedRole) {
+    {        
+        foreach (
+                $this->getAuthorizedRoles                (self::PERMISSION)       
+                as $authorizedRole
+            ) 
+        {            
             $roomData = Room::factory()->raw();
             $roomToEdit = Room::create($roomData);
             $response = $this->getEditRoomFormAs($authorizedRole, $roomToEdit);
@@ -59,7 +55,9 @@ class EditRoomTest extends TestCase
 
     public function test_unauthorized_user_cannot_view_edit_room_form()
     {
-        foreach ($this->unauthorizedRoles as $unauthorizedRole) {
+        foreach (
+            $this->getUnauthorizedRoles(self::PERMISSION) as $unauthorizedRole
+        ) {            
             $roomToEdit = Room::factory()->create();
             $response = $this->getEditRoomFormAs($unauthorizedRole, $roomToEdit);
 
@@ -77,7 +75,11 @@ class EditRoomTest extends TestCase
     public function test_can_update_room_with_valid_data()
     {
         
-        foreach ($this->authorizedRoles as $authorizedRole) {
+        foreach (
+                $this->getAuthorizedRoles                (self::PERMISSION)       
+                as $authorizedRole
+            ) 
+        {             
             $roomToEdit = Room::factory()->create();
             $newRoomData = Room::factory()->raw();
             $response = $this->submitRoomToUpdate($authorizedRole, $roomToEdit, $newRoomData);
@@ -98,7 +100,11 @@ class EditRoomTest extends TestCase
     #[DataProvider('invalidRoomDataProvider')]
     public function test_validation_errors_are_shown_if_data_is_invalid(array $invalidData, array $expectedErrors): void
     {
-        foreach ($this->authorizedRoles as $authorizedRole) {
+        foreach (
+                $this->getAuthorizedRoles                (self::PERMISSION)       
+                as $authorizedRole
+            ) 
+        {             
             $roomToEdit = Room::factory()->create();
             $response = $this->submitRoomToUpdate($authorizedRole, $roomToEdit, $invalidData);
 

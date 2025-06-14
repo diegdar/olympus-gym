@@ -10,39 +10,34 @@ use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Testing\TestResponse;
-use Tests\Traits\RoleTestHelper;
+use Tests\Traits\TestHelper;
 
 class EditRoleTest extends TestCase
 {
-    use RefreshDatabase, RoleTestHelper;
+    use RefreshDatabase, TestHelper;
 
-    protected array $authorizedRoles;
-
-    protected array $unauthorizedRoles;
-
-    protected const PERMISSION_NAME = 'admin.roles.edit';
+    protected const PERMISSION = 'admin.roles.edit';
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed(RoleSeeder::class);
-        $this->authorizedRoles = $this->getAuthorizedRoles(self::PERMISSION_NAME);
-
-        $this->unauthorizedRoles = $this->getUnauthorizedRoles(self::PERMISSION_NAME);              
+        $this->seed(RoleSeeder::class);            
     }   
 
-    private function getEditRoleAs(string $roleName, Role $role): TestResponse
+    private function editRoleAs(string $roleName, int $roleId): TestResponse
     {
         $user = User::factory()->create()->assignRole($roleName);
-        return $this->actingAs($user)->get(route('admin.roles.edit', $role));
+        return $this->actingAs($user)->get(route('admin.roles.edit', $roleId));
     }
 
     public function test_authorized_user_can_view_edit_role_form()
     {
         $roleToEdit = Role::create(['name' => 'test-role']);
 
-        foreach ($this->authorizedRoles as $authorizedRole) {
-            $response = $this->getEditRoleAs($authorizedRole, $roleToEdit);
+        foreach (
+            $this->getAuthorizedRoles(self::PERMISSION) as $authorizedRole
+        ) {
+            $response = $this->editRoleAs($authorizedRole, $roleToEdit->id);
 
             $response->assertStatus(200)
                      ->assertSee('Editar role')
@@ -55,8 +50,11 @@ class EditRoleTest extends TestCase
     {
         $roleToEdit = Role::create(['name' => 'test-role']);
 
-        foreach ($this->unauthorizedRoles as $unauthorizedRole) {
-            $response = $this->getEditRoleAs($unauthorizedRole, $roleToEdit);
+        foreach (
+            $this->getUnauthorizedRoles(self::PERMISSION) 
+            as $unauthorizedRole
+        ) {
+            $response = $this->editRoleAs($unauthorizedRole, $roleToEdit->id);
 
             $response->assertStatus(403)
                      ->assertDontSee('Editar role')
@@ -76,7 +74,9 @@ class EditRoleTest extends TestCase
     {
         $roleToEdit = Role::create(['name' => '']);
 
-        foreach ($this->authorizedRoles as $authorizedRole) {
+        foreach (
+            $this->getAuthorizedRoles(self::PERMISSION) as $authorizedRole
+        ) {
             $response = $this->submitRoleToUpdate($authorizedRole, $roleToEdit, [
                 'name' => '',
                 'permissions' => [],
@@ -90,7 +90,9 @@ class EditRoleTest extends TestCase
     {
         $role = Role::create(['name' => 'test-role']);
 
-        foreach ($this->authorizedRoles as $authorizedRole) {
+        foreach (
+            $this->getAuthorizedRoles(self::PERMISSION) as $authorizedRole
+        ) {
             $response = $this->submitRoleToUpdate($authorizedRole, $role, [
                 'name' => 'new-name',
                 'permissions' => [],
@@ -107,7 +109,9 @@ class EditRoleTest extends TestCase
         $p1 = Permission::create(['name' => 'perm-1', 'description' => 'Permiso 1']);
         $p2 = Permission::create(['name' => 'perm-2', 'description' => 'Permiso 2']);
 
-        foreach ($this->authorizedRoles as $authorizedRole) {
+        foreach (
+            $this->getAuthorizedRoles(self::PERMISSION) as $authorizedRole
+        ) {
             $response = $this->submitRoleToUpdate($authorizedRole, $role, [
                 'name' => 'new-name',
                 'permissions' => [$p1->id, $p2->id],
@@ -131,7 +135,10 @@ class EditRoleTest extends TestCase
         $p1 = Permission::create(['name' => 'perm-1', 'description' => 'Permiso 1']);
         $p2 = Permission::create(['name' => 'perm-2', 'description' => 'Permiso 2']);
 
-        foreach ($this->unauthorizedRoles as $unauthorizedRole) {
+        foreach (
+            $this->getUnauthorizedRoles(self::PERMISSION) 
+            as $unauthorizedRole
+        ) {
             $response = $this->submitRoleToUpdate($unauthorizedRole, $role, [
                 'name' => 'new-name',
                 'permissions' => [$p1->id, $p2->id],

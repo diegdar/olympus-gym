@@ -6,17 +6,15 @@ namespace Tests\Feature\Admin\Roles;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Tests\Traits\RoleTestHelper;
+use Tests\Traits\TestHelper;
 use Illuminate\Testing\TestResponse;
 use Spatie\Permission\Models\Role;
 
 class DestroyRoleTest extends TestCase
 {
-    use RefreshDatabase, RoleTestHelper;
+    use RefreshDatabase, TestHelper;
 
-    protected array $authRolesForDestroyRole;    
-    protected array $unauthRolesForDestroyRole;
-    protected const PERMISSION_DESTROY_ROLE = 'admin.roles.destroy';
+    protected const PERMISSION = 'admin.roles.destroy';
     // Routes
     protected const ROUTE_ROLE_INDEX = 'admin.roles.index';
     protected const ROUTE_DESTROY_ROLE = 'admin.roles.destroy';
@@ -25,8 +23,6 @@ class DestroyRoleTest extends TestCase
     {
         parent::setUp();
         $this->seed(RoleSeeder::class);
-        $this->authRolesForDestroyRole = $this->getAuthorizedRoles(self::PERMISSION_DESTROY_ROLE);
-        $this->unauthRolesForDestroyRole = $this->getUnauthorizedRoles(self::PERMISSION_DESTROY_ROLE);
     }
 
     private function destroyRoleAs(string $roleName, int $roleIdToDestroy): TestResponse
@@ -37,7 +33,10 @@ class DestroyRoleTest extends TestCase
     public function test_can_destroy_a_role_as_authorized_user()
     {
         
-        foreach ($this->authRolesForDestroyRole as $authorizedRole) {
+        foreach (
+            $this->getAuthorizedRoles(self::PERMISSION) 
+            as $authorizedRole
+        ) {
             $roleToDestroy = Role::create(['name' => 'writer']);
             $response = $this->destroyRoleAs($authorizedRole, $roleToDestroy->id);
             $response->assertStatus(302)
@@ -51,7 +50,10 @@ class DestroyRoleTest extends TestCase
     {
         
         $roleToDestroy = Role::create(['name' => 'writer']);
-        foreach ($this->unauthRolesForDestroyRole as $unauthorizedRole) {
+        foreach (
+            $this->getUnauthorizedRoles(self::PERMISSION) 
+            as $unauthorizedRole
+        ) {
             $response = $this->destroyRoleAs($unauthorizedRole, $roleToDestroy->id);
             $response->assertStatus(403);
 

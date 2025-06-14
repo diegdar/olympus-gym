@@ -6,26 +6,26 @@ namespace Tests\Feature\ActivitiesSchedule;
 use App\Models\Activity;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Tests\Traits\RoleTestHelper;
+use Tests\Traits\TestHelper;
 
 class ActivitiesScheduleListTest extends TestCase
 {
-    use RefreshDatabase, RoleTestHelper;
+    use RefreshDatabase, TestHelper;
 
     protected array $authorizedRoles;
 
     protected array $unauthorizedRoles;
 
-    protected const PERMISSION_NAME = 'activities.schedule.index';
+    protected const PERMISSION = 'activities.schedule.index';
     protected const ROUTE = 'activities.schedule.index';
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->seed();
-        $this->authorizedRoles = $this->getAuthorizedRoles(self::PERMISSION_NAME);
+        $this->authorizedRoles = $this->getAuthorizedRoles(self::PERMISSION);
 
-        $this->unauthorizedRoles = $this->getUnauthorizedRoles(self::PERMISSION_NAME);              
+        $this->unauthorizedRoles = $this->getUnauthorizedRoles(self::PERMISSION);              
     }
 
     private function getActivitiesScheduleAs(?string $roleName = null)

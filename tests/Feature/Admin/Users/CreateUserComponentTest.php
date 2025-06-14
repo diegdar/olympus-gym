@@ -11,12 +11,12 @@ use Livewire\Livewire;
 use Spatie\Permission\Models\Role;
 use Illuminate\Database\Eloquent\Collection;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\Traits\RoleTestHelper;
+use Tests\Traits\TestHelper;
 use Tests\TestCase;
 
 class CreateUserComponentTest extends TestCase
 {
-    use RefreshDatabase, RoleTestHelper;
+    use RefreshDatabase, TestHelper;
 
     protected array $authRolesToCreateUser;
     protected array $unauthRolesToCreateUser;

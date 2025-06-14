@@ -3,24 +3,19 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Roles;
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Database\Seeders\RoleSeeder;
 use Tests\TestCase;
 use Illuminate\Testing\TestResponse;
-use Tests\Traits\RoleTestHelper;
+use Tests\Traits\TestHelper;
 
 class CreateRoleTest extends TestCase
 {
-    use RefreshDatabase, RoleTestHelper;
+    use RefreshDatabase, TestHelper;
 
-    protected array $authorizedRoles;
-
-    protected array $unauthorizedRoles;
-
-    protected const PERMISSION_NAME = 'admin.roles.create';
+    protected const PERMISSION = 'admin.roles.create';
 
     protected const ROUTE_CREATE_ROLE_VIEW = 'admin.roles.create';
     protected const ROUTE_STORE_ROLE = 'admin.roles.store';
@@ -28,10 +23,7 @@ class CreateRoleTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed(RoleSeeder::class);
-        $this->authorizedRoles = $this->getAuthorizedRoles(self::PERMISSION_NAME);
-
-        $this->unauthorizedRoles = $this->getUnauthorizedRoles(self::PERMISSION_NAME);              
+        $this->seed(RoleSeeder::class);             
     }
     
     private function getCreateRoleFormAs(string $roleName): TestResponse
@@ -41,7 +33,9 @@ class CreateRoleTest extends TestCase
 
     public function test_authorized_user_can_view_create_role_form()
     {
-        foreach ($this->authorizedRoles as $authorizedRole) {
+        foreach (
+            $this->getAuthorizedRoles(self::PERMISSION) as $authorizedRole
+        ) {
             $response = $this->getCreateRoleFormAs($authorizedRole);
 
             $response->assertStatus(200)
@@ -52,7 +46,9 @@ class CreateRoleTest extends TestCase
 
     public function test_unauthorized_user_cannot_view_create_role_form()
     {
-        foreach ($this->unauthorizedRoles as $unauthorizedRole) {
+        foreach (
+            $this->getUnauthorizedRoles(self::PERMISSION) as $unauthorizedRole
+        ) {
             $response = $this->getCreateRoleFormAs($unauthorizedRole);
 
             $response->assertStatus(403)
@@ -61,7 +57,7 @@ class CreateRoleTest extends TestCase
         }        
     }
 
-    private function getCreateRoleAs(string $AuthorizedRole, array $newRoleData): TestResponse
+    private function createRoleAs(string $AuthorizedRole, array $newRoleData): TestResponse
     {
         return $this->actingAsRole($AuthorizedRole)
             ->from(route(self::ROUTE_CREATE_ROLE_VIEW))
@@ -70,8 +66,10 @@ class CreateRoleTest extends TestCase
 
     public function test_validation_errors_are_shown_if_name_field_is_empty()
     {
-        foreach ($this->authorizedRoles as $authorizedRole) {
-            $response = $this->getCreateRoleAs($authorizedRole, [
+        foreach (
+            $this->getAuthorizedRoles(self::PERMISSION) as $authorizedRole
+        ) {
+            $response = $this->createRoleAs($authorizedRole, [
                 'name' => '',
                 'permissions' => [],
             ]);
@@ -83,8 +81,10 @@ class CreateRoleTest extends TestCase
     public function test_validation_errors_are_shown_if_permissions_fields_are_empty()
     {
         $newRoleNumber = 1;
-        foreach ($this->authorizedRoles as $authorizedRole) {
-            $response = $this->getCreateRoleAs($authorizedRole, [
+        foreach (
+            $this->getAuthorizedRoles(self::PERMISSION) as $authorizedRole
+        ) {
+            $response = $this->createRoleAs($authorizedRole, [
                 'name' => 'role-name' . $newRoleNumber,
                 'permissions' => [],
             ]);
@@ -101,8 +101,10 @@ class CreateRoleTest extends TestCase
         $p2 = Permission::create(['name' => 'perm-2', 'description' => 'Permiso 2']);
 
         $newRoleNumber = 1;
-        foreach ($this->authorizedRoles as $authorizedRole) {
-            $response = $this->getCreateRoleAs($authorizedRole, [
+        foreach (
+            $this->getAuthorizedRoles(self::PERMISSION) as $authorizedRole
+        ) {
+            $response = $this->createRoleAs($authorizedRole, [
                 'name' => 'role-name' . $newRoleNumber,
                 'permissions' => [$p1->id, $p2->id],
             ]);
@@ -124,8 +126,10 @@ class CreateRoleTest extends TestCase
         $p2 = Permission::create(['name' => 'perm-2', 'description' => 'Permiso 2']);
 
         $newRoleNumber = 1;
-        foreach ($this->unauthorizedRoles as $unauthorizedRole) {
-            $response = $this->getCreateRoleAs($unauthorizedRole, [
+        foreach (
+            $this->getUnauthorizedRoles(self::PERMISSION) as $unauthorizedRole
+        ) {
+            $response = $this->createRoleAs($unauthorizedRole, [
                 'name' => 'role-name' . $newRoleNumber,
                 'permissions' => [$p1->id, $p2->id],
             ]);

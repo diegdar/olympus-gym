@@ -5,40 +5,38 @@ namespace Tests\Feature\Rooms;
 
 use App\Models\Room;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Traits\RoleTestHelper;
+use Tests\Traits\TestHelper;
 use Tests\TestCase;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Testing\TestResponse;
 
-
 class ShowRoomTest extends TestCase
 {
-    use RefreshDatabase, RoleTestHelper;
+    use RefreshDatabase, TestHelper;
 
-    protected array $authorizedRoles;
-
-    protected array $unauthorizedRoles;
-
-    protected const PERMISSION_NAME = 'rooms.show';
-    protected const ROUTE_EDIT_ROOM_VIEW = 'rooms.show';
+    protected const PERMISSION = 'rooms.show';
+    protected const ROUTE = 'rooms.show';
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
+        $this->seed(RoleSeeder::class);
     }
     
-    private function getShowRoomAs(string $roleName, Room $room): TestResponse
+    private function showRoomAs(string $roleName, int $roomId): TestResponse
     {
         return $this->actingAsRole($roleName)
-                    ->get(route(self::ROUTE_EDIT_ROOM_VIEW, $room));
+                    ->get(route(self::ROUTE, $roomId)
+                );
     }
-    public function test_authorized_user_can_view_show_room()
+    public function test_authorized_user_can_see_a_specific_room()
     {
-        foreach ($this->getAuthorizedRoles(self::PERMISSION_NAME) as $authorizedRole) {
-            $roomData = Room::factory()->raw();
-            $roomToShow = Room::create($roomData);
-            $response = $this->getShowRoomAs($authorizedRole, $roomToShow);
+        foreach (
+            $this->getAuthorizedRoles(self::PERMISSION) 
+            as $authorizedRole
+        ) {
+            $roomToShow = Room::factory()->create();
+            $response = $this->showRoomAs($authorizedRole, $roomToShow->id);
 
             $response->assertStatus(200)
                      ->assertSee($roomToShow->name)
@@ -46,11 +44,14 @@ class ShowRoomTest extends TestCase
         }
     }
 
-    public function test_unauthorized_user_cannot_view_show_room()
+    public function test_unauthorized_user_cannot_see_a_specific_room()
     {
-        foreach ($this->getUnauthorizedRoles(self::PERMISSION_NAME) as $unauthorizedRole) {
+        foreach (
+            $this->getUnauthorizedRoles(self::PERMISSION) 
+            as $unauthorizedRole
+        ) {
             $roomToShow = Room::factory()->create();
-            $response = $this->getShowRoomAs($unauthorizedRole, $roomToShow);
+            $response = $this->showRoomAs($unauthorizedRole, $roomToShow->id);
 
             $response->assertStatus(403)
                      ->assertDontSee($roomToShow->name)

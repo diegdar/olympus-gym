@@ -5,17 +5,16 @@ namespace Tests\Feature\Rooms;
 
 use App\Models\Room;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Traits\RoleTestHelper;
+use Tests\Traits\TestHelper;
 use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
+use Database\Seeders\RoleSeeder;
 
 class DestroyRoomTest extends TestCase
 {
-    use RefreshDatabase, RoleTestHelper;
+    use RefreshDatabase, TestHelper;
 
-    protected array $authRolesForDestroyRoom;    
-    protected array $unauthRolesForDestroyRoom;
-    protected const PERMISSION_DESTROY_ROOM = 'rooms.destroy';
+    protected const PERMISSION = 'rooms.destroy';
     // Routes
     protected const ROUTE_ROOM_INDEX = 'rooms.index';
     protected const ROUTE_DESTROY_ROOM = 'rooms.destroy';
@@ -23,9 +22,7 @@ class DestroyRoomTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
-        $this->authRolesForDestroyRoom = $this->getAuthorizedRoles(self::PERMISSION_DESTROY_ROOM);
-        $this->unauthRolesForDestroyRoom = $this->getUnauthorizedRoles(self::PERMISSION_DESTROY_ROOM);
+        $this->seed(RoleSeeder::class);
     }
 
     private function destroyRoomAs(string $roleName, int $roomId): TestResponse
@@ -35,7 +32,11 @@ class DestroyRoomTest extends TestCase
 
     public function test_can_destroy_room_as_authorized_user()
     {        
-        foreach ($this->authRolesForDestroyRoom as $authorizedRole) {
+        foreach (
+                $this->getAuthorizedRoles                (self::PERMISSION)       
+                as $authorizedRole
+            ) 
+        { 
             $roomToDestroy = Room::factory()->create();
             $response = $this->destroyRoomAs($authorizedRole, $roomToDestroy->id);
             $response->assertStatus(302)
@@ -48,7 +49,9 @@ class DestroyRoomTest extends TestCase
     public function test_cannot_destroy_a_room_as_unauthorized_user()
     {        
         $roomToDestroy = Room::factory()->create();
-        foreach ($this->unauthRolesForDestroyRoom as $unauthorizedRole) {
+        foreach (
+            $this->getUnauthorizedRoles(self::PERMISSION) as $unauthorizedRole
+        ) {
             $response = $this->destroyRoomAs($unauthorizedRole, $roomToDestroy->id);
             $response->assertStatus( 403);
 

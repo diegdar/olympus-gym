@@ -9,11 +9,11 @@ use Tests\TestCase;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Testing\TestResponse;
 use Spatie\Permission\Models\Role;
-use Tests\Traits\RoleTestHelper;
+use Tests\Traits\TestHelper;
 
 class RoleListTest extends TestCase
 {
-    use RefreshDatabase, RoleTestHelper;
+    use RefreshDatabase, TestHelper;
 
     // Permissions
     protected const PERMISSION_LIST_ROLES = 'admin.roles.index';
@@ -38,37 +38,14 @@ class RoleListTest extends TestCase
         return $this->actingAsRole($roleName)->get(route(self::ROUTE_ROLE_INDEX));
     }
 
-    private function assertButtonVisibility(
-        string $permission,
-        string $text,
-        string $routeName,
-        mixed $routeParam = null
-    ): void {
-        $authorizedRoles = $this->getAuthorizedRoles($permission);
-        foreach ($authorizedRoles as $role) {
-            $response = $this->getRolesListAs($role);
-            $response->assertStatus(200)
-                     ->assertSeeText($text)
-                     ->assertSee(route($routeName, $routeParam), false);
-        }
-
-        $unauthorizedRoles = $this->getUnauthorizedRoles($permission);
-        foreach ($unauthorizedRoles as $role) {
-            $response = $this->getRolesListAs($role);
-            if ($response->status() === 200) {
-                $response->assertDontSeeText($text)
-                         ->assertDontSee(route($routeName, $routeParam), false);
-            } else {
-                $response->assertStatus(403);
-            }
-        }
-    }
-
     public function test_users_with_index_permission_can_see_role_list(): void
     {
         $roles = Role::all();
-        $authorizedRoles = $this->getAuthorizedRoles(self::PERMISSION_LIST_ROLES);
-        foreach ($authorizedRoles as $role) {
+
+        foreach (
+            $this->getAuthorizedRoles(self::PERMISSION_LIST_ROLES) 
+            as $role
+        ) {
             $response = $this->getRolesListAs($role);
 
             $response->assertStatus(200)
@@ -84,8 +61,10 @@ class RoleListTest extends TestCase
 
     public function test_users_without_index_permission_get_403(): void
     {
-        $unauthorizedRoles = $this->getUnauthorizedRoles(self::PERMISSION_LIST_ROLES);
-        foreach ($unauthorizedRoles as $role) {
+        foreach (
+            $this->getUnauthorizedRoles(self::PERMISSION_LIST_ROLES) 
+            as $role
+        ) {
             $response = $this->getRolesListAs($role);
 
             $response->assertStatus(403)
@@ -94,6 +73,36 @@ class RoleListTest extends TestCase
                      ->assertDontSee('Role');
         }
     }
+
+    private function assertButtonVisibility(
+        string $permission,
+        string $textButton,
+        string $routeName,
+        mixed $routeParam = null
+    ): void {
+        foreach (
+            $this->getAuthorizedRoles($permission) 
+            as $role
+        ) {
+            $response = $this->getRolesListAs($role);
+            $response->assertStatus(200)
+                     ->assertSeeText($textButton,)
+                     ->assertSee(route($routeName, $routeParam), false);
+        }
+
+        foreach (
+            $this->getUnauthorizedRoles($permission) 
+            as $role
+        ) {
+            $response = $this->getRolesListAs($role);
+            if ($response->status() === 200) {
+                $response->assertDontSeeText($textButton,)
+                         ->assertDontSee(route($routeName, $routeParam), false);
+            } else {
+                $response->assertStatus(403);
+            }
+        }
+    }    
 
     public function test_create_button_is_visible_depends_on_permission(): void
     {

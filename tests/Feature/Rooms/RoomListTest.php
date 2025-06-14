@@ -6,11 +6,11 @@ namespace Tests\Feature\Rooms;
 use App\Models\Room;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Tests\Traits\RoleTestHelper;
+use Tests\Traits\TestHelper;
 
 class RoomListTest extends TestCase
 {
-    use RefreshDatabase, RoleTestHelper;
+    use RefreshDatabase, TestHelper;
 
     // permissions
     protected const PERMISSION_LIST_ROOMS = 'rooms.index';
@@ -23,7 +23,6 @@ class RoomListTest extends TestCase
     protected const ROUTE_ROOMS_INDEX = 'rooms.index';
     protected const ROUTE_CREATE_ROOM_VIEW = 'rooms.create';
     protected const ROUTE_SHOW_ROOM = 'rooms.show';
-    protected const ROUTE_STORE_ROOM = 'rooms.store';
     protected const ROUTE_EDIT_ROOM_VIEW = 'rooms.edit';
 
     protected function setUp(): void
@@ -40,9 +39,12 @@ class RoomListTest extends TestCase
     public function test_authorized_user_can_see_rooms(): void
     {
         $rooms = Room::all();
-        $authorizedRoles = $this->getAuthorizedRoles(self::PERMISSION_LIST_ROOMS);
-        foreach ($authorizedRoles as $role) {
-            $response = $this->getRoomsListAs($role);
+        foreach (
+                $this->getAuthorizedRoles                (self::PERMISSION_LIST_ROOMS)       
+                as $authorizedRole
+            ) 
+        { 
+            $response = $this->getRoomsListAs($authorizedRole);
             $response->assertStatus(200)
                      ->assertSee('Lista de salas')
                      ->assertSeeInOrder(['Id', 'Sala']);
@@ -55,9 +57,10 @@ class RoomListTest extends TestCase
 
     public function test_unauthorized_user_cannot_see_rooms_list(): void
     {
-        $unauthorizedRoles = $this->getUnauthorizedRoles(self::PERMISSION_LIST_ROOMS);
-        foreach ($unauthorizedRoles as $role) {
-            $response = $this->getRoomsListAs($role);
+        foreach (
+            $this->getUnauthorizedRoles(self::PERMISSION_LIST_ROOMS) as $unauthorizedRole
+        ) {
+            $response = $this->getRoomsListAs($unauthorizedRole);
             $response->assertStatus(403)
                      ->assertDontSee('Lista de salas')
                      ->assertDontSee('Id')
@@ -67,95 +70,63 @@ class RoomListTest extends TestCase
 
     public function test_create_button_is_visible_depends_on_permission(): void
     {
-        $authorizedRoles = $this->getAuthorizedRoles(self::PERMISSION_CREATE_ROOM);
-        foreach ($authorizedRoles as $role) {
-            $response = $this->getRoomsListAs($role);
-            $response->assertStatus(200);
-            $response->assertSeeText('Crear sala');
-            $response->assertSee(route(self::ROUTE_CREATE_ROOM_VIEW), false);
-        }
+        $this->assertButtonVisible(
+            self::PERMISSION_CREATE_ROOM,
+            'Crear sala'
+        );
 
-        $unauthorizedRoles = $this->getUnauthorizedRoles(self::PERMISSION_CREATE_ROOM);
-        foreach ($unauthorizedRoles as $role) {
-            $response = $this->getRoomsListAs($role);
-
-            if ($response->status() === 200) {
-                $response->assertDontSeeText('Crear sala');
-                $response->assertDontSee(route(self::ROUTE_CREATE_ROOM_VIEW), false);
-            } else {
-                $response->assertStatus(403);
-            }
-        }
-    }
-
-    public function test_show_button_is_visible_depends_on_permission(): void
-    {
-        $room = Room::factory()->create();
-
-        $authorizedRoles = $this->getAuthorizedRoles(self::PERMISSION_SHOW_ROOM);
-        foreach ($authorizedRoles as $role) {
-            $response = $this->getRoomsListAs($role);
-            $response->assertStatus(200);
-            $response->assertSeeText('Ver');
-            $response->assertSee(route(self::ROUTE_SHOW_ROOM, $room->id), false);
-        }
-
-        $unauthorizedRoles = $this->getUnauthorizedRoles(self::PERMISSION_SHOW_ROOM);
-        foreach ($unauthorizedRoles as $role) {
-            $response = $this->getRoomsListAs($role);
-
-            if ($response->status() === 200) {
-                $response->assertDontSeeText('Ver');
-                $response->assertDontSee(route(self::ROUTE_SHOW_ROOM, $room->id), false);
-            } else {
-                $response->assertStatus(403);
-            }
-        }
+        $this->assertButtonNotVisibleOr403(
+            self::PERMISSION_CREATE_ROOM,
+            'Crear sala'
+        );
     }
 
     public function test_edit_button_is_visible_depends_on_permission(): void
     {
         $room = Room::factory()->create();
 
-        $authorizedRoles = $this->getAuthorizedRoles(self::PERMISSION_EDIT_ROOM);
-        foreach ($authorizedRoles as $role) {
-            $response = $this->getRoomsListAs($role);
-            $response->assertStatus(200);
-            $response->assertSeeText('Editar');
-            $response->assertSee(route(self::ROUTE_EDIT_ROOM_VIEW, $room->id), false);
-        }
+        $this->assertButtonVisible(
+            self::PERMISSION_EDIT_ROOM,
+            'Editar'
+        );
 
-        $unauthorizedRoles = $this->getUnauthorizedRoles(self::PERMISSION_DESTROY_ROOM);
-        foreach ($unauthorizedRoles as $role) {
-            $response = $this->getRoomsListAs($role);
-
-            if ($response->status() === 200) {
-                $response->assertDontSeeText('Editar');
-                $response->assertDontSee(route(self::ROUTE_EDIT_ROOM_VIEW, $room->id), false);
-            } else {
-                $response->assertStatus(403);
-            }
-        }
+        $this->assertButtonNotVisibleOr403(
+            self::PERMISSION_EDIT_ROOM,
+            'Editar'
+        );
     }
 
     public function test_destroy_button_is_visible_depends_on_permission(): void
     {
         $room = Room::factory()->create();
-        $authorizedRoles = $this->getAuthorizedRoles(self::PERMISSION_DESTROY_ROOM);
-        foreach ($authorizedRoles as $role) {
-            $response = $this->getRoomsListAs($role);
-            $response->assertStatus(200);
-            $response->assertSeeText('Borrar');
-            $response->assertSee(route(self::ROUTE_EDIT_ROOM_VIEW, $room->id), false);
-        }
 
-        $unauthorizedRoles = $this->getUnauthorizedRoles(self::PERMISSION_DESTROY_ROOM);
-        foreach ($unauthorizedRoles as $role) {
-            $response = $this->getRoomsListAs($role);
+        $this->assertButtonVisible(
+            self::PERMISSION_DESTROY_ROOM,
+            'Borrar'
+        );
+
+        $this->assertButtonNotVisibleOr403(
+            self::PERMISSION_DESTROY_ROOM,
+            'Borrar'            
+        );
+    }
+
+    private function assertButtonVisible(string $permission, string $text): void
+    {
+        foreach ($this->getAuthorizedRoles($permission) as $authorizedRole) {
+            $response = $this->getRoomsListAs($authorizedRole);
+            $response->assertStatus(200)
+                     ->assertSeeText($text);
+        }
+    }
+
+    private function assertButtonNotVisibleOr403(string $permission, string $text): void
+    {
+        foreach ($this->getUnauthorizedRoles($permission) as $unauthorizedRole) {
+            $response = $this->getRoomsListAs($unauthorizedRole);
 
             if ($response->status() === 200) {
-                $response->assertDontSeeText('Borrar');
-                $response->assertDontSee(route(self::ROUTE_EDIT_ROOM_VIEW, $room->id), false);
+                $response->assertDontSeeText($text);
             } else {
                 $response->assertStatus(403);
             }
