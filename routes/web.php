@@ -37,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('activities', ActivityController::class)->names('activities');
 
     // ActivitiesSchedule
-    Route::resource('activities/schedule', ActivityScheduleController::class)
+    Route::resource('activities-schedule', ActivityScheduleController::class)
     ->names('activities.schedule');    
 });
 
