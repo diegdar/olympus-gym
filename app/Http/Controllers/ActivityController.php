@@ -14,6 +14,7 @@ class ActivityController extends Controller implements HasMiddleware
     {
         return [
             new Middleware('permission:activities.index', only: ['index']),
+            new Middleware('permission:activities.show', only: ['show']),
         ];
     }
 
@@ -28,6 +29,12 @@ class ActivityController extends Controller implements HasMiddleware
         }
 
         return view('activities.index', compact('activities'));
-    }    
+    }   
+    
+    public function show(Activity $activity)
+    {
+        return view('activities.show', compact('activity'));
+    }
+
 }
 
