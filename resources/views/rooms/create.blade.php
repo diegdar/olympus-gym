@@ -15,9 +15,9 @@
                 </button>
             </div>
             {{-- form fields --}}
-            <div class="flex flex-wrap justify-center gap-4">
+            <div class="flex flex-wrap justify-start gap-4">
                 <!-- nombre -->
-                <article class="flex flex-wrap gap-2">
+                <article class="flex flex-col sm:flex-wrap gap-2">
                     <label for="name" class="font-bold sm:text-xl">Nombre:</label>
                     <div class="flex flex-col">
                         <input name="name"
@@ -34,16 +34,15 @@
                     </div>
                 </article>
                 <!-- descripcion -->
-                <article class="flex flex-wrap gap-2">
+                <article class="flex flex-col sm:flex-wrap gap-2 w-full">
                     <label for="description" 
                         class="font-bold sm:text-xl">
                         Descripcion:
                     </label>
-                    <div class="flex flex-col">
+                    <div class="flex flex-col mr-2">
                         <textarea name="description"
                             class="w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300
-                            min-h-[125px]
-                            min-w-[250px]"
+                            min-h-[400px]"
                             id="description" placeholder="Descripción de la sala">{{ old('description', $room->description ?? '') }}</textarea>
                         @error('description')
                             <span class="text-red-500 text-sm dark:text-red-400">
