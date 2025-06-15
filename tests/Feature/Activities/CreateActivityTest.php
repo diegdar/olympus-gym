@@ -146,6 +146,15 @@ class CreateActivityTest extends TestCase
                 'invalidData' => ['name' => str_repeat('A', 51), 'description' => 'A activity with a very long name'],
                 'expectedErrors' => ['name'],
             ],
+            // duration
+            'duration not an integer' => [
+                'invalidData' => ['name' => 'Test Activity', 'description' => 'A valid description', 'duration' => 'not an integer'],
+                'expectedErrors' => ['duration'],
+            ],
+            'duration less than 15' => [
+                'invalidData' => ['name' => 'Test Activity', 'description' => 'A valid description', 'duration' => 10],
+                'expectedErrors' => ['duration'],
+            ],            
             // description
             'description too short' => [
                 'invalidData' => ['name' => 'short', 'description' => 'Short'],
