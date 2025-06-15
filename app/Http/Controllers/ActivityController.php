@@ -18,9 +18,9 @@ class ActivityController extends Controller implements HasMiddleware
             new Middleware('permission:activities.index', only: ['index']),
             new Middleware('permission:activities.show', only: ['show']),
             new Middleware('permission:activities.create', only: ['create', 'store']),
+            new Middleware('permission:activities.edit', only: ['edit', 'update']),
         ];
     }
-
 
     /**
      * Muestra una lista de las actividades registradas.
@@ -79,12 +79,36 @@ class ActivityController extends Controller implements HasMiddleware
         $request->validate([
             'name' => ['required', 'string', 'min:3', 'max:50', 'unique:activities,name'],
             'description' => ['nullable', 'min:10', 'string', 'max:2000'],
-            'duration' => ['required', 'integer', 'min:1'],
+            'duration' => ['required', 'integer', 'min:15'],
         ]);
 
         Activity::create($request->all());
 
         return redirect()->route('activities.index')->with('msg', 'Actividad creada correctamente.');
+    }
+
+    /**
+     * Shows the form to edit an existing activity.
+     *
+     * @param Activity $activity The activity to be edited.
+     * @return \Illuminate\View\View The view with the form to edit the activity.
+     */
+    public function edit(Activity $activity): View
+    {
+        return view('activities.edit', compact('activity'));
+    }
+    
+    public function update(Request $request, Activity $activity): RedirectResponse
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'min:3', 'max:50'],
+            'description' => ['nullable', 'min:10', 'string', 'max:2000'],
+            'duration' => ['required', 'integer', 'min:15'],
+        ]);
+
+        $activity->update($request->all());
+
+        return redirect()->route('activities.index')->with('msg', 'Actividad actualizada correctamente.');
     }
 
 }
