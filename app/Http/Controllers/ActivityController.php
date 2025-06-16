@@ -19,6 +19,7 @@ class ActivityController extends Controller implements HasMiddleware
             new Middleware('permission:activities.show', only: ['show']),
             new Middleware('permission:activities.create', only: ['create', 'store']),
             new Middleware('permission:activities.edit', only: ['edit', 'update']),
+            new Middleware('permission:activities.destroy', only: ['destroy']),
         ];
     }
 
@@ -109,6 +110,19 @@ class ActivityController extends Controller implements HasMiddleware
         $activity->update($request->all());
 
         return redirect()->route('activities.index')->with('msg', 'Actividad actualizada correctamente.');
+    }
+
+    /**
+     * Removes an existing activity.
+     *
+     * @param Activity $activity The activity to be deleted.
+     * @return RedirectResponse The redirect response containing the success message.
+     */
+    public function destroy(Activity $activity): RedirectResponse
+    {
+        $activity->delete();
+
+        return redirect()->route('activities.index')->with('msg', 'Actividad eliminada correctamente.');
     }
 
 }
