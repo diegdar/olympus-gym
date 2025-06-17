@@ -3,15 +3,17 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Activities;
 
+use App\Models\ActivitySchedules;
 use Tests\Traits\TestHelper;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Testing\TestResponse;
 
 class ShowActivityScheduleTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
     protected const PERMISSION = 'activities.schedule.show';
-    protected const ROUTE = 'activities.schedule.index';
+    protected const ROUTE = 'activities.schedule.show';
 
     protected function setUp(): void
     {
@@ -19,37 +21,54 @@ class ShowActivityScheduleTest extends TestCase
         $this->seed();                       
     }
 
-    private function getActivitiesScheduleAs(?string $roleName = null)
+    private function showActivitySchedule(string $roleName, int $activityScheduleId): TestResponse
     {
-        return $this->actingAsRole($roleName)->get(route(self::ROUTE));
+        return $this->actingAsRole($roleName)->get(route(self::ROUTE, $activityScheduleId));
     }
 
-    public function test_authorized_user_can_see_activity_show_button()
+    public function test_authorized_user_can_see_an_activity_show_view()
     {
         foreach (
-                $this->getAuthorizedRoles                (self::PERMISSION)       
+                $this->getAuthorizedRoles(self::PERMISSION)       
                 as $authorizedRole
             ) 
-        {             $response = $this->getActivitiesScheduleAs($authorizedRole);
+        {
+            $activitySchedule = ActivitySchedules::factory()->create();
+
+            $dayDateFormatted = $activitySchedule->start_datetime->translatedFormat('l, d F');  
+            $startTime = $activitySchedule->start_datetime->format('G:i');
+            $availableSlots = (string) (
+                                    $activitySchedule->max_enrollment 
+                                    - $activitySchedule->current_enrollment
+                                );
+
+            $response = $this->showActivitySchedule($authorizedRole, $activitySchedule->id);         
 
             $response->assertStatus(200)
-                        ->assertSee('Horario Actividades')
-                        ->assertSee('Hora')
-                        ->assertSee('Ver Actividad');
+                     ->assertSee('Detalles horario Actividad')
+                     ->assertSeeInOrder(
+                        [
+                            $activitySchedule->room->name,
+                            $dayDateFormatted,
+                            $startTime,
+                            $activitySchedule->activity->duration,
+                            $availableSlots,
+                            $activitySchedule->max_enrollment,
+                            $activitySchedule->current_enrollment
+                        ]
+                     );
         }
     }
 
-    public function test_unauthorized_user_can_not_see_activity_show_button()
+    public function test_unauthorized_user_cannot_see_an_activity_show_view()
     {
-        foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION) 
-            as $unauthorizedRole
-        ) {            $response = $this->getActivitiesScheduleAs($unauthorizedRole);
+        foreach ($this->getUnauthorizedRoles(self::PERMISSION) as $unauthorizedRole) {
+            $activitySchedule = ActivitySchedules::factory()->create();
 
-            $response->assertStatus(403)
-                        ->assertDontSee('Horario Actividades')
-                        ->assertDontSee('Hora')
-                        ->assertDontSee('Ver Actividad');
+            $response = $this->showActivitySchedule($unauthorizedRole, $activitySchedule->id);
+
+            $response->assertStatus(403);
         }
     }
+
 }
