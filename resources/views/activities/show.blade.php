@@ -1,5 +1,5 @@
 <x-layouts.app>
-    <h1>sala: {{ $activity->name }}</h1>
+    <h1>Actividad: {{ $activity->name }}</h1>
     <!-- duration -->
     <article class="flex flex-wrap gap-2n mt-5 mx-3">
         <div class="flex flex-col sm:flex-row">

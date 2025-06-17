@@ -18,7 +18,7 @@ class RoomFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'sala ' . fake()->unique()->word(),
+            'name' => fake()->unique()->word(),
             'description' => fake()->sentence( 150),
         ];
     }

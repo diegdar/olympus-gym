@@ -1,4 +1,3 @@
-<!-- resources/views/schedule-table.blade.php -->
 <x-layouts.app>
     <div class="relative transform-none">
         <x-slot name="title">Horario Actividades</x-slot>
@@ -44,7 +43,7 @@
                                     border-gray-200 dark:border-gray-700 
                                     text-xl text-center font-medium bg-white
                                     dark:bg-gray-900 hidden md:table-cell">
-                                {{ \Carbon\Carbon::createFromFormat('H:i', $time)->format('H:i') }}
+                                {{$time}}
                             </td>
                             @foreach ($schedules as $day => $slots)
                                 <td
@@ -70,7 +69,7 @@
                                                     <article
                                                         class="font-semibold text-sm 
                                                     dark:text-yellow-200 text-center">
-                                                        {{ $entry['room_name'] }}
+                                                        Sala: {{ $entry['room_name'] }}
                                                     </article>
                                                     @can('activities.schedule.show')
                                                         <article
