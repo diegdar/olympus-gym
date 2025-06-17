@@ -1,7 +1,6 @@
 <x-layouts.app>
     <div class="relative transform-none">
         <x-slot name="title">Horario Actividades</x-slot>
-
         {{-- Mensaje de alerta --}}
         @if (session('msg'))
             <div id="message"
@@ -12,7 +11,16 @@
                 <span class="block sm:inline font-bold">{{ session('msg') }}</span>
             </div>
         @endif
-        <h1 class="mb-3 text-2xl font-bold mt-2">Horario Actividades</h1>
+        <h1 class="mb-3 text-2xl font-bold mt-2 mx-2">Horario Actividades</h1>
+        {{-- new activity schedule --}}
+        @can(['activities.schedule.create'])
+            <div class="text-center sm:text-right mb-4 mt-7 mr-4">
+                <a href="{{ route('activities.schedule.create') }}"
+                    class="bg-yellow-500 hover:bg-yellow-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline dark:bg-yellow-600 dark:hover:bg-yellow-700 cursor-pointer">
+                    Crear horario actividad
+                </a>
+            </div>
+        @endcan        
         <div class="overflow-auto mb-4 sm:overflow-y-auto sm:max-h-[500px]">
             <table class="table-auto w-full">
                 <thead>
