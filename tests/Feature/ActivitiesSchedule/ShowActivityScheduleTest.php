@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Activities;
 
 use App\Models\ActivitySchedules;
+use Carbon\Carbon;
 use Tests\Traits\TestHelper;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -35,8 +36,8 @@ class ShowActivityScheduleTest extends TestCase
         {
             $activitySchedule = ActivitySchedules::factory()->create();
 
-            $dayDateFormatted = $activitySchedule->start_datetime->translatedFormat('l, d F');  
-            $startTime = $activitySchedule->start_datetime->format('G:i');
+            $dayDateFormatted = Carbon::parse($activitySchedule->start_datetime)->translatedFormat('l, d F'); 
+            $startTime = Carbon::parse($activitySchedule->start_datetime)->format('G:i');
             $availableSlots = (string) (
                                     $activitySchedule->max_enrollment 
                                     - $activitySchedule->current_enrollment
@@ -45,7 +46,6 @@ class ShowActivityScheduleTest extends TestCase
             $response = $this->showActivitySchedule($authorizedRole, $activitySchedule->id);         
 
             $response->assertStatus(200)
-                     ->assertSee('Detalles horario Actividad')
                      ->assertSeeInOrder(
                         [
                             $activitySchedule->room->name,

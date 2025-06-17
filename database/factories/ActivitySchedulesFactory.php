@@ -31,13 +31,15 @@ class ActivitySchedulesFactory extends Factory
         $startHour = rand(self::START_HOUR, self::END_HOUR - 1);
         $startMinute = fake()->randomElement([0, 30]);
         $startTime = now()->setHour($startHour)->setMinute($startMinute)->setSecond(0);
+        $formatedStartTime = $startTime->format('Y-m-d H:i:s');
         $endTime = $startTime->addHours(fake()->randomElement([30, 45, 60]));
+        $formatedEndTime = $endTime->format('Y-m-d H:i:s');
         $maxEnrollment = fake()->numberBetween(30, 50);
         return [
             'activity_id' => $activity->id,
-            'start_datetime' => $startTime,
+            'start_datetime' => $formatedStartTime,
             'room_id' => $room->id,
-            'end_datetime' => $endTime,
+            'end_datetime' => $formatedEndTime,
             'max_enrollment' => $maxEnrollment,
             'current_enrollment' => 0,
         ];
