@@ -28,7 +28,7 @@ class ActivitySchedulesSeeder extends Seeder
     /**
      * Weekdays to seed (next 7 days).
      */
-    private const DAYS_COUNT = 7;
+    private const DAYS_COUNT = 365;
 
     /**
      * Run the database seeds for activity schedules.
