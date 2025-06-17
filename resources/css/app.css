@@ -88,12 +88,12 @@ select:focus[data-flux-control] {
 h1 {
     font-family: "Permanent Marker", cursive;
     font-weight: 400;
-    font-style: normal;
-    @apply text-5xl font-bold text-center ;
+    font-style: normal;    
+    @apply text-3xl sm:text-5xl font-bold text-center px-1;
 }
 
 h2{
-    @apply text-2nd text-3xl font-bold;
+    @apply text-2xl sm:text-3xl font-bold;
 }
 
 h2, h3, h4, h5, h6 {
