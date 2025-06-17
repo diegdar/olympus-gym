@@ -1,6 +1,6 @@
 <div>
-    <h1 class="text-4xl sm:text-5xl font-bold text-center mb-2">Bienvenido a Olympus Gym</h1>
-    <p class="text-3xl font-semibold text-center font-shadows-light text-2nd">tu santuario del fitness</p>
+    <h1 class="font-bold text-center mb-2">Bienvenido a Olympus Gym</h1>
+    <p class="text-xl font-semibold text-center font-shadows-light text-2nd">tu santuario del fitness</p>
     <!-- abanico de imagenes -->
     <section class="flex w-full h-[430px]">
         <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/pict/crossfit_class.webp') }}" alt="personas haciendo crossfit">
@@ -10,7 +10,7 @@
         <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/pict/zumba_class.webp') }}" alt="personas haciendo una clase de zumba">
     </section>
     <!-- introduction gym text -->
-    <section class="m-5 mt-15">
+    <section class="m-5 mt-3 sm:mt-15">
         <h2>¿Qué nos hace únicos?</h2>
         <p>
             En Olympus Gym, no solo encontrarás un gimnasio, sino una comunidad apasionada por el bienestar y el crecimiento personal. Nos enorgullece ofrecerte un espacio donde puedes desafiar tus límites, alcanzar tus metas y descubrir tu máximo potencial.
