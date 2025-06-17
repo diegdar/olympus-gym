@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class ActivityScheduleListService
+class ListActivityScheduleService
 {
     public function __construct()
     {

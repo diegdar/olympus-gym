@@ -12,23 +12,16 @@ class ActivitiesScheduleListTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    protected array $authorizedRoles;
-
-    protected array $unauthorizedRoles;
-
     protected const PERMISSION = 'activities.schedule.index';
     protected const ROUTE = 'activities.schedule.index';
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
-        $this->authorizedRoles = $this->getAuthorizedRoles(self::PERMISSION);
-
-        $this->unauthorizedRoles = $this->getUnauthorizedRoles(self::PERMISSION);              
+        $this->seed();            
     }
 
-    private function getActivitiesScheduleAs(?string $roleName = null)
+    private function getActivitiesScheduleListAs(string $roleName)
     {
         return $this->actingAsRole($roleName)->get(route(self::ROUTE));
     }
@@ -36,8 +29,11 @@ class ActivitiesScheduleListTest extends TestCase
     public function test_authorized_user_can_see_activities_schedule()
     {
         $activities = Activity::all();
-        foreach ($this->authorizedRoles as $authorizedRole) {
-            $response = $this->getActivitiesScheduleAs($authorizedRole);
+        foreach (
+            $this->getAuthorizedRoles(self::PERMISSION)
+            as $authorizedRole
+        ) {
+            $response = $this->getActivitiesScheduleListAs($authorizedRole);
 
             $response->assertStatus(200)
                         ->assertSee('Horario Actividades')
@@ -50,8 +46,11 @@ class ActivitiesScheduleListTest extends TestCase
 
     public function test_unauthorized_user_gets_403()
     {
-        foreach ($this->unauthorizedRoles as $unauthorizedRole) {
-            $response = $this->getActivitiesScheduleAs($unauthorizedRole);
+        foreach (
+            $this->getUnauthorizedRoles(self::PERMISSION)
+            as $unauthorizedRole
+        ) {
+            $response = $this->getActivitiesScheduleListAs($unauthorizedRole);
 
             $response->assertStatus(403)
                         ->assertDontSee('Horario Actividades')
