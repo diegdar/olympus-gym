@@ -44,7 +44,7 @@
                         <input name="duration"
                             class="w-full shadow 
                             appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
-                            type="number" id="description" placeholder="Duración de la actividad"
+                            type="number" id="duration" placeholder="Duración de la actividad"
                             value="{{ old('duration', $activity->duration ?? '') }}"
                             min="30" step="15">
                         @error('duration')
