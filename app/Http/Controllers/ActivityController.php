@@ -24,11 +24,11 @@ class ActivityController extends Controller implements HasMiddleware
     }
 
     /**
-     * Muestra una lista de las actividades registradas.
+     * Displays a list of registered activities.
      *
-     * Redirige a la creaci n de una actividad si no hay ninguna registrada.
+     * Redirects to the activity creation page if no activities are registered.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function index(): RedirectResponse|View
     {
@@ -38,8 +38,8 @@ class ActivityController extends Controller implements HasMiddleware
         }
 
         return view('activities.index', compact('activities'));
-    }   
-    
+    }
+
     /**
      * Display the specified activity.
      *
@@ -58,7 +58,7 @@ class ActivityController extends Controller implements HasMiddleware
      */
     public function create(): View
     {
-        return view('activities.create');        
+        return view('activities.create');
     }
 
     /**
@@ -67,7 +67,7 @@ class ActivityController extends Controller implements HasMiddleware
      * The request must contain the name, description, and duration of the activity.
      * The name must be between 3 and 50 characters, and must be unique.
      * The description can be null, and must be between 10 and 2000 characters if it is not null.
-     * The duration must be an integer greater than 0.
+     * The duration must be an integer greater than or equal to 15.
      *
      * If the request is valid, the activity will be stored in the database.
      * The user will then be redirected to the activities list with a success message.
@@ -98,7 +98,22 @@ class ActivityController extends Controller implements HasMiddleware
     {
         return view('activities.edit', compact('activity'));
     }
-    
+
+    /**
+     * Updates an existing activity in the database.
+     *
+     * The request must contain the name, description, and duration of the activity.
+     * The name must be between 3 and 50 characters.
+     * The description can be null, and must be between 10 and 2000 characters if it is not null.
+     * The duration must be an integer greater than or equal to 15.
+     *
+     * If the request is valid, the activity will be updated in the database.
+     * The user will then be redirected to the activities list with a success message.
+     *
+     * @param Request $request The request containing the activity's updated information.
+     * @param Activity $activity The activity to be updated.
+     * @return RedirectResponse The redirect response containing the success message.
+     */
     public function update(Request $request, Activity $activity): RedirectResponse
     {
         $request->validate([
@@ -113,7 +128,7 @@ class ActivityController extends Controller implements HasMiddleware
     }
 
     /**
-     * Removes an existing activity.
+     * Removes an existing activity from the database.
      *
      * @param Activity $activity The activity to be deleted.
      * @return RedirectResponse The redirect response containing the success message.
@@ -124,6 +139,4 @@ class ActivityController extends Controller implements HasMiddleware
 
         return redirect()->route('activities.index')->with('msg', 'Actividad eliminada correctamente.');
     }
-
 }
-
