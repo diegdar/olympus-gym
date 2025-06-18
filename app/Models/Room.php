@@ -29,6 +29,6 @@ class Room extends Model
      */     
     public function schedules(): BelongsToMany
     {
-        return $this->belongsToMany(ActivitySchedules::class);
+        return $this->belongsToMany(ActivitySchedule::class);
     }
 }

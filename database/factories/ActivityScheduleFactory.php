@@ -8,9 +8,9 @@ use App\Models\Room;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ActivitySchedules>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ActivitySchedule>
  */
-class ActivitySchedulesFactory extends Factory
+class ActivityScheduleFactory extends Factory
 {
 
     /**

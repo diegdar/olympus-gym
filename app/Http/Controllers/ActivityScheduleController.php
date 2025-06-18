@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\ActivitySchedules;
+use App\Models\ActivitySchedule;
 use App\Models\Activity;
 use App\Models\Room;
 use App\Services\ListActivityScheduleService;
@@ -94,7 +94,7 @@ class ActivityScheduleController extends Controller implements HasMiddleware
             'current_enrollment' => 'required|integer|min:0|lte:max_enrollment',
         ]);
 
-        ActivitySchedules::create($request->all());
+        ActivitySchedule::create($request->all());
         return redirect()->route('activities.schedule.index')->with('msg', 'Horario creado correctamente.');
     }
 

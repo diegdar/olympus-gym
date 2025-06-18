@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Activities;
 
-use App\Models\ActivitySchedules;
+use App\Models\ActivitySchedule;
 use Carbon\Carbon;
 use Tests\Traits\TestHelper;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -34,7 +34,7 @@ class ShowActivityScheduleTest extends TestCase
                 as $authorizedRole
             ) 
         {
-            $activitySchedule = ActivitySchedules::factory()->create();
+            $activitySchedule = ActivitySchedule::factory()->create();
 
             $dayDateFormatted = Carbon::parse($activitySchedule->start_datetime)->translatedFormat('l, d F'); 
             $startTime = Carbon::parse($activitySchedule->start_datetime)->format('G:i');
@@ -63,7 +63,7 @@ class ShowActivityScheduleTest extends TestCase
     public function test_unauthorized_user_cannot_see_an_activity_show_view()
     {
         foreach ($this->getUnauthorizedRoles(self::PERMISSION) as $unauthorizedRole) {
-            $activitySchedule = ActivitySchedules::factory()->create();
+            $activitySchedule = ActivitySchedule::factory()->create();
 
             $response = $this->showActivitySchedule($unauthorizedRole, $activitySchedule->id);
 

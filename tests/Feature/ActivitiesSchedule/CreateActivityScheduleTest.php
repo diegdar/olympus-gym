@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\ActivitiesSchedule;
 
-use App\Models\ActivitySchedules;
+use App\Models\ActivitySchedule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Traits\TestHelper;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -81,7 +81,7 @@ class CreateActivityScheduleTest extends TestCase
         foreach (
             $this->getAuthorizedRoles(self::PERMISSION_STORE_ACTIVITY_SCHEDULE) as $authorizedRole
         ) {
-            $activityScheduleData = ActivitySchedules::factory()->raw();
+            $activityScheduleData = ActivitySchedule::factory()->raw();
             $response = $this->CreateActivityScheduleAs($authorizedRole, $activityScheduleData);
 
             $response->assertRedirect(route(self::ROUTE_ACTIVITY_SCHEDULES_INDEX))
@@ -100,7 +100,7 @@ class CreateActivityScheduleTest extends TestCase
         foreach (
             $this->getUnauthorizedRoles(self::PERMISSION_STORE_ACTIVITY_SCHEDULE) as $unauthorizedRole
         ) {
-            $activityScheduleData = ActivitySchedules::factory()->raw();
+            $activityScheduleData = ActivitySchedule::factory()->raw();
             $response = $this->CreateActivityScheduleAs($unauthorizedRole, $activityScheduleData);
 
             $response->assertStatus(403)
