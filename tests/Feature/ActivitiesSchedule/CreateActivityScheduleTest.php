@@ -16,13 +16,13 @@ class CreateActivityScheduleTest extends TestCase
     use RefreshDatabase, TestHelper;
 
     // Permissions
-    protected const PERMISSION_CREATE_ACTIVITY_SCHEDULE = 'activities.schedule.create';
-    protected const PERMISSION_STORE_ACTIVITY_SCHEDULE = 'activities.schedule.store';
+    protected const PERMISSION_CREATE_ACTIVITY_SCHEDULE = 'activity.schedules.create';
+    protected const PERMISSION_STORE_ACTIVITY_SCHEDULE = 'activity.schedules.store';
     // Routes
-    protected const ROUTE_ACTIVITY_SCHEDULES_INDEX = 'activities.schedule.index';
+    protected const ROUTE_ACTIVITY_SCHEDULES_INDEX = 'activity.schedules.index';
 
-    protected const ROUTE_CREATE_ACTIVITY_SCHEDULE_VIEW = 'activities.schedule.create';
-    protected const ROUTE_STORE_ACTIVITY_SCHEDULE = 'activities.schedule.store';
+    protected const ROUTE_CREATE_ACTIVITY_SCHEDULE_VIEW = 'activity.schedules.create';
+    protected const ROUTE_STORE_ACTIVITY_SCHEDULE = 'activity.schedules.store';
 
     protected function setUp(): void
     {

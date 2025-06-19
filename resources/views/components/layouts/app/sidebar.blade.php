@@ -66,8 +66,8 @@
         <flux:navlist variant="outline">
             <flux:navlist.group heading="Mis Gestiones" class="grid">
                 {{-- Activities Schedule --}}
-                <flux:navlist.item icon="calendar" :href="route('activities.schedule.index')"
-                    :current="request()->routeIs('activities.schedule.index')" wire:navigate>
+                <flux:navlist.item icon="calendar" :href="route('activity.schedules.index')"
+                    :current="request()->routeIs('activity.schedules.index')" wire:navigate>
                     {{ __('Horario Actividades') }}
                 </flux:navlist.item>
             </flux:navlist.group>

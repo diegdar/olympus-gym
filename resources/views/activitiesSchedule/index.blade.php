@@ -13,14 +13,14 @@
         @endif
         <h1 class="mb-3 text-2xl font-bold mt-2 mx-2">Horario Actividades</h1>
         {{-- new activity schedule --}}
-        @can(['activities.schedule.create'])
+        @can(['activity.schedules.create'])
             <div class="text-center sm:text-right mb-4 mt-7 mr-4">
-                <a href="{{ route('activities.schedule.create') }}"
+                <a href="{{ route('activity.schedules.create') }}"
                     class="bg-yellow-500 hover:bg-yellow-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline dark:bg-yellow-600 dark:hover:bg-yellow-700 cursor-pointer">
                     Crear horario actividad
                 </a>
             </div>
-        @endcan        
+        @endcan
         <div class="overflow-auto mb-4 sm:overflow-y-auto sm:max-h-[500px]">
             <table class="table-auto w-full">
                 <thead>
@@ -51,7 +51,7 @@
                                     border-gray-200 dark:border-gray-700 
                                     text-xl text-center font-medium bg-white
                                     dark:bg-gray-900 hidden md:table-cell">
-                                {{$time}}
+                                {{ $time }}
                             </td>
                             @foreach ($schedules as $day => $slots)
                                 <td
@@ -79,15 +79,29 @@
                                                     dark:text-yellow-200 text-center">
                                                         Sala: {{ $entry['room_name'] }}
                                                     </article>
-                                                    @can('activities.schedule.show')
-                                                        <article
-                                                            class="font-semibold text-sm 
-                                                    dark:text-blue-200 text-center">
-                                                            <a href="{{ route('activities.schedule.show', $entry['activity_schedule_id']) }}"
-                                                                class="text-green-500 hover:text-green-700">
-                                                                Ver Actividad
-                                                        </article>
-                                                    @endcan
+                                                    {{-- Action buttons --}}
+                                                    <div class="flex justify-center my-1 gap-1">
+                                                        {{-- show button --}}
+                                                        @can('activity.schedules.show')
+                                                            <article
+                                                                class="text-center block w-[50px] text-white-600 
+                                                            bg-yellow-500 dark:hover:bg-yellow-700 px-2 py-1 rounded dark:bg-yellow-600 cursor-pointer">
+                                                                <a href="{{ route('activity.schedules.show', $entry['activity_schedule_id']) }}"
+                                                                    class="text-white-600">
+                                                                    Ver
+                                                            </article>
+                                                        @endcan
+                                                        {{-- edit button --}}
+                                                        @can('activity.schedules.edit')
+                                                            <article
+                                                                class="block w-[55px] text-white-600 
+                                                            bg-blue-500 dark:hover:bg-blue-700 px-2 py-1 rounded dark:bg-blue-600 cursor-pointer">
+                                                                <a href="{{ route('activity.schedules.edit', $entry['activity_schedule_id']) }}"
+                                                                    class="text-white-600">
+                                                                    Editar
+                                                            </article>
+                                                        @endcan
+                                                    </div>
                                                 </div>
                                             @endforeach
                                         @else

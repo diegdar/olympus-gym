@@ -13,14 +13,14 @@ class ActivitiesScheduleListTest extends TestCase
     use RefreshDatabase, TestHelper;
 
     // permission
-    protected const PERMISSION_LIST = 'activities.schedule.index';
-    protected const PERMISSION_CREATE = 'activities.schedule.create';
-    protected const PERMISSION_SHOW = 'activities.schedule.show';
-    protected const PERMISSION_EDIT = 'activities.schedule.edit';
+    protected const PERMISSION_LIST = 'activity.schedules.index';
+    protected const PERMISSION_CREATE = 'activity.schedules.create';
+    protected const PERMISSION_SHOW = 'activity.schedules.show';
+    protected const PERMISSION_EDIT = 'activity.schedules.edit';
 
 
     // routes
-    protected const ROUTE = 'activities.schedule.index';
+    protected const ROUTE = 'activity.schedules.index';
 
     protected function setUp(): void
     {

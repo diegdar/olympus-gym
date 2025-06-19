@@ -2,7 +2,7 @@
     <x-slot name="title">Crear horario actividad</x-slot>
     <h1>Crear horario para una actividad</h1>
     <!-- form -->
-    <form action="{{ route('activities.schedule.store') }}" method="post" class="my-4">
+    <form action="{{ route('activity.schedules.store') }}" method="post" class="my-4">
         @csrf
         <section class="ml-3">
             <!-- submit boton -->

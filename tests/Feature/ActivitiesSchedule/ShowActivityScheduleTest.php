@@ -13,8 +13,8 @@ use Illuminate\Testing\TestResponse;
 class ShowActivityScheduleTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
-    protected const PERMISSION = 'activities.schedule.show';
-    protected const ROUTE = 'activities.schedule.show';
+    protected const PERMISSION = 'activity.schedules.show';
+    protected const ROUTE = 'activity.schedules.show';
 
     protected function setUp(): void
     {
