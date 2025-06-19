@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\ActivitiesSchedule;
 
-use App\Models\Activity;
+use App\Models\ActivitySchedule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\TestHelper;
@@ -12,7 +12,14 @@ class ActivitiesScheduleListTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    protected const PERMISSION = 'activities.schedule.index';
+    // permission
+    protected const PERMISSION_LIST = 'activities.schedule.index';
+    protected const PERMISSION_CREATE = 'activities.schedule.create';
+    protected const PERMISSION_SHOW = 'activities.schedule.show';
+    protected const PERMISSION_EDIT = 'activities.schedule.edit';
+
+
+    // routes
     protected const ROUTE = 'activities.schedule.index';
 
     protected function setUp(): void
@@ -28,9 +35,9 @@ class ActivitiesScheduleListTest extends TestCase
 
     public function test_authorized_user_can_see_activities_schedule()
     {
-        $activities = Activity::all();
+        $activities = ActivitySchedule::all();
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION)
+            $this->getAuthorizedRoles(self::PERMISSION_LIST)
             as $authorizedRole
         ) {
             $response = $this->getActivitiesScheduleListAs($authorizedRole);
@@ -38,8 +45,8 @@ class ActivitiesScheduleListTest extends TestCase
             $response->assertStatus(200)
                         ->assertSee('Horario Actividades')
                         ->assertSee('Hora');
-            foreach ($activities as $activity) {
-                $response->assertSee($activity->name);
+            foreach ($activities as $activitySchedule) {
+                $response->assertSee($activitySchedule->name);
             }
         }
     }
@@ -47,7 +54,7 @@ class ActivitiesScheduleListTest extends TestCase
     public function test_unauthorized_user_gets_403()
     {
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION)
+            $this->getUnauthorizedRoles(self::PERMISSION_LIST)
             as $unauthorizedRole
         ) {
             $response = $this->getActivitiesScheduleListAs($unauthorizedRole);
@@ -57,4 +64,75 @@ class ActivitiesScheduleListTest extends TestCase
                         ->assertDontSee('Hora');
         }
     }
+
+    private function assertButtonVisible(string $permission, string $text): void
+    {
+        foreach (
+            $this->getAuthorizedRoles($permission) 
+            as $authorizedRole
+        ) {
+            $response = $this->getActivitiesScheduleListAs($authorizedRole);
+            $response->assertStatus(200)
+                     ->assertSeeText($text);
+        }
+    }
+
+    private function assertButtonNotVisibleOr403(string $permission, string $text): void
+    {
+        foreach (
+            $this->getUnauthorizedRoles($permission) as $unauthorizedRole
+        ) {
+            $response = $this->getActivitiesScheduleListAs($unauthorizedRole);
+
+            if ($response->status() === 200) {
+                $response->assertDontSeeText($text);
+            } else {
+                $response->assertStatus(403);
+            }
+        }
+    }
+
+    public function test_create_button_is_visible_depends_on_permission(): void
+    {
+        $this->assertButtonVisible(
+            self::PERMISSION_CREATE,
+            'Crear horario actividad'
+        );
+
+        $this->assertButtonNotVisibleOr403(
+            self::PERMISSION_CREATE,
+            'Crear horario actividad'
+        );
+    }
+
+    public function test_show_button_is_visible_depends_on_permission(): void
+    {
+        ActivitySchedule::factory()->create();
+
+        $this->assertButtonVisible(
+            self::PERMISSION_SHOW,
+            'Ver'
+        );
+
+        $this->assertButtonNotVisibleOr403(
+            self::PERMISSION_SHOW,
+            'Ver'
+        );
+    }
+    public function test_edit_button_is_visible_depends_on_permission(): void
+    {
+        ActivitySchedule::factory()->create();
+
+        $this->assertButtonVisible(
+            self::PERMISSION_EDIT,
+            'Editar'
+        );
+
+        $this->assertButtonNotVisibleOr403(
+            self::PERMISSION_EDIT,
+            'Editar'
+        );
+    }
+    
+
 }
