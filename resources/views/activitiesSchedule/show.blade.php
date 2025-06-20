@@ -6,7 +6,7 @@
                 <span class="font-bold dark:text-red-300">
                     Actividad:</span>
                 <p class="text-gray-700 dark:text-gray-300 text-lg font-semibold mb-2 ml-3" id="description">
-                    {{ $activitySchedule->activity_name }}</p>
+                    {{ $activitySchedule->activity->name }}</p>
             </div>
         </article>
         <!-- sala -->
@@ -16,7 +16,7 @@
                     Sala:</span>
                 <p name="description" class="text-gray-700 dark:text-gray-300 text-lg font-semibold mb-2 ml-3"
                     id="description">
-                    {{ $activitySchedule->room_name }}</p>
+                    {{ $activitySchedule->room->name }}</p>
             </div>
         </article>
         <!-- day date -->
@@ -25,7 +25,7 @@
                 <span class="font-bold dark:text-red-300">
                     Dia/Fecha:</span>
                 <p class="text-gray-700 dark:text-gray-300 text-lg font-semibold mb-2 ml-3" id="description">
-                    {{ $activitySchedule->day_date_formatted }}</p>
+                    {{ $dayDateFormatted }}</p>
             </div>
         </article>
         <!-- start time -->
@@ -34,7 +34,7 @@
                 <span class="font-bold dark:text-red-300">
                     Hora inicio:</span>
                 <p class="text-gray-700 dark:text-gray-300 text-lg font-semibold mb-2 ml-3" id="description">
-                    {{ $activitySchedule->start_time_formatted }}</p>
+                    {{ $startTimeFormatted }}</p>
             </div>
         </article>
         <!-- duration -->
@@ -43,7 +43,7 @@
                 <span class="font-bold dark:text-red-300">
                     Duración:</span>
                 <p class="text-gray-700 dark:text-gray-300 text-lg font-semibold mb-2 ml-3" id="description">
-                    {{ $activitySchedule->duration }} minutos</p>
+                    {{ $activitySchedule->activity->duration }} minutos</p>
             </div>
         </article>
         <!-- available slots -->
@@ -52,7 +52,7 @@
                 <span class="font-bold dark:text-red-300">
                     Plazas disponibles:</span>
                 <p class="text-gray-700 dark:text-gray-300 text-lg font-semibold mb-2 ml-3" id="description">
-                    {{ $activitySchedule->available_slots }}</p>
+                    {{ $availableSlots }}</p>
             </div>
         </article>
         <!-- total slots -->

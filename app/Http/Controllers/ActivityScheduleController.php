@@ -9,7 +9,7 @@ use App\Models\ActivitySchedule;
 use App\Models\Activity;
 use App\Models\Room;
 use App\Services\ListActivityScheduleService;
-use App\Services\ShowActivityScheduleService;
+use Carbon\Carbon;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\View\View;
@@ -43,17 +43,26 @@ class ActivityScheduleController extends Controller implements HasMiddleware
     /**
      * Displays an activity schedule.
      *
-     * @param int $activityScheduleId The ID of the activity schedule to display.
-     * @param ShowActivityScheduleService $showActivityScheduleService The service to show an activity schedule.
+     * Retrieves the activity schedule from the given model binding and formats
+     * the start datetime for display.
+     *
+     * @param ActivitySchedule $activitySchedule The activity schedule to be displayed.
+     *
      * @return \Illuminate\View\View The view displaying the activity schedule.
      */
-    public function show(int $activityScheduleId, ShowActivityScheduleService $showActivityScheduleService): View
+    public function show(ActivitySchedule $activitySchedule): View
     {
-        $activitySchedule = $showActivityScheduleService($activityScheduleId);
+        $startTimeFormatted = Carbon::parse
+                              ($activitySchedule->start_datetime)
+                                ->format('G:i');
+        $dayDateFormatted = Carbon::parse   
+                            ($activitySchedule->start_datetime)
+                                ->translatedFormat('l, d F');
+        $availableSlots = $activitySchedule->max_enrollment 
+                          - $activitySchedule->current_enrollment;
 
-        return view('activitiesSchedule.show', compact('activitySchedule'));
+        return view('activitiesSchedule.show', compact(['activitySchedule', 'startTimeFormatted', 'dayDateFormatted', 'availableSlots']));
     }
-
 
     /**
      * Shows the form to create a new activity schedule.
@@ -95,7 +104,7 @@ class ActivityScheduleController extends Controller implements HasMiddleware
         ]);
 
         ActivitySchedule::create($request->all());
-        return redirect()->route('activities.schedule.index')->with('msg', 'Horario creado correctamente.');
+        return redirect()->route('activity.schedules.index')->with('msg', 'Horario creado correctamente.');
     }
 
 }
