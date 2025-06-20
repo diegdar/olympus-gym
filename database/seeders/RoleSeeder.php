@@ -52,10 +52,11 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'activities.destroy', 'description' => 'Eliminar una actividad'])->syncRoles([$superAdmin, $admin]);
 
         // activitySchedule CRUD
-        Permission::create(['name' => 'activities.schedule.index', 'description' => 'Ver horario de actividades'])->syncRoles([$superAdmin, $admin, $member]);
-        Permission::create(['name' => 'activities.schedule.show', 'description' => 'Ver ficha horario de una actividad'])->syncRoles([$superAdmin, $admin, $member]);
-        Permission::create(['name' => 'activities.schedule.create', 'description' => 'Ver formulario creacion de un horario para una actividad'])->syncRoles([$superAdmin, $admin]);
-        Permission::create(['name' => 'activities.schedule.store', 'description' => 'Guardar horario para una actividad'])->syncRoles([$superAdmin, $admin]);
+        Permission::create(['name' => 'activity.schedules.index', 'description' => 'Ver horario de actividades'])->syncRoles([$superAdmin, $admin, $member]);
+        Permission::create(['name' => 'activity.schedules.show', 'description' => 'Ver ficha horario de una actividad'])->syncRoles([$superAdmin, $admin, $member]);
+        Permission::create(['name' => 'activity.schedules.create', 'description' => 'Ver formulario creacion de un horario para una actividad'])->syncRoles([$superAdmin, $admin]);
+        Permission::create(['name' => 'activity.schedules.store', 'description' => 'Guardar horario para una actividad'])->syncRoles([$superAdmin, $admin]);
+        Permission::create(['name' => 'activity.schedules.edit', 'description' => 'Editar horario de una actividad'])->syncRoles([$superAdmin, $admin]);
 
   
     }
