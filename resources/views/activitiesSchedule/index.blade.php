@@ -1,7 +1,7 @@
 <x-layouts.app>
     <div class="relative transform-none">
         <x-slot name="title">Horario Actividades</x-slot>
-        {{-- Mensaje de alerta --}}
+        {{-- alert message --}}
         @if (session('msg'))
             <div id="message"
                 class="absolute left-0 top-5 w-full z-50 bg-green-100 
@@ -14,7 +14,7 @@
         <h1 class="mb-3 text-2xl font-bold mt-2 mx-2">Horario Actividades</h1>
         {{-- new activity schedule --}}
         @can(['activity.schedules.create'])
-            <div class="text-center sm:text-right mb-4 mt-7 mr-4">
+            <div class="text-center sm:text-right mb-4 mt-7 mr-0 sm:mr-6 md:mr-3">
                 <a href="{{ route('activity.schedules.create') }}"
                     class="bg-yellow-500 hover:bg-yellow-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline dark:bg-yellow-600 dark:hover:bg-yellow-700 cursor-pointer">
                     Crear horario actividad
@@ -45,7 +45,7 @@
                 </thead>
                 <tbody>
                     @foreach ($allTimes as $time)
-                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-100 hover:border-2">
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-100 hover:border-2 mx-1">
                             <td
                                 class="sticky left-0 px-5 py-5 border-b 
                                     border-gray-200 dark:border-gray-700 
@@ -62,7 +62,7 @@
                                     <span class="md:hidden font-bold dark:text-red-300">
                                         {{ ucfirst($day) }}:
                                     </span>
-                                    <div class="flex justify-center align-content gap-2">
+                                    <div class="flex flex-wrap justify-center align-content gap-2">
                                         @if (isset($slots[$time]))
                                             {{-- Mostrar las actividades --}}
                                             @foreach ($slots[$time] as $entry)
@@ -72,7 +72,7 @@
                                                     <article
                                                         class="font-semibold text-sm 
                                                     dark:text-gray-200 text-center">
-                                                        {{ $entry['activity_name'] }}
+                                                        Actividad: {{ $entry['activity_name'] }}
                                                     </article>
                                                     <article
                                                         class="font-semibold text-sm 
@@ -100,6 +100,19 @@
                                                                     class="text-white-600">
                                                                     Editar
                                                             </article>
+                                                        @endcan
+                                                        @can('activity.schedules.destroy')
+                                                            {{-- Delete button --}}
+                                                            <form method="POST" action="{{ route('activity.schedules.destroy', $entry['activity_schedule_id']) }}"
+                                                                class="inline-block ">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="block w-[55px] text-white-600 bg-red-500 hover:bg-red-600 px-2 py-1 rounded cursor-pointer"
+                                                                    onclick="return confirm('¿Estás seguro de que deseas eliminar la actividad {{ $entry['activity_name'] }} del {{$day}} a las {{ $time }}?')">
+                                                                    Borrar
+                                                                </button>
+                                                            </form>
                                                         @endcan
                                                     </div>
                                                 </div>
