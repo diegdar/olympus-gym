@@ -17,6 +17,7 @@ class ActivitiesScheduleListTest extends TestCase
     protected const PERMISSION_CREATE = 'activity.schedules.create';
     protected const PERMISSION_SHOW = 'activity.schedules.show';
     protected const PERMISSION_EDIT = 'activity.schedules.edit';
+    protected const PERMISSION_DESTROY = 'activity.schedules.destroy';
 
 
     // routes
@@ -133,6 +134,19 @@ class ActivitiesScheduleListTest extends TestCase
             'Editar'
         );
     }
-    
 
+    public function test_destroy_button_is_visible_depends_on_permission(): void
+    {
+        ActivitySchedule::factory()->create();
+
+        $this->assertButtonVisible(
+            self::PERMISSION_DESTROY,
+            'Borrar'
+        );
+
+        $this->assertButtonNotVisibleOr403(
+            self::PERMISSION_DESTROY,
+            'Borrar'
+        );
+    }    
 }
