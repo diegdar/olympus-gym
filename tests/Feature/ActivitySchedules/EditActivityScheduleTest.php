@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Feature\ActivitiesSchedule;
+namespace Tests\Feature\ActivitySchedules;
 
 use App\Models\ActivitySchedule;
 use Carbon\Carbon;
