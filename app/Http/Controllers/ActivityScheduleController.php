@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\ActivitySchedule;
 use App\Models\Activity;
 use App\Models\Room;
-use App\Services\ListActivityScheduleService;
-use Carbon\Carbon;
+use App\Http\Controllers\Controller;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use App\Services\ListActivityScheduleService;
+use Carbon\Carbon;
 
 class ActivityScheduleController extends Controller implements HasMiddleware
 {
@@ -25,6 +25,7 @@ class ActivityScheduleController extends Controller implements HasMiddleware
             new Middleware('permission:activity.schedules.show', only: ['show']),
             new Middleware('permission:activity.schedules.create', only: ['create', 'store']),
             new Middleware('permission:activity.schedules.edit', only: ['edit', 'update']),
+            new Middleware('permission:activity.schedules.destroy', only: ['destroy']),
         ];
     }
     
@@ -146,6 +147,18 @@ class ActivityScheduleController extends Controller implements HasMiddleware
 
         $activitySchedule->update($request->all());
         return redirect()->route('activity.schedules.index')->with('msg', 'Horario actualizado correctamente.');
+    }
+
+    /**
+     * Deletes an activity schedule from the database.
+     *
+     * @param ActivitySchedule $activitySchedule The activity schedule to be deleted.
+     * @return \Illuminate\Http\RedirectResponse The redirect response with a success message.
+     */
+    public function destroy(ActivitySchedule $activitySchedule): RedirectResponse
+    {
+        $activitySchedule->delete();
+        return redirect()->route('activity.schedules.index')->with('msg', 'Horario eliminado correctamente.');
     }
 
 }
