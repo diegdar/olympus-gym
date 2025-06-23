@@ -9,13 +9,13 @@ use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
-use Tests\Traits\RoleTestHelper;
+use Tests\Traits\TestHelper;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class UserListComponentTest extends TestCase
 {
-    use RefreshDatabase, RoleTestHelper;
+    use RefreshDatabase, TestHelper;
 
     protected User $superAdminUser;
 
@@ -54,16 +54,18 @@ class UserListComponentTest extends TestCase
             $response = $this->getUsersIndexAs($authorizedRole);
             $response->assertStatus(200)
                 ->assertSeeLivewire(UsersList::class)
-                ->assertSee('Listado de usuarios');
+                ->assertSee("Usuarios totales")
+                ->assertSee($authorizedRole);
         }
     }
+
     public function test_unauthorized_users_gets_403()
     {
         foreach ($this->unAuthRolesForUsersList as $unauthorizedRole) {
             $response = $this->getUsersIndexAs($unauthorizedRole);
             $response->assertStatus(403)
                 ->assertDontSeeLivewire(UsersList::class)
-                ->assertDontSee('Listado de usuarios');
+                ->assertDontSee('Usuarios totales');
         }
     }
 
@@ -76,7 +78,7 @@ class UserListComponentTest extends TestCase
             $usersNumber++;
             $response->assertStatus(200)
                 ->assertSeeLivewire(UsersList::class)
-                ->assertSee("Listado de usuarios ({$usersNumber})")
+                ->assertSee("Usuarios totales ({$usersNumber})")
                 ->assertSee($authorizedRole);
         }
     }

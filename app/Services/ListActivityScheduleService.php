@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class ActivityScheduleListService
+class ListActivityScheduleService
 {
     public function __construct()
     {
@@ -44,7 +44,7 @@ class ActivityScheduleListService
             ->join('rooms as r', 'asch.room_id', '=', 'r.id')
             ->whereBetween('asch.start_datetime', [$start, $end])
             ->select(
-                'asch.id as pivot_id',
+                'asch.id as activity_schedule_id',
                 'asch.start_datetime as start_time',
                 'asch.end_datetime as end_time',
                 'act.id as activity_id',
@@ -104,7 +104,7 @@ class ActivityScheduleListService
     private function mapRecordToEntry(object $row): array
     {
         return [
-            'pivot_id'       => $row->pivot_id,
+            'activity_schedule_id'       => $row->activity_schedule_id,
             'activity_id'    => $row->activity_id,
             'room_id'        => $row->room_id,
             'start_time'     => Carbon::parse($row->start_time)->format('G:i'),

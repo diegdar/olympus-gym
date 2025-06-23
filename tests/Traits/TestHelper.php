@@ -7,7 +7,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
 
-trait RoleTestHelper
+trait TestHelper
 {
     /** 
      * Get an array of authorized roles for a given permission name.
@@ -63,4 +63,5 @@ trait RoleTestHelper
         $user->assignRole($roleName);
         return $user;
     }
+
 }

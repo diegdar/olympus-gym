@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name', 100)
                 ->unique()
                 ->index('idx_rooms_name');
-            $table->string('description', 255)->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

@@ -18,9 +18,10 @@ class ActivityFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->unique()->word(),
+            'name' => fake()->unique()
+                        ->text(rand(5, 15)),
             'description' => fake()->sentence(),
-            'duration' => fake()->ramdomElement(['30', '45', '60', '90']),
+            'duration' => fake()->randomElement(['30', '45', '60', '90']),
         ];
     }
 }

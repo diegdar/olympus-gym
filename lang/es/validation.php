@@ -152,4 +152,30 @@ return [
     'uppercase'              => 'El campo :attribute debe estar en mayúscula.',
     'url'                    => 'El campo :attribute debe ser una URL válida.',
     'uuid'                   => 'El campo :attribute debe ser un UUID válido.',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Validation Attributes
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines are used to swap our attribute placeholder
+    | with something more reader friendly such as "E-Mail Address" instead
+    | of "Email". This simply helps us make messages a little cleaner.
+    |
+    */
+
+    'attributes' => [
+        'role' => 'rol',
+        'permissions' => 'permisos',
+        'name' => 'nombre',
+        'duration' => 'duración',
+        'description' => 'descripción',
+        'start_datetime' => 'fecha/hora inicio',
+        'activity_id' => 'actividad',
+        'room_id' => 'sala',
+        'max_enrollment' => 'total plazas',
+        'end_datetime' => 'fecha/hora final',
+        'current_enrollment' => 'plazas inscritas',
+    ],
+
 ];

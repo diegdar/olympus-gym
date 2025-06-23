@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\Activity;
-use App\Models\ActivitySchedules;
+use App\Models\ActivitySchedule;
 use App\Models\Room;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
@@ -28,7 +28,7 @@ class ActivitySchedulesSeeder extends Seeder
     /**
      * Weekdays to seed (next 7 days).
      */
-    private const DAYS_COUNT = 7;
+    private const DAYS_COUNT = 365;
 
     /**
      * Run the database seeds for activity schedules.
@@ -70,7 +70,7 @@ class ActivitySchedulesSeeder extends Seeder
                 break;
             }
 
-            ActivitySchedules::create([
+            ActivitySchedule::create([
                 'activity_id'       => $activity->id,
                 'start_datetime'    => $start->toDateTimeString(),
                 'room_id'           => $room->id,
