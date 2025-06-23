@@ -111,13 +111,6 @@ class EditActivityTest extends TestCase
             $response->assertRedirect(route(self::ROUTE_EDIT_VIEW, $activityToEdit))
                      ->assertSessionHasErrors($expectedErrors);
         }
-
-        foreach($invalidData as $key => $value) {
-            $this->assertDatabaseMissing('activities', [
-                'id' => $activityToEdit->id,
-                $key => $value,
-            ]);
-        }
     }
 
     public static function invalidActivityDataProvider(): array

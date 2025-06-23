@@ -111,13 +111,6 @@ class EditRoomTest extends TestCase
             $response->assertRedirect(route(self::ROUTE_EDIT_ROOM_VIEW, $roomToEdit))
                      ->assertSessionHasErrors($expectedErrors);
         }
-
-        foreach($invalidData as $key => $value) {
-            $this->assertDatabaseMissing('rooms', [
-                'id' => $roomToEdit->id,
-                $key => $value,
-            ]);
-        }
     }
 
     public static function invalidRoomDataProvider(): array

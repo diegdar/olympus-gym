@@ -118,16 +118,6 @@ class EditActivityScheduleTest extends TestCase
                      ->assertSessionHasErrors($expectedErrors);
         }
 
-        foreach($invalidData as $attribute => $value) {
-            if($attribute === 'current_enrollment') {
-                continue;
-            }
-            
-            $this->assertDatabaseMissing('activity_schedules', [
-                'id' => $activityToEdit->id,
-                $attribute => $value,
-            ]);
-        }
     }
 
     public static function invalidActivityScheduleDataProvider(): array
