@@ -18,6 +18,7 @@ class ActivitySchedulesListTest extends TestCase
     protected const PERMISSION_SHOW = 'activity.schedules.show';
     protected const PERMISSION_EDIT = 'activity.schedules.edit';
     protected const PERMISSION_DESTROY = 'activity.schedules.destroy';
+    protected const PERMISSION_ENROLL_USER = 'activity.schedules.enroll';
 
 
     // routes
@@ -148,5 +149,20 @@ class ActivitySchedulesListTest extends TestCase
             self::PERMISSION_DESTROY,
             'Borrar'
         );
-    }    
+    }
+    
+    public function test_enroll_button_is_visible_depends_on_permission(): void
+    {
+        ActivitySchedule::factory()->create();
+
+        $this->assertButtonVisible(
+            self::PERMISSION_ENROLL_USER,
+            'Inscribirse'
+        );
+
+        $this->assertButtonNotVisibleOr403(
+            self::PERMISSION_ENROLL_USER,
+            'Inscribirse'
+        );
+    }
 }
