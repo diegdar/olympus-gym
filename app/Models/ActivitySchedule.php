@@ -45,9 +45,11 @@ class ActivitySchedule extends Model
         return $this->belongsTo(Room::class);
     }
 
-    // public function enrolledUsers()
-    // {
-    //     return $this->belongsToMany(User::class, 'user_scheduled_activities', 'activity_schedule_id', 'user_id');
-    // }
+    public function users()
+    {
+        return $this->belongsToMany(User::class,
+                'activity_schedule_user'
+                )->withTimestamps();
+    }
        
 }
