@@ -38,7 +38,9 @@ Route::middleware(['auth'])->group(function () {
 
     // ActivitiesSchedule
     Route::resource('activity-schedules', ActivityScheduleController::class)
-    ->names('activity.schedules');    
+    ->names('activity.schedules');
+    
+    Route::post('activity-schedules/{activitySchedule}/enroll', [ActivityScheduleController::class, 'enrollUserInSchedule'])->name('activity.schedules.enroll');
 });
 
 require __DIR__.'/auth.php';

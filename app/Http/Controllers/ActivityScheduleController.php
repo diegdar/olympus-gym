@@ -8,6 +8,7 @@ use App\Models\ActivitySchedule;
 use App\Models\Activity;
 use App\Models\Room;
 use App\Http\Controllers\Controller;
+use App\Services\EnrollUserInScheduleService;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\View\View;
@@ -26,6 +27,7 @@ class ActivityScheduleController extends Controller implements HasMiddleware
             new Middleware('permission:activity.schedules.create', only: ['create', 'store']),
             new Middleware('permission:activity.schedules.edit', only: ['edit', 'update']),
             new Middleware('permission:activity.schedules.destroy', only: ['destroy']),
+            new Middleware('permission:activity.schedules.enroll', only: ['enrollUserInSchedule']),
         ];
     }
     
@@ -61,7 +63,7 @@ class ActivityScheduleController extends Controller implements HasMiddleware
                             ($activitySchedule->start_datetime)
                                 ->translatedFormat('l, d F');
         $availableSlots = $activitySchedule->max_enrollment 
-                          - $activitySchedule->current_enrollment;
+                          - $activitySchedule->current_enrollment;     
 
         return view('activitiesSchedule.show', compact(['activitySchedule', 'startTimeFormatted', 'dayDateFormatted', 'availableSlots']));
     }
@@ -159,6 +161,17 @@ class ActivityScheduleController extends Controller implements HasMiddleware
     {
         $activitySchedule->delete();
         return redirect()->route('activity.schedules.index')->with('msg', 'Horario eliminado correctamente.');
+    }
+
+    public function enrollUserInSchedule(ActivitySchedule $activitySchedule, EnrollUserInScheduleService $enrollUserInScheduleService): RedirectResponse
+    {
+        $result = $enrollUserInScheduleService($activitySchedule);
+        
+        if($result['status'] == 'success') {
+            return redirect()->route('activity.schedules.index')->with('success', $result['message']);
+        } else {
+            return redirect()->route('activity.schedules.index')->with('error', $result['message']);
+        }
     }
 
 }

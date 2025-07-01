@@ -44,6 +44,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Subscription::class);
     }
 
+    public function ActivySchedules(): BelongsToMany
+    {
+        return $this->belongsToMany
+                (ActivitySchedule::class,    'activity_schedule_user'
+                )->withTimestamps();
+    }
+
     public function subscribeTo(Subscription $subscription, ?string $paymentDate = null)
     {
         if ($this->subscriptions->contains($subscription)) {
