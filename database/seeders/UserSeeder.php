@@ -28,9 +28,9 @@ class UserSeeder extends Seeder
         ])->assignRole('admin');        
 
         User::factory()->create([
-            'name' => env('MEMBER_NAME'),
-            'email' => env('MEMBER_EMAIL'),
-            'password' => Hash::make(env('MEMBER_PASSWORD'))
+            'name' => 'member',
+            'email' => 'member@member.com',
+            'password' => Hash::make('PassNix$123')
         ])->assignRole('member'); 
         
         User::factory(15)->create()
