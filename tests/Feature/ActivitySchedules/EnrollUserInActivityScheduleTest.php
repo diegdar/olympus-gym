@@ -68,12 +68,10 @@ class EnrollUserInActivityScheduleTest extends TestCase
 
     public function test_authorized_user_can_enroll_in_an_activity_schedule(): void
     {
-        $activitySchedule = $this->activitySchedule;
-
         foreach ($this->getAuthorizedRoles(self::PERMISSION_ENROLL_USER) as $authorizedRole) {
             $user = $this->actingAsRole($authorizedRole);
 
-            $response = $this->performEnrollmentRequest($activitySchedule);
+            $response = $this->performEnrollmentRequest($this->activitySchedule);
 
             $response->assertStatus(302);
             $response->assertRedirect(route(self::ROUTE_INDEX));
@@ -81,57 +79,53 @@ class EnrollUserInActivityScheduleTest extends TestCase
 
             $this->assertDatabaseHas('activity_schedule_user', [
                 'user_id' => $user->id,
-                'activity_schedule_id' => $activitySchedule->id,
+                'activity_schedule_id' => $this->activitySchedule->id,
             ]);
-            $activitySchedule->refresh();
-            $this->assertEquals(1, $activitySchedule->current_enrollment);
+            $this->activitySchedule->refresh();
+            $this->assertEquals(1, $this->activitySchedule->current_enrollment);
         }
     }
 
     public function test_unauthorized_user_cannot_enroll_in_an_activity_schedule(): void
     {
-        $activitySchedule = $this->activitySchedule;
-
         foreach ($this->getUnauthorizedRoles(self::PERMISSION_ENROLL_USER) as $unauthorizedRole) {
             $this->actingAsRole($unauthorizedRole);
 
-            $response = $this->performEnrollmentRequest($activitySchedule);
+            $response = $this->performEnrollmentRequest($this->activitySchedule);
 
             $response->assertStatus(403);
             $this->assertDatabaseMissing('activity_schedule_user', [
-                'activity_schedule_id' => $activitySchedule->id,
+                'activity_schedule_id' => $this->activitySchedule->id,
             ]);
         }
     }
 
     public function test_authorized_user_cannot_enroll_in_an_activity_schedule_twice(): void
     {
-        $activitySchedule = $this->activitySchedule;
-
         foreach ($this->getAuthorizedRoles(self::PERMISSION_ENROLL_USER) as $authorizedRole) {
             $user = $this->actingAsRole($authorizedRole); 
 
-            $firstEnrollmentResponse = $this->performEnrollmentRequest($activitySchedule);
+            $firstEnrollmentResponse = $this->performEnrollmentRequest($this->activitySchedule);
             $firstEnrollmentResponse->assertStatus(302);
             $firstEnrollmentResponse->assertSessionHas('success');
 
             $this->assertDatabaseHas('activity_schedule_user', [
                 'user_id' => $user->id,
-                'activity_schedule_id' => $activitySchedule->id,
+                'activity_schedule_id' => $this->activitySchedule->id,
             ]);
-            $activitySchedule->refresh();
-            $this->assertEquals(1, $activitySchedule->current_enrollment);
+            $this->activitySchedule->refresh();
+            $this->assertEquals(1, $this->activitySchedule->current_enrollment);
 
-            $secondEnrollmentResponse = $this->performEnrollmentRequest($activitySchedule);
+            $secondEnrollmentResponse = $this->performEnrollmentRequest($this->activitySchedule);
             $secondEnrollmentResponse->assertStatus(302);
             $secondEnrollmentResponse->assertSessionHas(
                 'error', 
-                $this->getAlreadyEnrolledErrorMessage($activitySchedule)
+                $this->getAlreadyEnrolledErrorMessage($this->activitySchedule)
                 );
 
             $this->assertDatabaseCount('activity_schedule_user', 1);
-            $activitySchedule->refresh();
-            $this->assertEquals(1, $activitySchedule->current_enrollment);
+            $this->activitySchedule->refresh();
+            $this->assertEquals(1, $this->activitySchedule->current_enrollment);
         }
     }
 
@@ -166,15 +160,13 @@ class EnrollUserInActivityScheduleTest extends TestCase
 
     public function test_authorized_user_cannot_enroll_in_another_activity_schedule_at_the_same_time(): void
     {
-        $activitySchedule = $this->activitySchedule;
-
         $otherRoom = Room::factory()->create();
         $otherActivity = Activity::factory()->create();
         $conflictingActivitySchedule = ActivitySchedule::factory()->create([
             'activity_id' => $otherActivity->id,
             'room_id' => $otherRoom->id,
-            'start_datetime' => $activitySchedule->start_datetime,
-            'end_datetime' => $activitySchedule->end_datetime,
+            'start_datetime' => $this->activitySchedule->start_datetime,
+            'end_datetime' => $this->activitySchedule->end_datetime,
             'max_enrollment' => 10,
             'current_enrollment' => 0,
         ]);
@@ -185,14 +177,14 @@ class EnrollUserInActivityScheduleTest extends TestCase
         ) {
             $user = $this->actingAsRole($authorizedRole); 
 
-            $this->performEnrollmentRequest($activitySchedule);
+            $this->performEnrollmentRequest($this->activitySchedule);
 
             $response = $this->performEnrollmentRequest($conflictingActivitySchedule);
             $response->assertStatus(302);
             $response->assertSessionHas(
                 'error', 
                 "⚠️ Ya estabas inscrito en otra sala para la misma fecha/hora: " . 
-                Carbon::parse($activitySchedule->start_datetime)
+                Carbon::parse($this->activitySchedule->start_datetime)
                     ->translatedFormat('l/d, \a \l\a\s G:i') . '.'
                 );
 
