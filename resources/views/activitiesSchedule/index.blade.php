@@ -77,7 +77,7 @@
                                                 <div
                                                     class="w-fit m-2 md:m-0 sm:mb-2 p-2 bg-blue-50 dark:bg-gray-700 rounded">
                                                         {{-- enroll button --}}
-                                                        @can('activity.schedules.enroll')
+                                                        {{-- @can('activity.schedules.enroll')
                                                             <form method="POST" action="{{ route('activity.schedules.enroll', $entry['activity_schedule_id']) }}"
                                                                 class="flex justify-center ">
                                                                 @csrf
@@ -87,7 +87,33 @@
                                                                     Inscribirse
                                                                 </button>
                                                             </form>
-                                                        @endcan
+                                                        @endcan --}}
+                                                        @if ($entry['is_enrolled'])
+                                                            @can('activity.schedules.unenroll')
+                                                                <form method="POST" action="{{ route('activity.schedules.unenroll', $entry['activity_schedule_id']) }}"
+                                                                    class="flex justify-center ">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit"
+                                                                        class="block w-fit text-white-600 bg-red-500 hover:bg-red-600 px-2 py-1 rounded cursor-pointer"
+                                                                        onclick="return confirm('¿Estás seguro de que deseas desinscribirte de la actividad {{ $entry['activity_name'] }} del {{$day}} a las {{ $time }}?')">
+                                                                        Desinscribirse
+                                                                    </button>
+                                                                </form>
+                                                            @endcan 
+                                                        @else
+                                                            @can('activity.schedules.enroll')
+                                                                <form method="POST" action="{{ route('activity.schedules.enroll', $entry['activity_schedule_id']) }}"
+                                                                    class="flex justify-center ">
+                                                                    @csrf
+                                                                    <button type="submit"
+                                                                        class="block w-fit text-white-600 bg-green-700 hover:bg-green-600 px-2 py-1 rounded cursor-pointer"
+                                                                        onclick="return confirm('¿Estás seguro de que deseas inscribirte a la actividad {{ $entry['activity_name'] }} del {{$day}} a las {{ $time }}?')">
+                                                                        Inscribirse
+                                                                    </button>
+                                                                </form>
+                                                            @endcan
+                                                        @endif
                                                     {{-- activity name --}}
                                                     <article
                                                         class="text-sm dark:text-white-200 text-center">
