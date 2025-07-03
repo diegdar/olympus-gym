@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\DB;
 
 class EnrollUserInScheduleService
 {
+    protected ?int $userId = null;
+
+    public function __construct()    
+    {
+        $this->userId = Auth::id();
+    }
+
     /**
      * Attempts to enroll the user in the specified activity schedule.
      * This method performs several validation checks before attempting enrollment.
@@ -18,20 +25,33 @@ class EnrollUserInScheduleService
      * @param ActivitySchedule $activitySchedule The activity schedule to enroll the user in.
      * @return array An associative array containing the 'status' ('success' or 'error') and a 'message'.
      */
-    public function __invoke(ActivitySchedule $activitySchedule): array
+    public function enrollUser(ActivitySchedule $activitySchedule): array
     {
-        $userId       = Auth::id();
         $date         = $this->
                          formatDate($activitySchedule->start_datetime);
         $activityScheduleName = $activitySchedule->activity->name;
 
         if (
-            $error = $this->validate($activitySchedule, $userId, $date, $activityScheduleName)
+            $error = $this->validate($activitySchedule, $date, $activityScheduleName)
         ) {
             return $error;
         }
 
-        return $this->performEnrollment($activitySchedule, $userId, $activityScheduleName, $date);
+        return $this->performEnrollment($activitySchedule,  $activityScheduleName, $date);
+    }
+
+    public function unenrollUser(ActivitySchedule $activitySchedule): array
+    {
+        $date   = $this->formatDate($activitySchedule->start_datetime);
+        $activityScheduleName = $activitySchedule->activity->name;
+
+        $activitySchedule->users()->detach($this->userId);
+        $activitySchedule->decrement('current_enrollment');
+
+        return [
+            'status'  => 'success',
+            'message' => "Te has desinscrito correctamente de la actividad {$activityScheduleName} para el día {$date}.",
+        ];
     }
 
     /**
@@ -44,19 +64,19 @@ class EnrollUserInScheduleService
      * If all checks pass, null is returned.
      *
      * @param ActivitySchedule $activitySchedule The activity schedule to check.
-     * @param int $userId The ID of the user to check.
+     * @param int $this->userId The ID of the user to check.
      * @param string $date The date of the activity schedule.
      * @param string $activityScheduleName The name of the activity schedule.
      * @return array|null An associative array with 'status' and 'message' if an error occurred, or null if all checks passed.
      */
-    private function validate(ActivitySchedule $activitySchedule, int $userId, string $date, string $activityScheduleName): ?array
+    private function validate(ActivitySchedule $activitySchedule,string $date, string $activityScheduleName): ?array
     {
         $checks = [
             [$activitySchedule->current_enrollment >= $activitySchedule->max_enrollment,
              "⚠️ No hay cupos disponibles para la actividad {$activityScheduleName} el día {$date}."],
-            [$activitySchedule->users->contains($userId),
+            [$activitySchedule->users->contains($this->userId),
              "⚠️ Ya estabas inscrito en la actividad {$activityScheduleName} para el {$date}."],
-            [$this->hasConflictInOtherRoom($activitySchedule, $userId),
+            [$this->hasConflictInOtherRoom($activitySchedule),
              "⚠️ Ya estabas inscrito en otra sala para la misma fecha/hora: {$date}."],
         ];
 
@@ -74,14 +94,14 @@ class EnrollUserInScheduleService
      * and returns a success message with the activity name and the date.
      *
      * @param ActivitySchedule $activitySchedule The activity schedule to enroll the user in.
-     * @param int $userId The ID of the user to enroll.
+     * @param int $this->userId The ID of the user to enroll.
      * @param string $activityScheduleName The name of the activity schedule.
      * @param string $date The date of the activity schedule.
      * @return array An associative array with 'status' => 'success' and a 'message' with the success message.
      */
-    private function performEnrollment(ActivitySchedule $activitySchedule, int $userId, string $activityScheduleName, string $date): array
+    private function performEnrollment(ActivitySchedule $activitySchedule, string $activityScheduleName, string $date): array
     {
-        $activitySchedule->users()->attach($userId);
+        $activitySchedule->users()->attach($this->userId);
         $activitySchedule->increment('current_enrollment');
 
         return [
@@ -111,13 +131,13 @@ class EnrollUserInScheduleService
      * that occurs at the exact same start datetime but in a different room.
      *
      * @param ActivitySchedule $activitySchedule The current activity schedule being considered.
-     * @param int $userId The ID of the user to check.
+     * @param int $this->userId The ID of the user to check.
      * @return bool True if the user is enrolled in another schedule at the same time in a different room, false otherwise.
      */
-    private function hasConflictInOtherRoom(ActivitySchedule $activitySchedule, int $userId): bool
+    private function hasConflictInOtherRoom(ActivitySchedule $activitySchedule): bool
     {
         return DB::table('activity_schedule_user')
-            ->where('user_id', $userId)
+            ->where('user_id', $this->userId)
             ->whereIn('activity_schedule_id', function ($q) use ($activitySchedule) {
                 $q->select('id')
                   ->from('activity_schedules')

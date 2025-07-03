@@ -6,6 +6,7 @@ namespace App\Services;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth; // Import Auth facade
 use Carbon\Carbon;
 
 class ListActivityScheduleService
@@ -31,6 +32,7 @@ class ListActivityScheduleService
     /**
      * Fetch raw pivot records joined with activities and rooms,
      * limited to activities starting between today and +6 days.
+     * Includes a flag indicating if the current authenticated user is enrolled.
      *
      * @return Collection
      */
@@ -39,9 +41,17 @@ class ListActivityScheduleService
         $start = Carbon::today()->startOfDay();
         $end   = Carbon::today()->addDays(6)->endOfDay();
 
+        // Get the authenticated user's ID, or null if no user is logged in
+        $currentUserId = Auth::id();
+
         return DB::table('activity_schedules as asch')
             ->join('activities as act', 'asch.activity_id', '=', 'act.id')
             ->join('rooms as r', 'asch.room_id', '=', 'r.id')
+            // Use LEFT JOIN to include schedules even if no user is enrolled
+            ->leftJoin('activity_schedule_user as asu', function ($join) use ($currentUserId) {
+                $join->on('asch.id', '=', 'asu.activity_schedule_id')
+                     ->where('asu.user_id', '=', $currentUserId); // Filter by current user
+            })
             ->whereBetween('asch.start_datetime', [$start, $end])
             ->select(
                 'asch.id as activity_schedule_id',
@@ -53,7 +63,8 @@ class ListActivityScheduleService
                 'asch.max_enrollment',
                 'asch.current_enrollment',
                 'r.id as room_id',
-                'r.name as room_name'
+                'r.name as room_name',
+                DB::raw('CASE WHEN asu.user_id IS NOT NULL THEN TRUE ELSE FALSE END as is_enrolled')
             )
             ->get();
     }
@@ -104,15 +115,17 @@ class ListActivityScheduleService
     private function mapRecordToEntry(object $row): array
     {
         return [
-            'activity_schedule_id'       => $row->activity_schedule_id,
-            'activity_id'    => $row->activity_id,
-            'room_id'        => $row->room_id,
-            'start_time'     => Carbon::parse($row->start_time)->format('G:i'),
-            'end_time'       => Carbon::parse($row->end_time)->format('G:i'),
-            'activity_name'  => $row->activity_name,
-            'room_name'      => $row->room_name,
-            'duration'       => $row->duration,
-            'max_enrollment' => $row->max_enrollment,
+            'activity_schedule_id'  => $row->activity_schedule_id,
+            'activity_id'           => $row->activity_id,
+            'room_id'               => $row->room_id,
+            'start_time'            => Carbon::parse($row->start_time)->format('G:i'),
+            'end_time'              => Carbon::parse($row->end_time)->format('G:i'),
+            'activity_name'         => $row->activity_name,
+            'room_name'             => $row->room_name,
+            'duration'              => $row->duration,
+            'max_enrollment'        => $row->max_enrollment,
+            'current_enrollment'    => $row->current_enrollment,
+            'is_enrolled'           => (bool) $row->is_enrolled,
         ];
     }
 
@@ -138,13 +151,13 @@ class ListActivityScheduleService
     {
         $nested = [];
 
-        foreach ($sortedDays as $dayData) {
+        foreach ($sortedDays as $dayKey => $dayData) {
             uksort($dayData['slots'], fn($a, $b) =>
                 Carbon::createFromFormat('G:i', $a)->timestamp <=>
                 Carbon::createFromFormat('G:i', $b)->timestamp
             );
 
-            $nested[$dayData['label']] = $dayData['slots'];
+            $nested[$sortedDays[$dayKey]['label']] = $dayData['slots'];
         }
 
         return $nested;

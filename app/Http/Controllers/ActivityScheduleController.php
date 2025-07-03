@@ -16,6 +16,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Services\ListActivityScheduleService;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class ActivityScheduleController extends Controller implements HasMiddleware
 {
@@ -28,6 +29,7 @@ class ActivityScheduleController extends Controller implements HasMiddleware
             new Middleware('permission:activity.schedules.edit', only: ['edit', 'update']),
             new Middleware('permission:activity.schedules.destroy', only: ['destroy']),
             new Middleware('permission:activity.schedules.enroll', only: ['enrollUserInSchedule']),
+            new Middleware('permission:activity.schedules.unenroll', only: ['unenrollUserInSchedule']),
         ];
     }
     
@@ -165,7 +167,20 @@ class ActivityScheduleController extends Controller implements HasMiddleware
 
     public function enrollUserInSchedule(ActivitySchedule $activitySchedule, EnrollUserInScheduleService $enrollUserInScheduleService): RedirectResponse
     {
-        $result = $enrollUserInScheduleService($activitySchedule);
+        $result = $enrollUserInScheduleService
+                    ->enrollUser($activitySchedule);
+        
+        if($result['status'] == 'success') {
+            return redirect()->route('activity.schedules.index')->with('success', $result['message']);
+        } else {
+            return redirect()->route('activity.schedules.index')->with('error', $result['message']);
+        }
+    }
+
+    public function unenrollUserInSchedule(ActivitySchedule $activitySchedule, EnrollUserInScheduleService $enrollUserInScheduleService): RedirectResponse
+    {
+        $result = $enrollUserInScheduleService
+                    ->unenrollUser($activitySchedule);
         
         if($result['status'] == 'success') {
             return redirect()->route('activity.schedules.index')->with('success', $result['message']);
