@@ -76,6 +76,7 @@
                                             @foreach ($slots[$time] as $entry)
                                                 <div
                                                     class="w-fit m-2 md:m-0 sm:mb-2 p-2 bg-blue-50 dark:bg-gray-700 rounded">
+                                                        {{-- enroll button --}}
                                                         @if ($entry['is_enrolled'])
                                                             @can('activity.schedules.unenroll')
                                                                 <form method="POST" action="{{ route('activity.schedules.unenroll', $entry['activity_schedule_id']) }}"
@@ -89,6 +90,7 @@
                                                                     </button>
                                                                 </form>
                                                             @endcan 
+                                                        {{-- unenroll button --}}
                                                         @else
                                                             @can('activity.schedules.enroll')
                                                                 <form method="POST" action="{{ route('activity.schedules.enroll', $entry['activity_schedule_id']) }}"
