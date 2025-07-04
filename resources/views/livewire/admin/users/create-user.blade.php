@@ -34,7 +34,8 @@
                                     leading-tight focus:outline-none 
                                     dark:bg-gray-700 dark:border-gray-600 
                                     dark:text-gray-300"
-                                    type="text" placeholder="Nombre" id="name">
+                                    type="text" placeholder="Nombre" id="name"
+                                    autocomplete="name">
                             </article>
                         </div>
                         <!-- email -->
@@ -52,7 +53,8 @@
                                         leading-tight focus:outline-none 
                                         dark:bg-gray-700 dark:border-gray-600 
                                         dark:text-gray-300"
-                                    type="text" placeholder="Email" id="email">
+                                    type="text" placeholder="Email" id="email"
+                                    autocomplete="email">
                             </article>
                         </div>
                         <!-- role -->
