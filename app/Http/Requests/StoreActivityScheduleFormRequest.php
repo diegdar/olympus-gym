@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Rules\RoomAvailableRule;
+use App\Rules\StartTimeRangeRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreActivityScheduleFormRequest extends FormRequest
@@ -25,7 +26,12 @@ class StoreActivityScheduleFormRequest extends FormRequest
     {
         return [
             'activity_id' => ['required', 'exists:activities,id'],
-            'start_datetime' => ['required', 'date', 'after_or_equal:today'],
+            'start_datetime' => [
+                'required', 
+                'date', 
+                'after_or_equal:today',
+                new StartTimeRangeRule(),
+            ],
             'room_id' => [
                 'required', 
                 'exists:rooms,id',
