@@ -25,7 +25,7 @@ class StoreActivityFormRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'min:3', 'max:50', 'unique:activities,name'],
             'description' => ['nullable', 'min:10', 'string', 'max:2000'],
-            'duration' => ['required', 'integer', 'in:30,45,60'],            
+            'duration' => ['required', 'integer', 'in:30,45,60,90'],            
         ];
     }
 }
