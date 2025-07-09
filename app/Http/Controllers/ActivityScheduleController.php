@@ -9,6 +9,7 @@ use App\Models\ActivitySchedule;
 use App\Models\Activity;
 use App\Models\Room;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateActivityScheduleFormRequest;
 use App\Services\EnrollUserInScheduleService;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -135,15 +136,8 @@ class ActivityScheduleController extends Controller implements HasMiddleware
      * If the request is valid, the activity schedule will be updated in the database.
      * The user will then be redirected to the activities schedule list with a success message.
      */
-    public function update(Request $request, ActivitySchedule $activitySchedule): RedirectResponse
+    public function update(UpdateActivityScheduleFormRequest $request, ActivitySchedule $activitySchedule): RedirectResponse
     {
-        $request->validate([
-            'activity_id' => 'required|exists:activities,id',
-            'start_datetime' => 'required|date|after_or_equal:today',
-            'room_id' => 'required|exists:rooms,id',
-            'max_enrollment' => 'required|integer|min:10|max:50',
-        ]);
-
         $activitySchedule->update($request->all());
         return redirect()->route('activity.schedules.index')->with('success', 'Horario actualizado correctamente.');
     }
