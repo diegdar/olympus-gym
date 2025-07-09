@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreRoomFormRequest;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -54,13 +55,8 @@ class RoomController extends Controller implements HasMiddleware
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRoomFormRequest $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'min:3', 'max:50', 'unique:rooms,name'],
-            'description' => ['nullable', 'min:10', 'string', 'max:2000'],
-        ]);
-
         Room::create($request->all());
 
         return redirect()->route('rooms.index')->with('msg', 'Sala creada satisfactoriamente.');
