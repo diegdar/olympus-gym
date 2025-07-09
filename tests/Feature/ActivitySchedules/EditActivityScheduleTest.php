@@ -92,7 +92,7 @@ class EditActivityScheduleTest extends TestCase
 
             $response->assertRedirect(route(self::ROUTE_INDEX))
                      ->assertStatus(302)
-                     ->assertSessionHas('msg');
+                     ->assertSessionHas('success');
 
             foreach ($newActivityScheduleData as $attribute => $value) {
                 $this->assertDatabaseHas('activity_schedules', [
