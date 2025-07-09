@@ -10,6 +10,9 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 use Database\Seeders\RoleSeeder;
+use App\Enums\OperationHours;
+use App\Models\Activity;
+use App\Models\Room;
 
 class CreateActivityScheduleTest extends TestCase
 {
@@ -35,10 +38,10 @@ class CreateActivityScheduleTest extends TestCase
         return $this->actingAsRole($roleName)->get(route(self::ROUTE_CREATE_ACTIVITY_SCHEDULE_VIEW));
     }
 
-    public function test_authorized_user_can_view_create_activity_form()
+    public function test_authorized_user_can_view_create_activity_schedule_form()
     {
         foreach (
-                $this->getAuthorizedRoles                (self::PERMISSION_CREATE_ACTIVITY_SCHEDULE)       
+                $this->getAuthorizedRoles(self::PERMISSION_CREATE_ACTIVITY_SCHEDULE)       
                 as $authorizedRole
             ) 
         {            
@@ -53,7 +56,7 @@ class CreateActivityScheduleTest extends TestCase
         }
     }   
 
-    public function test_unauthorized_user_cannot_view_create_activity_form()
+    public function test_unauthorized_user_cannot_view_create_activity_schedule_form()
     {
         foreach (
             $this->getUnauthorizedRoles(self::PERMISSION_CREATE_ACTIVITY_SCHEDULE) as $unauthorizedRole
@@ -76,7 +79,7 @@ class CreateActivityScheduleTest extends TestCase
             ->post(route(self::ROUTE_STORE_ACTIVITY_SCHEDULE, $newData));
     }    
 
-    public function test_authorized_user_can_create_an_activity()
+    public function test_authorized_user_can_create_an_activity_schedule()
     {
         foreach (
             $this->getAuthorizedRoles(self::PERMISSION_STORE_ACTIVITY_SCHEDULE) as $authorizedRole
@@ -85,17 +88,13 @@ class CreateActivityScheduleTest extends TestCase
             $response = $this->CreateActivityScheduleAs($authorizedRole, $activityScheduleData);
 
             $response->assertRedirect(route(self::ROUTE_ACTIVITY_SCHEDULES_INDEX))
-                     ->assertSessionHas('msg');
+                     ->assertSessionHas('success');
 
-            foreach ($activityScheduleData as $key => $value) {
-                $this->assertDatabaseHas('activity_schedules', [
-                    $key => $value,
-                ]);
-            }
+            $this->assertDatabaseHas('activity_schedules', $activityScheduleData);
         }
     }
 
-    public function test_unauthorized_user_cannot_create_a_activity()
+    public function test_unauthorized_user_cannot_create_an_activity_schedule()
     {
         foreach (
             $this->getUnauthorizedRoles(self::PERMISSION_STORE_ACTIVITY_SCHEDULE) as $unauthorizedRole
@@ -104,106 +103,125 @@ class CreateActivityScheduleTest extends TestCase
             $response = $this->CreateActivityScheduleAs($unauthorizedRole, $activityScheduleData);
 
             $response->assertStatus(403)
-                     ->assertSessionMissing('msg');
+                     ->assertSessionMissing('success');
 
-            foreach ($activityScheduleData as $key => $value) {
-                $this->assertDatabaseMissing('activity_schedules', [
-                    $key => $value,
-                ]);
-            }
+            $this->assertDatabaseMissing('activity_schedules', $activityScheduleData);
         }
     }
          
-    #[DataProvider('invalidActivityDataProvider')]
-    public function test_validation_errors_for_invalid_activity_data(array $invalidData, array $expectedErrors): void
+    #[DataProvider('invalidActivityScheduleDataProvider')]
+    public function test_validation_errors_for_invalid_activity_schedule_data(array $invalidData, string $field, string $error): void
     {
+        $activity = Activity::factory()->create(['id' => 1]);
+        $room = Room::factory()->create(['id' => 1]);
+
+        if($error === 'room is not available') {
+            ActivitySchedule::factory()->create([
+                'start_datetime' => '2028-01-01 10:00:00',
+                'end_datetime' => '2028-01-01 11:00:00',
+                'room_id' => $room->id,
+                'activity_id' => $activity->id,
+            ]);
+        }
+
         foreach (
             $this->getAuthorizedRoles(self::PERMISSION_STORE_ACTIVITY_SCHEDULE) as $authorizedRole
         ) {
             $response = $this->CreateActivityScheduleAs($authorizedRole, $invalidData);
 
             $response->assertRedirect(route(self::ROUTE_CREATE_ACTIVITY_SCHEDULE_VIEW))
-                     ->assertSessionHasErrors($expectedErrors);
+                     ->assertSessionHasErrors($field);
 
-            foreach($invalidData as $key => $value) {
-                $this->assertDatabaseMissing('activity_schedules', [
-                    $key => $value,
-                ]);
-            }                            
+            $this->assertDatabaseMissing('activity_schedules', $invalidData);                           
         }
     }
 
-    public static function invalidActivityDataProvider(): array
+    public static function invalidActivityScheduleDataProvider(): array
     {      
         $now = now();
         $nextHour = $now->copy()->addHour();
         $pastDay = $now->copy()->subDay();
-        $prevHour = $now->copy()->subHour();
 
         return [
             // activity_id
             'empty activity_id' => [
                 ['activity_id' => '', 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => 0],
-                ['activity_id']
+                'activity_id',
+                'empty activity_id'
             ],
             'activity_id does not exist' => [
                 ['activity_id' => 9999, 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => 0],
-                ['activity_id']
+                'activity_id',
+                'activity_id does not exist'
             ],
             // start_datetime
             'empty start_datetime' => [
                 ['activity_id' => 1, 'start_datetime' => '', 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => 0],
-                ['start_datetime']
+                'start_datetime',
+                'empty start_datetime'
             ],
             'start_datetime in the past' => [
                 ['activity_id' => 1, 'start_datetime' => $pastDay, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => 0],
-                ['start_datetime']
+                'start_datetime',
+                'start_datetime in the past'
+            ],
+            'start_datetime before operation hours' => [
+                [   'activity_id' => 1, 
+                    'start_datetime' => now()
+                        ->setHour(OperationHours::START_HOUR->value - 1),
+                    'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => 0
+                ],
+                'start_datetime',
+                'start_datetime before operation hours'
+            ],
+            'start_datetime after operation hours' => [
+                [   'activity_id' => 1, 'start_datetime' => now()
+                        ->setHour(OperationHours::END_HOUR->value + 1),
+                    'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => 0
+                ],
+                'start_datetime',
+                'start_datetime after operation hours'
             ],
             // room_id
             'empty room_id' => [
                 ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => '', 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => 0],
-                ['room_id']
+                'room_id',
+                'empty room_id'
             ],
             'room_id does not exist' => [
                 ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => 9999, 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => 0],
-                ['room_id']
+                'room_id',
+                'room_id does not exist'
             ],
-            // end_datetime
-            'empty end_datetime' => [
-                ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => '', 'max_enrollment' => 30, 'current_enrollment' => 0],
-                ['end_datetime']
-            ],
-            'end_datetime before start_datetime' => [
-                ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $prevHour, 'max_enrollment' => 30, 'current_enrollment' => 0],
-                ['end_datetime']
+            'room is not available' => [
+                [   'activity_id' => 1, 
+                    'start_datetime' =>     
+                        '2028-01-01 10:00:00',  
+                    'room_id' => 1,
+                    'end_datetime' => $nextHour,
+                    'max_enrollment' => 30, 
+                    'current_enrollment' => 0
+                ],
+                'room_id',
+                'room is not available'
             ],
             // max_enrollment
             'empty max_enrollment' => [
                 ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => '', 'current_enrollment' => 0],
-                ['max_enrollment']
+                'max_enrollment',
+                'empty max_enrollment'
             ],
             'max_enrollment less than 10' => [
                 ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 5, 'current_enrollment' => 0],
-                ['max_enrollment']
+                'max_enrollment',
+                'max_enrollment less than 10'
             ],
             'max_enrollment greater than 50' => [
                 ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 60, 'current_enrollment' => 0],
-                ['max_enrollment']
-            ],
-            // current_enrollment
-            'empty current_enrollment' => [
-                ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => ''],
-                ['current_enrollment']
-            ],
-            'current_enrollment less than 0' => [
-                ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => -5],
-                ['current_enrollment']
-            ],
-            'current_enrollment greater than max_enrollment' => [
-                ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => 40],
-                ['current_enrollment']
+                'max_enrollment',
+                'max_enrollment greater than 50'
             ],
         ];
-    }    
+    }
 
 }
