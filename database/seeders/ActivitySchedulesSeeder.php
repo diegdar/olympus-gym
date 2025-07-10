@@ -10,15 +10,10 @@ use App\Models\Room;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
+use App\Enums\OperationHours;
 
 class ActivitySchedulesSeeder extends Seeder
 {
-    /**
-     * Hours between which activities can start.
-     */
-    private const START_HOUR = 7;
-    private const END_HOUR = 21;
-
     /**
      * Activities per day range.
      */
@@ -101,7 +96,7 @@ class ActivitySchedulesSeeder extends Seeder
         $maxAttempts = 50;
 
         do {
-            $startHour = rand(self::START_HOUR, self::END_HOUR - 1);
+            $startHour = rand(OperationHours::START_HOUR->value, OperationHours::END_HOUR->value - 1);
             $startMinute = fake()->randomElement([0, 30]);
 
             $start = $date->copy()->setTime($startHour, $startMinute);

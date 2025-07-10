@@ -13,7 +13,8 @@
             class="mt-3 shadow max-w-[60px] appearance-none border rounded py-2 
                 px-3 text-gray-700 leading-tight focus:outline-none 
                 focus:shadow-outline dark:bg-gray-700 
-                dark:border-gray-600 dark:text-gray-300">
+                dark:border-gray-600 dark:text-gray-300"
+            id="numberRows" name="numberRows">
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="15">15</option>
@@ -26,7 +27,8 @@
                 focus:outline-none focus:shadow-outline mt-2
                 dark:bg-gray-700 dark:border-gray-600 
                 dark:text-gray-300"
-            placeholder="Buscar...">
+            placeholder="Buscar..."
+            id="search" name="search">
     </div>
     <!-- Table: users list -->
     @if ($users->count())

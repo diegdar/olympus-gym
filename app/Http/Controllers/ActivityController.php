@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreActivityFormRequest;
+use App\Http\Requests\UpdateActivityFormRequest;
 use App\Models\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -75,14 +77,8 @@ class ActivityController extends Controller implements HasMiddleware
      * @param Request $request The request containing the activity's information.
      * @return RedirectResponse The redirect response containing the success message.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreActivityFormRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'min:3', 'max:50', 'unique:activities,name'],
-            'description' => ['nullable', 'min:10', 'string', 'max:2000'],
-            'duration' => ['required', 'integer', 'min:15'],
-        ]);
-
         Activity::create($request->all());
 
         return redirect()->route('activities.index')->with('msg', 'Actividad creada correctamente.');
@@ -114,14 +110,8 @@ class ActivityController extends Controller implements HasMiddleware
      * @param Activity $activity The activity to be updated.
      * @return RedirectResponse The redirect response containing the success message.
      */
-    public function update(Request $request, Activity $activity): RedirectResponse
+    public function update(UpdateActivityFormRequest $request, Activity $activity): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'min:3', 'max:50'],
-            'description' => ['nullable', 'min:10', 'string', 'max:2000'],
-            'duration' => ['required', 'integer', 'min:15'],
-        ]);
-
         $activity->update($request->all());
 
         return redirect()->route('activities.index')->with('msg', 'Actividad actualizada correctamente.');

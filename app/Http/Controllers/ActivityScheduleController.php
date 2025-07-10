@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreActivityScheduleFormRequest;
 use App\Models\ActivitySchedule;
 use App\Models\Activity;
 use App\Models\Room;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateActivityScheduleFormRequest;
 use App\Services\EnrollUserInScheduleService;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -15,8 +17,8 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Services\ListActivityScheduleService;
+use App\Services\StoreActivityScheduleService;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 
 class ActivityScheduleController extends Controller implements HasMiddleware
 {
@@ -59,13 +61,13 @@ class ActivityScheduleController extends Controller implements HasMiddleware
     public function show(ActivitySchedule $activitySchedule): View
     {
         $startTimeFormatted = Carbon::parse
-                              ($activitySchedule->start_datetime)
-                                ->format('G:i');
+            ($activitySchedule->start_datetime)
+            ->format('G:i');
         $dayDateFormatted = Carbon::parse   
-                            ($activitySchedule->start_datetime)
-                                ->translatedFormat('l, d F');
+            ($activitySchedule->start_datetime)
+                ->translatedFormat('l, d F');
         $availableSlots = $activitySchedule->max_enrollment 
-                          - $activitySchedule->current_enrollment;     
+            - $activitySchedule->current_enrollment;     
 
         return view('activitiesSchedule.show', compact(['activitySchedule', 'startTimeFormatted', 'dayDateFormatted', 'availableSlots']));
     }
@@ -98,19 +100,13 @@ class ActivityScheduleController extends Controller implements HasMiddleware
      * If the request is valid, the activity schedule will be stored in the database.
      * The user will then be redirected to the activities schedule list with a success message.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(
+        StoreActivityScheduleFormRequest $request, StoreActivityScheduleService $storeActivityScheduleService
+    ): RedirectResponse
     {
-        $request->validate([
-            'activity_id' => 'required|exists:activities,id',
-            'start_datetime' => 'required|date|after_or_equal:today',
-            'room_id' => 'required|exists:rooms,id',
-            'end_datetime' => 'required|date|after:start_datetime',
-            'max_enrollment' => 'required|integer|min:10|max:50',
-            'current_enrollment' => 'required|integer|min:0|lte:max_enrollment',
-        ]);
+        $storeActivityScheduleService($request);
 
-        ActivitySchedule::create($request->all());
-        return redirect()->route('activity.schedules.index')->with('msg', 'Horario creado correctamente.');
+        return redirect()->route('activity.schedules.index')->with('success', 'Horario creado correctamente.');
     }
 
     /**
@@ -140,17 +136,10 @@ class ActivityScheduleController extends Controller implements HasMiddleware
      * If the request is valid, the activity schedule will be updated in the database.
      * The user will then be redirected to the activities schedule list with a success message.
      */
-    public function update(Request $request, ActivitySchedule $activitySchedule): RedirectResponse
+    public function update(UpdateActivityScheduleFormRequest $request, ActivitySchedule $activitySchedule): RedirectResponse
     {
-        $request->validate([
-            'activity_id' => 'required|exists:activities,id',
-            'start_datetime' => 'required|date|after_or_equal:today',
-            'room_id' => 'required|exists:rooms,id',
-            'max_enrollment' => 'required|integer|min:10|max:50',
-        ]);
-
         $activitySchedule->update($request->all());
-        return redirect()->route('activity.schedules.index')->with('msg', 'Horario actualizado correctamente.');
+        return redirect()->route('activity.schedules.index')->with('success', 'Horario actualizado correctamente.');
     }
 
     /**
@@ -162,7 +151,7 @@ class ActivityScheduleController extends Controller implements HasMiddleware
     public function destroy(ActivitySchedule $activitySchedule): RedirectResponse
     {
         $activitySchedule->delete();
-        return redirect()->route('activity.schedules.index')->with('msg', 'Horario eliminado correctamente.');
+        return redirect()->route('activity.schedules.index')->with('success', 'Horario eliminado correctamente.');
     }
 
     public function enrollUserInSchedule(ActivitySchedule $activitySchedule, EnrollUserInScheduleService $enrollUserInScheduleService): RedirectResponse
