@@ -7,7 +7,7 @@ return [
     'accepted_if'            => 'El campo :attribute debe ser aceptado cuando :other sea :value.',
     'active_url'             => 'El campo :attribute debe ser una URL válida.',
     'after'                  => 'El campo :attribute debe ser una fecha posterior a :date.',
-    'after_or_equal'         => 'El campo :attribute debe ser una fecha posterior o igual a :date.',
+    'after_or_equal'         => 'El campo :attribute debe ser una fecha posterior o igual a hoy.',
     'alpha'                  => 'El campo :attribute sólo debe contener letras.',
     'alpha_dash'             => 'El campo :attribute sólo debe contener letras, números, guiones y guiones bajos.',
     'alpha_num'              => 'El campo :attribute sólo debe contener letras y números.',
