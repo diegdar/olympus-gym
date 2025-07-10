@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRoomFormRequest;
+use App\Http\Requests\UpdateRoomFormRequest;
 use App\Models\Room;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
@@ -73,13 +73,8 @@ class RoomController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Room $room)
+    public function update(UpdateRoomFormRequest $request, Room $room)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'min:3', 'max:50', 'unique:rooms,name,'],
-            'description' => ['nullable', 'min:10', 'string', 'max:2000'],
-        ]);
-
         $room->update($request->all());
 
         return redirect()->route('rooms.index')->with('msg', 'Sala actualizada satisfactoriamente.');
