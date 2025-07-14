@@ -71,6 +71,11 @@
                     :current="request()->routeIs('activity.schedules.index')" wire:navigate>
                     {{ __('Horario Actividades') }}
                 </flux:navlist.item>
+                {{-- Activities Schedule --}}
+                <flux:navlist.item icon="ticket" :href="route('user.reservations')"
+                    :current="request()->routeIs('user.reservations')" wire:navigate>
+                    {{ __('Mis Reservas') }}
+                </flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
 
