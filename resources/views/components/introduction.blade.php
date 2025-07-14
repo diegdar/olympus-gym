@@ -3,9 +3,9 @@
     <p class="text-xl font-semibold text-center font-shadows-light text-2nd">tu santuario del fitness</p>
     <!-- abanico de imagenes -->
     <section class="flex w-full h-[430px]">
-        <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/pict/crossfit_class.webp') }}" alt="personas haciendo crossfit">
-        <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/pict/exercise_two_girls.webp') }}" alt="una chica instruyendo a otra como hacer ejercicio">
-        <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/pict/girl_using_small_weights.webp') }}" alt="chica haciendo ejercicio con pequeños pesos">
+        <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hidden sm:block hover:contrast-125" src="{{ asset('img/pict/crossfit_class.webp') }}" alt="personas haciendo crossfit">
+        <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hidden sm:block hover:contrast-125" src="{{ asset('img/pict/exercise_two_girls.webp') }}" alt="una chica instruyendo a otra como hacer ejercicio">
+        <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hidden md:block hover:contrast-125" src="{{ asset('img/pict/girl_using_small_weights.webp') }}" alt="chica haciendo ejercicio con pequeños pesos">
         <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/pict/spinning.webp') }}" alt="chico haciendo spinning">
         <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/pict/zumba_class.webp') }}" alt="personas haciendo una clase de zumba">
     </section>
