@@ -11,11 +11,11 @@ use App\Models\Room;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateActivityScheduleFormRequest;
 use App\Services\EnrollUserInScheduleService;
+use App\Services\GetUserReservationsService;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use App\Services\ListActivityScheduleService;
 use App\Services\StoreActivityScheduleService;
 use Carbon\Carbon;
@@ -32,6 +32,7 @@ class ActivityScheduleController extends Controller implements HasMiddleware
             new Middleware('permission:activity.schedules.destroy', only: ['destroy']),
             new Middleware('permission:activity.schedules.enroll', only: ['enrollUserInSchedule']),
             new Middleware('permission:activity.schedules.unenroll', only: ['unenrollUserInSchedule']),
+            new Middleware('permission:user.reservations', only: ['showUserReservations']),
         ];
     }
     
@@ -154,28 +155,63 @@ class ActivityScheduleController extends Controller implements HasMiddleware
         return redirect()->route('activity.schedules.index')->with('success', 'Horario eliminado correctamente.');
     }
 
+    /**
+     * Enrolls the user in the specified activity schedule.
+     *
+     * The service is injected and the user is enrolled in the activity schedule.
+     * The result of the service is then returned as a redirect response.
+     *
+     * @param ActivitySchedule $activitySchedule The activity schedule to enroll the user in.
+     * @param EnrollUserInScheduleService $enrollUserInScheduleService The service to enroll the user.
+     * @return \Illuminate\Http\RedirectResponse The redirect response with the result of the service.
+     */
     public function enrollUserInSchedule(ActivitySchedule $activitySchedule, EnrollUserInScheduleService $enrollUserInScheduleService): RedirectResponse
     {
         $result = $enrollUserInScheduleService
                     ->enrollUser($activitySchedule);
         
-        if($result['status'] == 'success') {
-            return redirect()->route('activity.schedules.index')->with('success', $result['message']);
-        } else {
-            return redirect()->route('activity.schedules.index')->with('error', $result['message']);
-        }
+        return redirect(route('activity.schedules.index'))->with($result['status'], value: $result['message']);
+
     }
 
+    /**
+     * Unenrolls the user from the specified activity schedule.
+     *
+     * The service is injected and the user is unenrolled from the activity schedule.
+     * The result of the service is then returned as a redirect response.
+     * If the previous URL was the user's reservations page, the user is redirected
+     * back to that page, otherwise they are redirected to the activity schedules index.
+     *
+     * @param ActivitySchedule $activitySchedule The activity schedule to unenroll the user from.
+     * @param EnrollUserInScheduleService $enrollUserInScheduleService The service to unenroll the user.
+     * @return \Illuminate\Http\RedirectResponse The redirect response with the result of the service.
+     */
     public function unenrollUserInSchedule(ActivitySchedule $activitySchedule, EnrollUserInScheduleService $enrollUserInScheduleService): RedirectResponse
     {
         $result = $enrollUserInScheduleService
                     ->unenrollUser($activitySchedule);
         
-        if($result['status'] == 'success') {
-            return redirect()->route('activity.schedules.index')->with('success', $result['message']);
-        } else {
-            return redirect()->route('activity.schedules.index')->with('error', $result['message']);
-        }
+        $redirectTo = str_contains(
+            url()->previous(), 
+            route('user.reservations')
+        )
+            ? route('user.reservations')
+            : route('activity.schedules.index');
+
+        return redirect($redirectTo)->with($result['status'], value: $result['message']);
+    }
+
+    /**
+     * Displays the user's reservations.
+     *
+     * @param GetUserReservationsService $getUserReservationsService The service to get the user's reservations.
+     * @return View The view with the user's reservations.
+     */
+    public function showUserReservations(GetUserReservationsService $getUserReservationsService): View
+    {
+        $reservations = $getUserReservationsService();
+
+        return view('activitiesSchedule.user-reservations', compact('reservations'));
     }
 
 }
