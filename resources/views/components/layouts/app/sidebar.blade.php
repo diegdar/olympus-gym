@@ -72,10 +72,12 @@
                     {{ __('Horario Actividades') }}
                 </flux:navlist.item>
                 {{-- Activities Schedule --}}
-                <flux:navlist.item icon="ticket" :href="route('user.reservations')"
-                    :current="request()->routeIs('user.reservations')" wire:navigate>
-                    {{ __('Mis Reservas') }}
-                </flux:navlist.item>
+                @can('user.reservations')
+                    <flux:navlist.item icon="ticket" :href="route('user.reservations')"
+                        :current="request()->routeIs('user.reservations')" wire:navigate>
+                        {{ __('Mis Reservas') }}
+                    </flux:navlist.item>
+                @endcan
             </flux:navlist.group>
         </flux:navlist>
 
