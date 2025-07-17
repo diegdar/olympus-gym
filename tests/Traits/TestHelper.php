@@ -59,8 +59,11 @@ trait TestHelper
      */
     public function createUserAndAssignRole(string $roleName = 'member', array $attributes = []): User
     {
-        $user = User::factory()->create($attributes);
-        $user->assignRole($roleName);
+        // $user = User::factory()->create($attributes);
+        // $user->assignRole($roleName);
+        // return $user;
+        $user = User::factory()->create($attributes)->assignRole($roleName);
+        $this->actingAs($user);
         return $user;
     }
 

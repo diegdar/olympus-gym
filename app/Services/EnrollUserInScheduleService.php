@@ -27,8 +27,7 @@ class EnrollUserInScheduleService
      */
     public function enrollUser(ActivitySchedule $activitySchedule): array
     {
-        $date         = $this->
-                         formatDate($activitySchedule->start_datetime);
+        $date = $this->formatDate($activitySchedule->start_datetime);
         $activityScheduleName = $activitySchedule->activity->name;
 
         if (
@@ -42,7 +41,7 @@ class EnrollUserInScheduleService
 
     public function unenrollUser(ActivitySchedule $activitySchedule): array
     {
-        $date   = $this->formatDate($activitySchedule->start_datetime);
+        $date = $this->formatDate($activitySchedule->start_datetime);
         $activityScheduleName = $activitySchedule->activity->name;
 
         $activitySchedule->users()->detach($this->userId);

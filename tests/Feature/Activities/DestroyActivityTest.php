@@ -34,7 +34,7 @@ class DestroyActivityTest extends TestCase
     public function test_can_destroy_activity_as_authorized_user()
     {        
         foreach (
-                $this->getAuthorizedRoles                (self::PERMISSION)       
+                $this->getAuthorizedRoles(self::PERMISSION)       
                 as $authorizedRole
             ) 
         { 
