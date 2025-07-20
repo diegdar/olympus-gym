@@ -37,11 +37,19 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('activities', ActivityController::class)->names('activities');
 
     // ActivitiesSchedule
+    Route::prefix('activity-schedules')->group(function () {        
+        Route::get('my-reservations', [ActivityScheduleController::class, 'showUserReservations'])
+            ->name('user.reservations');
+
+        Route::post('{activitySchedule}/enroll', [ActivityScheduleController::class, 'enrollUserInSchedule'])
+            ->name('activity.schedules.enroll');
+
+        Route::delete('{activitySchedule}/unenroll', [ActivityScheduleController::class, 'unenrollUserInSchedule'])
+            ->name('activity.schedules.unenroll');
+    });
     Route::resource('activity-schedules', ActivityScheduleController::class)
-    ->names('activity.schedules');
-    
-    Route::post('activity-schedules/{activitySchedule}/enroll', [ActivityScheduleController::class, 'enrollUserInSchedule'])->name('activity.schedules.enroll');
-    Route::delete('activity-schedules/{activitySchedule}/unenroll', [ActivityScheduleController::class, 'unenrollUserInSchedule'])->name('activity.schedules.unenroll');
+    ->names('activity.schedules');    
+
 });
 
 require __DIR__.'/auth.php';

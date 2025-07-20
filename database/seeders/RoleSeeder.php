@@ -58,6 +58,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'activity.schedules.store', 'description' => 'Guardar horario para una actividad'])->syncRoles([$superAdmin, $admin]);
         Permission::create(['name' => 'activity.schedules.edit', 'description' => 'Editar horario de una actividad'])->syncRoles([$superAdmin, $admin]);
         Permission::create(['name' => 'activity.schedules.destroy', 'description' => 'Eliminar horario de una actividad'])->syncRoles([$superAdmin, $admin]);
+        Permission::create(['name' => 'user.reservations', 'description' => 'Ver mis reservas'])->syncRoles([$member]);
 
         // Enroll in activity schedule
         Permission::create(['name' => 'activity.schedules.enroll', 'description' => 'Inscribirse a una actividad'])->syncRoles([$member]);
