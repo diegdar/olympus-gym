@@ -18,11 +18,16 @@
             </a>
         </div>
 
-        {{-- Dashboard links --}}
+        {{-- Inicio links --}}
         <flux:navlist variant="outline">
-            <flux:navlist.group heading="Platform" class="grid">
+            <flux:navlist.group heading="Inicio" class="grid">
                 <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
                     wire:navigate>{{ __('Dashboard') }}
+                </flux:navlist.item>
+                {{-- Activities Schedule --}}
+                <flux:navlist.item icon="calendar" :href="route('activity.schedules.index')"
+                    :current="request()->routeIs('activity.schedules.index')" wire:navigate>
+                    {{ __('Horario Actividades') }}
                 </flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
@@ -64,22 +69,19 @@
         @endcan
 
         {{-- User's Panel --}}
-        <flux:navlist variant="outline">
-            <flux:navlist.group heading="Mis Gestiones" class="grid">
-                {{-- Activities Schedule --}}
-                <flux:navlist.item icon="calendar" :href="route('activity.schedules.index')"
-                    :current="request()->routeIs('activity.schedules.index')" wire:navigate>
-                    {{ __('Horario Actividades') }}
-                </flux:navlist.item>
-                {{-- Activities Schedule --}}
-                @can('user.reservations')
-                    <flux:navlist.item icon="ticket" :href="route('user.reservations')"
-                        :current="request()->routeIs('user.reservations')" wire:navigate>
-                        {{ __('Mis Reservas') }}
-                    </flux:navlist.item>
-                @endcan
-            </flux:navlist.group>
-        </flux:navlist>
+        @can('member.panel')
+            <flux:navlist variant="outline">
+                <flux:navlist.group heading="Mis Gestiones" class="grid">
+                    {{-- Activities Schedule --}}
+                    @can('user.reservations')
+                        <flux:navlist.item icon="ticket" :href="route('user.reservations')"
+                            :current="request()->routeIs('user.reservations')" wire:navigate>
+                            {{ __('Mis Reservas') }}
+                        </flux:navlist.item>
+                    @endcan
+                </flux:navlist.group>
+            </flux:navlist>
+        @endcan
 
         <flux:spacer />
 

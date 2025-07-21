@@ -23,6 +23,9 @@ class RoleSeeder extends Seeder
         // Operational management
         Permission::create(['name' => 'admin.panel', 'description' => 'Ver el panel administrativo'])->syncRoles([$superAdmin, $admin]);
 
+        // Members management
+        Permission::create(['name' => 'member.panel', 'description' => 'Ver el panel de los miembros'])->syncRoles([$member]);
+
         // user CRUD
         Permission::create(['name' => 'admin.users.index', 'description' => 'Ver listado de usuarios'])->syncRoles([$superAdmin, $admin]);
         Permission::create(['name' => 'admin.users.create', 'description' => 'Ver formulario creacion de un usuario'])->syncRoles([$superAdmin]);
