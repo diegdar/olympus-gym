@@ -38,7 +38,7 @@ class ListActivityScheduleService
      */
     public function getActivityScheduleRecords(): Collection
     {
-        $start = Carbon::today()->startOfDay();
+        $start = Carbon::today()->now();
         $end   = Carbon::today()->addDays(6)->endOfDay();
 
         // Get the authenticated user's ID, or null if no user is logged in
