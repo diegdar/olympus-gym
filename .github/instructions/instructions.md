@@ -1,0 +1,4 @@
+- Utiliza siempre php
+- Utiliza siempre Laravel 11
+- Haz buenas prácticas.
+- Refactoriza el código siempre que se pueda.
