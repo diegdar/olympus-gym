@@ -54,6 +54,8 @@ Route::middleware(['auth'])->group(function () {
     // Subscriptions
     Route::get('member/subscription', [SubscriptionController::class, 'index'])
         ->name('member.subscription');
+    Route::put('member/subscription', [SubscriptionController::class, 'changeSubscription'])
+        ->name('member.subscription.update');
 
 });
 
