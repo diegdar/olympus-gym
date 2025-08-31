@@ -23,24 +23,6 @@ class ShowUserSubscriptionTest extends TestCase
         $this->seed();
     }
 
-    private function createSubscription(string $status = 'active'): array
-    {
-        $subscription = Subscription::where('fee', 'monthly')->first();
-        $user = $this->createUserAndAssignRole('member');
-        
-        $startDate = now();
-        $endDate = $startDate->copy()->addMonths($subscription->duration);
-        
-        $user->subscriptions()->attach($subscription->id, [
-            'start_date' => $startDate,
-            'end_date' => $endDate,
-            'payment_date' => now(),
-            'status' => $status
-        ]);
-
-        return [$user, $subscription, $startDate, $endDate];
-    }
-
     private function assertCommonPageElements($response, $user): void
     {
         $response->assertStatus(200)

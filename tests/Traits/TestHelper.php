@@ -6,6 +6,7 @@ namespace Tests\Traits;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
+use App\Models\Subscription;
 
 trait TestHelper
 {
@@ -59,12 +60,40 @@ trait TestHelper
      */
     public function createUserAndAssignRole(string $roleName = 'member', array $attributes = []): User
     {
-        // $user = User::factory()->create($attributes);
-        // $user->assignRole($roleName);
-        // return $user;
         $user = User::factory()->create($attributes)->assignRole($roleName);
         $this->actingAs($user);
         return $user;
     }
+
+    /**
+     * Create a user with a 'member' role and assign a subscription to the user.
+     * 
+     * The subscription's start date is set to the current date and time. The end date is
+     * calculated by adding the duration of the subscription's fee to the start date. The
+     * subscription's status will be set to 'active' by default, but can be changed by
+     * passing a different value to the $status parameter.
+     * 
+     * @param string $status The status to assign to the subscription. Defaults to 'active'.
+     * @return array An array containing the created user, the assigned subscription, the start date,
+     * and the end date.
+     */
+    public function createSubscription(string $status = 'active'): array
+    {
+        $subscription = Subscription::where('fee', 'monthly')->first();
+        $user = $this->createUserAndAssignRole('member');
+        
+        $startDate = now();
+        $endDate = $startDate->copy()->addMonths($subscription->duration);
+        
+        $user->subscriptions()->attach($subscription->id, [
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+            'payment_date' => now(),
+            'status' => $status
+        ]);
+
+        return [$user, $subscription, $startDate, $endDate];
+    }    
+
 
 }
