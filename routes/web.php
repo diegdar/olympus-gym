@@ -4,6 +4,7 @@ declare(strict_types=1);
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ActivityScheduleController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\SubscriptionController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -48,7 +49,13 @@ Route::middleware(['auth'])->group(function () {
             ->name('activity.schedules.unenroll');
     });
     Route::resource('activity-schedules', ActivityScheduleController::class)
-    ->names('activity.schedules');    
+    ->names('activity.schedules');   
+    
+    // Subscriptions
+    Route::get('member/subscription', [SubscriptionController::class, 'index'])
+        ->name('member.subscription');
+    Route::put('member/subscription', [SubscriptionController::class, 'changeSubscription'])
+        ->name('member.subscription.update');
 
 });
 

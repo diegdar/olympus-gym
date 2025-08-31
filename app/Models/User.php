@@ -12,6 +12,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Subscription;
+use App\Models\SubscriptionUser;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -41,7 +43,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function subscriptions(): BelongsToMany
     {
-        return $this->belongsToMany(Subscription::class);
+        return $this->belongsToMany(Subscription::class)
+                ->using(SubscriptionUser::class)
+                ->withPivot('start_date', 'end_date', 'payment_date', 'status')
+                ->withTimestamps();
     }
 
     public function activySchedules(): BelongsToMany

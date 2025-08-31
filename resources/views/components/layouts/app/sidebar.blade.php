@@ -79,6 +79,13 @@
                             {{ __('Mis Reservas') }}
                         </flux:navlist.item>
                     @endcan
+                    {{-- Activities Schedule --}}
+                    @can('member.subscription')
+                        <flux:navlist.item icon="check-badge" :href="route('member.subscription')"
+                            :current="request()->routeIs('member.subscription')" wire:navigate>
+                            {{ __('Mi Suscripción') }}
+                        </flux:navlist.item>
+                    @endcan
                 </flux:navlist.group>
             </flux:navlist>
         @endcan

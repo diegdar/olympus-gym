@@ -6,7 +6,9 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Subscription;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class UserSeeder extends Seeder
 {
@@ -15,25 +17,70 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
+        // Crear super-admin y admin
+        $this->createUser([
             'name' => env('SUPER_ADMIN_NAME'),
             'email' => env('SUPER_ADMIN_EMAIL'),
             'password' => Hash::make(env('SUPER_ADMIN_PASSWORD'))
-        ])->assignRole('super-admin'); 
+        ], 'super-admin');
 
-        User::factory()->create([
+        $this->createUser([
             'name' => env('ADMIN_NAME'),
             'email' => env('ADMIN_EMAIL'),
             'password' => Hash::make(env('ADMIN_PASSWORD'))
-        ])->assignRole('admin');        
+        ], 'admin');
 
-        User::factory()->create([
+        // Crear un member con suscripción mensual
+        $member = $this->createUser([
             'name' => 'member',
             'email' => 'member@member.com',
             'password' => Hash::make('PassNix$123')
-        ])->assignRole('member'); 
-        
-        User::factory(15)->create()
+        ], 'member');
+
+        $this->attachSubscription($member, 'quarterly');
+
+        // Crear otros miembros
+        $this->createMultipleMembers(15);
+    }
+
+    /**
+     * Create a user with the given attributes and assign a role.
+     */
+    private function createUser(array $attributes, string $role): User
+    {
+        $user = User::factory()->create($attributes);
+        $user->assignRole($role);
+
+        return $user;
+    }
+
+    /**
+     * Attach a subscription (by fee key) to the given user if it exists.
+     */
+    private function attachSubscription(User $user, string $fee): void
+    {
+        $subscription = Subscription::where('fee', operator: $fee)->first();
+        if (! $subscription) {
+            return;
+        }
+
+        $startDate = Carbon::now();
+        $endDate = $startDate->copy()->addMonths($subscription->duration);
+
+        $user->subscriptions()->attach($subscription->id, [
+            'start_date'   => $startDate,
+            'end_date'     => $endDate,
+            'payment_date' => Carbon::now(),
+            'status'       => 'active',
+        ]);
+    }
+
+    /**
+     * Create multiple member users and assign them the 'member' role.
+     */
+    private function createMultipleMembers(int $count): void
+    {
+        User::factory($count)->create()
             ->each(function ($user) {
                 $user->assignRole('member');
         });
