@@ -14,6 +14,7 @@ class CreateSubscriptionUserTable extends Migration
     public function up(): void
     {
         Schema::create('subscription_user', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('user_id')
                 ->constrained()
                     ->onUpdate('cascade')
@@ -29,8 +30,6 @@ class CreateSubscriptionUserTable extends Migration
                 ->default('active')
                 ->nullable(false);
             $table->timestamps();
-
-            $table->primary(['user_id', 'subscription_id'], 'pk_subscription_user');
 
             $table->index('start_date', 'idx_subscription_user_start_date');
             $table->index(['user_id', 'subscription_id'], 'idx_subscription_user_combined');            

@@ -49,18 +49,6 @@ class User extends Authenticatable implements MustVerifyEmail
                 ->withTimestamps();
     }
 
-    /**
-     * Get the currently active subscription of the user.
-     *
-     * @return Subscription|null  The active subscription instance, or null if the user has no active subscription.
-     */
-    public function currentSubscription(): ?Subscription
-    {
-        return $this->subscriptions()
-            ->wherePivot('status', 'active')
-            ->first();
-    }  
-
     public function activySchedules(): BelongsToMany
     {
         return $this->belongsToMany
