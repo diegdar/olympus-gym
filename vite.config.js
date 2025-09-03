@@ -15,6 +15,7 @@ export default defineConfig({
                 'resources/js/passwordVisibility.js',
                 'resources/js/hideTableHeaders.js',
                 'resources/js/messageTransition.js',
+                'resources/js/admin/subscriptions/stats.js',
             ],
             refresh: [`resources/views/**/*`],
         }),
