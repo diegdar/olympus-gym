@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use App\Services\Subscriptions\SubscriptionPercentagesCalculator;
+use App\Services\Subscriptions\SubscriptionMonthlyNetAggregator;
+use App\Services\Subscriptions\CsvExportService;
 use Illuminate\View\View;
 
 class SubscriptionStatsController extends Controller
@@ -15,35 +18,54 @@ class SubscriptionStatsController extends Controller
         return view('admin.subscriptions.stats');
     }
 
-    public function percentages(): JsonResponse
+    public function percentages(SubscriptionPercentagesCalculator $percentages): JsonResponse
     {
-        // Total active users with at least one active subscription
-        $totalActiveUsers = DB::table('subscription_user as su')
-            ->where('su.status', 'active')
-            ->distinct('su.user_id')
-            ->count('su.user_id');
+        $payload = $percentages();
+        return response()->json($payload);
+    }
 
-        $rows = DB::table('subscription_user as su')
-            ->join('subscriptions as s', 's.id', '=', 'su.subscription_id')
-            ->select('s.fee', DB::raw('COUNT(DISTINCT su.user_id) as users'))
-            ->where('su.status', 'active')
-            ->groupBy('s.fee')
-            ->get()
-            ->map(function ($row) use ($totalActiveUsers) {
-                $row->percentage = $totalActiveUsers ? round(($row->users / $totalActiveUsers) * 100, 2) : 0;
-                $row->fee_translated = match ($row->fee) {
-                    'monthly' => 'Mensual',
-                    'quarterly' => 'Trimestral',
-                    'yearly' => 'Anual',
-                    default => $row->fee,
-                };
-                return $row;
-            })
-            ->values();
+    /**
+     * Altas, bajas y neto por mes de un año dado.
+     * year param (int) default actual.
+     */
+    public function monthlyNet(SubscriptionMonthlyNetAggregator $monthlyNet): JsonResponse
+    {
+        $year = (int) (request()->query('year') ?? date('Y'));
+        return response()->json($monthlyNet($year));
+    }
 
-        return response()->json([
-            'data' => $rows,
-            'total_active_users' => $totalActiveUsers,
+    // Exports JSON for percentages
+    public function exportPercentagesJson(SubscriptionPercentagesCalculator $percentages): JsonResponse
+    {
+        $payload = $percentages();
+        $filename = 'porcentajes_suscripciones_'.date('Ymd_His').'.json';
+        return response()->json($payload)->withHeaders([
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"'
         ]);
+    }
+
+    // Exports JSON for monthly net
+    public function exportMonthlyNetJson(SubscriptionMonthlyNetAggregator $monthlyNet): JsonResponse
+    {
+        $year = (int) (request()->query('year') ?? date('Y'));
+        $payload = $monthlyNet($year);
+        $filename = 'altas_bajas_neto_'.$payload['year'].'_'.date('Ymd_His').'.json';
+        return response()->json($payload)->withHeaders([
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"'
+        ]);
+    }
+
+    // Excel exports (simple array to CSV-like XLS via Laravel Excel fallback)
+    public function exportPercentagesExcel(SubscriptionPercentagesCalculator $percentages, CsvExportService $csv): BinaryFileResponse
+    {
+        $payload = $percentages();
+        return $csv($payload['data'], 'porcentajes_suscripciones');
+    }
+
+    public function exportMonthlyNetExcel(SubscriptionMonthlyNetAggregator $monthlyNet, CsvExportService $csv): BinaryFileResponse
+    {
+        $year = (int) (request()->query('year') ?? date('Y'));
+        $payload = $monthlyNet($year);
+        return $csv($payload['data'], 'altas_bajas_neto_'.$payload['year']);
     }
 }
