@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-BslKHpIA.css",
+    "file": "assets/app-Be9XbujQ.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -8,6 +8,15 @@
     "file": "assets/tableList-DChFt-JK.css",
     "src": "resources/css/tableList.css",
     "isEntry": true
+  },
+  "resources/js/admin/subscriptions/stats.js": {
+    "file": "assets/stats-B1-1BhOr.js",
+    "name": "stats",
+    "src": "resources/js/admin/subscriptions/stats.js",
+    "isEntry": true,
+    "css": [
+      "assets/stats-9i1y9qwb.css"
+    ]
   },
   "resources/js/app.js": {
     "file": "assets/app-l0sNRNKZ.js",
