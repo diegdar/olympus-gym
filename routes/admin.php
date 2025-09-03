@@ -21,4 +21,16 @@ Route::middleware(['auth','can:admin.subscriptions.stats'])->group(function () {
         ->name('admin.subscriptions.stats');
     Route::get('subscriptions/stats/percentages', [SubscriptionStatsController::class, 'percentages'])
         ->name('admin.subscriptions.percentages');
+    Route::get('subscriptions/stats/monthly-net', [SubscriptionStatsController::class, 'monthlyNet'])
+        ->name('admin.subscriptions.monthly-net');
+
+    // Export routes
+    Route::get('subscriptions/stats/percentages/export/json', [SubscriptionStatsController::class, 'exportPercentagesJson'])
+        ->name('admin.subscriptions.percentages.export.json');
+    Route::get('subscriptions/stats/percentages/export/excel', [SubscriptionStatsController::class, 'exportPercentagesExcel'])
+        ->name('admin.subscriptions.percentages.export.excel');
+    Route::get('subscriptions/stats/monthly-net/export/json', [SubscriptionStatsController::class, 'exportMonthlyNetJson'])
+        ->name('admin.subscriptions.monthly-net.export.json');
+    Route::get('subscriptions/stats/monthly-net/export/excel', [SubscriptionStatsController::class, 'exportMonthlyNetExcel'])
+        ->name('admin.subscriptions.monthly-net.export.excel');
 });
