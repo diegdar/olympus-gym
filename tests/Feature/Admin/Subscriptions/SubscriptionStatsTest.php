@@ -101,4 +101,34 @@ class SubscriptionStatsTest extends TestCase
         $this->assertEquals(round((2/3)*100,2), $monthly['percentage']);
         $this->assertEquals(round((1/3)*100,2), $quarterly['percentage']);
     }
+
+    public function test_monthly_net_json_export_returns_expected_structure(): void
+    {
+        $this->seedScenario();
+        $adminUser = User::factory()->create()->assignRole('admin');
+        $this->actingAs($adminUser);
+
+        $year = now()->year;
+        $response = $this->get(route('admin.subscriptions.monthly-net.export.json', ['year' => $year]));
+        $response->assertOk();
+        $this->assertStringContainsString((string)$year, $response->headers->get('content-disposition'));
+        $response->assertJsonStructure([
+                'year',
+                'data' => [
+                    ['month','month_name','signups','cancellations','net']
+                ]
+            ]);
+    }
+
+    public function test_monthly_net_excel_export_downloads_file(): void
+    {
+        $this->seedScenario();
+        $adminUser = User::factory()->create()->assignRole('admin');
+        $this->actingAs($adminUser);
+
+        $year = now()->year;
+        $response = $this->get(route('admin.subscriptions.monthly-net.export.excel', ['year' => $year]));
+        $response->assertOk();
+    $this->assertTrue(str_contains($response->headers->get('content-disposition'), '.csv'));
+    }
 }
