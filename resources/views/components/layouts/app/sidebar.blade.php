@@ -67,7 +67,7 @@
                     {{-- Subscription Stats --}}
                     @can('admin.subscriptions.stats')
                         <flux:navlist.item icon="chart-pie" :href="route('admin.subscriptions.stats')"
-                            :current="request()->routeIs('admin.subscriptions.stats')" wire:navigate>
+                            :current="request()->routeIs('admin.subscriptions.stats')">
                             {{ __('Estadísticas Suscripciones') }}
                         </flux:navlist.item>
                     @endcan
