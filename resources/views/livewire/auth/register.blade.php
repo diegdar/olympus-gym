@@ -49,6 +49,13 @@
             @error('fee') <span class="error text-red-500">{{ $message }}</span> @enderror
         </div>
 
+        <!-- Birth Date -->
+        <div>
+            <label for="birth_date" class="block text-sm font-medium">Fecha de nacimiento</label>
+            <input wire:model="birth_date" id="birth_date" name="birth_date" type="date" max="{{ now()->toDateString() }}" class="mt-1 block w-full text-center py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-white-500" required />
+            @error('birth_date') <span class="error text-red-500">{{ $message }}</span> @enderror
+        </div>
+
         <!-- Password -->
         <div class="relative">
             <input

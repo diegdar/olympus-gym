@@ -6,7 +6,6 @@ namespace App\Livewire\Auth;
 
 use App\Http\Requests\CreateUserFormRequest;
 use App\Services\CreateUserService;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{
     Auth,
@@ -24,6 +23,7 @@ class Register extends Component
     public string $email = '';   
     public string $password = '';
     public string $fee = '';
+    public string $birth_date = '';
     public string $password_confirmation = '';
     public ?string $role = 'member';
     public bool $privacy = false;
@@ -47,7 +47,7 @@ class Register extends Component
     
         $validated['password'] = Hash::make($validated['password']);
     
-        $user = $createUserService($validated);
+    $user = $createUserService($validated);
         Auth::login($user);        
     
         $this->redirect(route('dashboard', absolute: false), navigate: true);

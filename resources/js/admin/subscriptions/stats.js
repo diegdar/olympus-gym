@@ -59,7 +59,7 @@ function buildMonthlyNetTable(selectEl, container) {
         layout: 'fitColumns',
         responsiveLayout: 'collapse',
         placeholder: 'Sin datos',
-        height: '360px',
+        height: '380px',
         columnDefaults: { hozAlign: 'center', headerHozAlign: 'center' },
         ajaxResponse: (_u,_p,r)=> r.data ?? [],
         columns: [

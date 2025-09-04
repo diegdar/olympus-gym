@@ -5,6 +5,8 @@ namespace App\Services\Subscriptions;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
+use App\Models\User;
+use Carbon\Carbon;
 
 /**
  * Calculates percentage of active users per subscription fee.
@@ -38,6 +40,7 @@ class SubscriptionPercentagesCalculator
         return [
             'data' => $data,
             'total_active_users' => $totalActiveUsers,
+            'average_age' => $this->averageAgeActiveUsers(),
         ];
     }
 
@@ -57,5 +60,22 @@ class SubscriptionPercentagesCalculator
             'yearly' => 'Anual',
             default => ucfirst($fee),
         };
+    }
+
+    private function averageAgeActiveUsers(): ?float
+    {
+        $users = User::query()
+            ->whereNotNull('birth_date')
+            ->whereHas('subscriptions', function($q){
+                $q->where('status','active');
+            })
+            ->get(['birth_date']);
+
+        if ($users->isEmpty()) {
+            return null;
+        }
+
+        $ages = $users->map(fn($u) => Carbon::parse($u->birth_date)->age);
+        return round($ages->avg(), 2);
     }
 }

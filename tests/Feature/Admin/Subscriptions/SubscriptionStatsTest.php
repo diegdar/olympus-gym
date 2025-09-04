@@ -79,7 +79,8 @@ class SubscriptionStatsTest extends TestCase
                 'data' => [
                     ['fee','users','percentage','fee_translated']
                 ],
-                'total_active_users'
+                'total_active_users',
+                'average_age'
             ]);
     }
 
@@ -89,7 +90,7 @@ class SubscriptionStatsTest extends TestCase
         $adminUser = User::factory()->create()->assignRole('admin');
         $this->actingAs($adminUser);
 
-        $response = $this->getJson(route(self::DATA_ROUTE));
+    $response = $this->getJson(route(self::DATA_ROUTE));
         $data = collect($response->json('data'));
 
         $monthly = $data->firstWhere('fee','monthly');
@@ -99,7 +100,8 @@ class SubscriptionStatsTest extends TestCase
         $this->assertEquals(2, $monthly['users']);
         $this->assertEquals(1, $quarterly['users']);
         $this->assertEquals(round((2/3)*100,2), $monthly['percentage']);
-        $this->assertEquals(round((1/3)*100,2), $quarterly['percentage']);
+    $this->assertEquals(round((1/3)*100,2), $quarterly['percentage']);
+    $this->assertTrue($response->json('average_age') === null || is_numeric($response->json('average_age')));
     }
 
     public function test_monthly_net_json_export_returns_expected_structure(): void

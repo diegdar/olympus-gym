@@ -21,20 +21,23 @@ class UserSeeder extends Seeder
         $this->createUser([
             'name' => env('SUPER_ADMIN_NAME'),
             'email' => env('SUPER_ADMIN_EMAIL'),
-            'password' => Hash::make(env('SUPER_ADMIN_PASSWORD'))
+            'password' => Hash::make(env('SUPER_ADMIN_PASSWORD')),
+            'birth_date' => now()->subYears(38)->toDateString(),
         ], 'super-admin');
 
         $this->createUser([
             'name' => env('ADMIN_NAME'),
             'email' => env('ADMIN_EMAIL'),
-            'password' => Hash::make(env('ADMIN_PASSWORD'))
+            'password' => Hash::make(env('ADMIN_PASSWORD')),
+            'birth_date' => now()->subYears(34)->toDateString(),
         ], 'admin');
 
         // Crear un member con suscripción mensual
         $member = $this->createUser([
             'name' => 'member',
             'email' => 'member@member.com',
-            'password' => Hash::make('PassNix$123')
+            'password' => Hash::make('PassNix$123'),
+            'birth_date' => now()->subYears(29)->toDateString(),
         ], 'member');
 
         $this->attachSubscription($member, 'quarterly');
