@@ -86,6 +86,17 @@
                                 </select>
                             </article>
                         </div>
+                        <!-- birth_date -->
+                        <div class="mt-2 mb-flex flex-col">
+                            @error('birth_date')
+                                <span class="text-red-500 text-sm dark:text-red-400">{{ $message }}</span>
+                            @enderror
+                            <article class="flex flex-col">
+                                <input wire:model="birth_date"
+                                    class="mr-2 mb-3 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+                                    type="date" id="birth_date" max="{{ now()->toDateString() }}" placeholder="Fecha nacimiento">
+                            </article>
+                        </div>
                     </section>
                     <!-- submit boton -->
                     <div class="flex-col text-center mb-4">

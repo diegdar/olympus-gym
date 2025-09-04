@@ -28,6 +28,12 @@ class CreateUserFormRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'fee' => ['required', 'string', 'exists:subscriptions,fee'],
+            'birth_date' => [
+                'required',
+                'date',
+                'after:1900-01-01',
+                'before_or_equal:' . now()->subYears(14)->toDateString(), // mínimo 14 años
+            ],
             'password' => ['required', 'string', 'confirmed', Password::defaults()],
             'role' => ['sometimes', 'filled', 'string', 'exists:roles,name'],
             'privacy' => ['sometimes', 'accepted'],

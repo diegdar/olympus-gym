@@ -75,7 +75,8 @@ class CreateUserComponentTest extends TestCase
             ->test(CreateUser::class)
             ->set('name', $data['name'] ?? '')
             ->set('email', $data['email'] ?? '')
-            ->set('role', $data['role'] ?? '');
+            ->set('role', $data['role'] ?? '')
+            ->set('birth_date', $data['birth_date'] ?? '');
     }
 
     public function test_it_can_create_a_new_user()
@@ -88,6 +89,7 @@ class CreateUserComponentTest extends TestCase
                     'name' => 'John Doe',
                     'email' => "john.doe{$userNumber}@example.com",
                     'role' => $this->roles->firstWhere('name', 'member')->id,
+                    'birth_date' => now()->subYears(30)->toDateString(),
                 ])
                 ->call('createUser')
                 ->assertHasNoErrors();
@@ -123,10 +125,12 @@ class CreateUserComponentTest extends TestCase
     public static function invalidUserDataProvider(): array
     {
         return [
+        // name
             'name is required' => [
                 'formData' => [
                     'email' => 'john@example.com',
                     'role' => 3,
+                    'birth_date' => now()->subYears(20)->toDateString(),
                 ],
                 'expectedErrors' => ['name' => 'required'],
             ],
@@ -135,6 +139,7 @@ class CreateUserComponentTest extends TestCase
                     'name' => 'John',
                     'email' => 'john@example.com',
                     'role' => 3,
+                    'birth_date' => now()->subYears(20)->toDateString(),
                 ],
                 'expectedErrors' => ['name' => 'min'],
             ],
@@ -143,13 +148,16 @@ class CreateUserComponentTest extends TestCase
                     'name' => str_repeat('a', 256),
                     'email' => 'john@example.com',
                     'role' => 3,
+                    'birth_date' => now()->subYears(20)->toDateString(),
                 ],
                 'expectedErrors' => ['name' => 'max'],
             ],
+        // email
             'email is required' => [
                 'formData' => [
                     'name' => 'John Doe',
                     'role' => 3,
+                    'birth_date' => now()->subYears(20)->toDateString(),
                 ],
                 'expectedErrors' => ['email' => 'required'],
             ],
@@ -158,13 +166,16 @@ class CreateUserComponentTest extends TestCase
                     'name' => 'John Doe',
                     'email' => 'invalid-email',
                     'role' => 3,
+                    'birth_date' => now()->subYears(20)->toDateString(),
                 ],
                 'expectedErrors' => ['email' => 'email'],
             ],
+        // role
             'role is required' => [
                 'formData' => [
                     'name' => 'John Doe',
                     'email' => 'john@example.com',
+                    'birth_date' => now()->subYears(20)->toDateString(),
                 ],
                 'expectedErrors' => ['role' => 'required'],
             ],
@@ -173,8 +184,45 @@ class CreateUserComponentTest extends TestCase
                     'name' => 'John Doe',
                     'email' => 'john@example.com',
                     'role' => 999,
+                    'birth_date' => now()->subYears(20)->toDateString(),
                 ],
                 'expectedErrors' => ['role' => 'exists'],
+            ],
+        // birth_date
+            'birth_date is required' => [
+                'formData' => [
+                    'name' => 'John Doe',
+                    'email' => 'john@example.com',
+                    'role' => 3,
+                ],
+                'expectedErrors' => ['birth_date' => 'required'],
+            ],
+            'birth_date must be a valid date' => [
+                'formData' => [
+                    'name' => 'John Doe',
+                    'email' => 'john@example.com',
+                    'role' => 3,
+                    'birth_date' => 'invalid-date',
+                ],
+                'expectedErrors' => ['birth_date' => 'date'],
+            ],
+            'birth_date must be after 1900-01-01' => [
+                'formData' => [
+                    'name' => 'John Doe',
+                    'email' => 'john@example.com',
+                    'role' => 3,
+                    'birth_date' => '1900-01-01',
+                ],
+                'expectedErrors' => ['birth_date' => 'after'],    
+            ],
+            'birth_date must be before or equal to 14 years ago' => [
+                'formData' => [
+                    'name' => 'John Doe',
+                    'email' => 'john@example.com',
+                    'role' => 3,
+                    'birth_date' => now()->subYears(13)->toDateString(),
+                ],
+                'expectedErrors' => ['birth_date' => 'before_or_equal'],
             ],
         ];
     }
@@ -189,12 +237,14 @@ class CreateUserComponentTest extends TestCase
                     'name' => 'john Doe',
                     'email' => "john.doe{$userNumber}@example.com",
                     'role' => $this->roles->firstWhere('name', 'member')->id,
+                    'birth_date' => now()->subYears(28)->toDateString(),
                 ])
                 ->call('createUser')
                 ->assertSee('El usuario ha sido creado correctamente')
                 ->assertSet('name', '')
                 ->assertSet('email', '')
-                ->assertSet('role', '');
+                ->assertSet('role', '')
+                ->assertSet('birth_date', '');
 
             $userNumber++;   
         }

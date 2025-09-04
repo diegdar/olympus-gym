@@ -6,6 +6,7 @@ const qs = (id) => document.getElementById(id);
 const PERCENTAGES_ID = 'subscription-percentages-table';
 const MONTHLY_NET_ID = 'subscription-monthly-net-table';
 const YEAR_SELECT_ID = 'subscription-year-select';
+const AGES_ID = 'subscription-ages-table';
 
 function percentageBarFormatter(cell) {
     const value = cell.getValue() ?? 0;
@@ -59,7 +60,7 @@ function buildMonthlyNetTable(selectEl, container) {
         layout: 'fitColumns',
         responsiveLayout: 'collapse',
         placeholder: 'Sin datos',
-        height: '360px',
+        height: '380px',
         columnDefaults: { hozAlign: 'center', headerHozAlign: 'center' },
         ajaxResponse: (_u,_p,r)=> r.data ?? [],
         columns: [
@@ -89,22 +90,41 @@ function buildMonthlyNetTable(selectEl, container) {
     });
 }
 
-function init() {
+function initSubscriptionStatsTables() {
     const percentages = qs(PERCENTAGES_ID);
     if (!percentages) return; // página no presente
     buildPercentagesTable(percentages);
     const yearSelect = qs(YEAR_SELECT_ID);
     const monthlyNet = qs(MONTHLY_NET_ID);
     if (yearSelect && monthlyNet) buildMonthlyNetTable(yearSelect, monthlyNet);
+    const agesContainer = qs(AGES_ID);
+    if (agesContainer && !agesContainer.dataset.tabulatorInit) {
+        agesContainer.dataset.tabulatorInit = '1';
+        new Tabulator(agesContainer, {
+            ajaxURL: agesContainer.dataset.endpoint,
+            layout: 'fitColumns',
+            height: '177px',
+            placeholder: 'Sin datos',
+            responsiveLayout: 'collapse',
+            columnDefaults: { hozAlign: 'center', headerHozAlign: 'center' },
+            ajaxResponse: (_u,_p,resp)=> resp.rows ?? [],
+            columns: [
+                { title: 'Rango Edad', field: 'range', responsive: 0 },
+                { title: 'Usuarios', field: 'count', sorter: 'number', responsive: 1 },
+                { title: '%', field: 'percentage', sorter: 'number', widthGrow: 2, responsive: 2, formatter: percentageBarFormatter },
+            ],
+            initialSort: [{ column: 'percentage', dir: 'desc' }],
+        });
+    }
 }
 
-['DOMContentLoaded','livewire:navigated','flux:navigate'].forEach(evt => window.addEventListener(evt, init));
+['DOMContentLoaded','livewire:navigated','flux:navigate'].forEach(evt => window.addEventListener(evt, initSubscriptionStatsTables));
 
 // Fallback (solo si eventos SPA no disparan):
 if (!window.__subscriptionStatsObserver) {
     window.__subscriptionStatsObserver = new MutationObserver(() => {
         const el = qs(PERCENTAGES_ID);
-        if (el && !el.dataset.tabulatorInit) init();
+    if (el && !el.dataset.tabulatorInit) initSubscriptionStatsTables();
     });
     window.__subscriptionStatsObserver.observe(document.body, { childList: true, subtree: true });
 }

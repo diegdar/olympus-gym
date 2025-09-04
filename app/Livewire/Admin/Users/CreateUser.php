@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Livewire\Admin\Users;
 
 use Illuminate\Database\Eloquent\Collection;
-use Livewire\Attributes\Rule;
 use App\Services\CreateUserService;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -18,15 +17,26 @@ class CreateUser extends Component
 
     public $title;
 
-    #[Rule(['required','min:5','max:255'])]
     public string $name;
-    #[Rule(['required','unique:users,email','email'])]
     public string $email;
-    #[Rule(['required','exists:roles,id'])]
     public string $role;
+    public string $birth_date;
 
     public Collection $roles;  
 
+
+    public function getRules(): array
+    {
+        return [
+            'name' => ['required','min:5','max:255'],
+            'email' => ['required','unique:users,email','email'],
+            'role' => ['required','exists:roles,id'],
+            'birth_date' => ['required','date','after:1900-01-01','before_or_equal:' 
+                . now()->subYears(14)->toDateString()
+            ],
+        ];
+    }
+    
     /**
      * Creates a new user using the CreateUserService.
      *
@@ -41,10 +51,10 @@ class CreateUser extends Component
         $validated['password'] = Hash::make('Password123!');
         $validated['role'] = $this->roles->firstWhere('id', $this->role)->name;
 
-        $createUserService($validated);
+    $createUserService($validated);
 
         session()->flash('msg', 'El usuario ha sido creado correctamente');
-        $this->reset(['name', 'email', 'role']);
+    $this->reset(['name', 'email', 'role', 'birth_date']);
     }
 
     /**

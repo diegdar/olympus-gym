@@ -36,6 +36,7 @@ class RegistrationFormTest extends TestCase
             ->set('name', 'Joe Doe')
             ->set('email', 'joe.doe@example.com')
             ->set('fee', 'monthly')
+            ->set('birth_date', now()->subYears(25)->toDateString())
             ->set('password', 'SecurePassword123!')
             ->set('password_confirmation', 'SecurePassword123!')
             ->set('privacy', true)
@@ -67,6 +68,7 @@ class RegistrationFormTest extends TestCase
             ->set('name', '')
             ->set('email', 'invalid-email')
             ->set('fee', 'not-a-fee')
+            ->set('birth_date', '')
             ->set('password', 'short')
             ->set('password_confirmation', 'mismatch')
             ->set('privacy', false)
@@ -78,6 +80,21 @@ class RegistrationFormTest extends TestCase
                 'password' => 'confirmed',
                 'privacy' => 'accepted',
             ]);
+    }
+
+    public function test_it_rejects_user_younger_than_14()
+    {
+        Livewire::test(Register::class)
+            ->set('name', 'Young User')
+            ->set('email', 'young.user@example.com')
+            ->set('fee', 'monthly')
+            ->set('birth_date', now()->subYears(10)->toDateString())
+            ->set('password', 'SecurePassword123!')
+            ->set('password_confirmation', 'SecurePassword123!')
+            ->set('privacy', true)
+            ->set('role', 'member')
+            ->call('register')
+            ->assertHasErrors(['birth_date' => 'before_or_equal']);
     }
 
 
