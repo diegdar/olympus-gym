@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Services\Subscriptions\SubscriptionPercentagesCalculator;
 use App\Services\Subscriptions\SubscriptionMonthlyNetAggregator;
+use App\Services\Subscriptions\SubscriptionAgeMetricsCalculator;
 use App\Services\Subscriptions\CsvExportService;
 use Illuminate\View\View;
 
@@ -32,6 +33,28 @@ class SubscriptionStatsController extends Controller
     {
         $year = (int) (request()->query('year') ?? date('Y'));
         return response()->json($monthlyNet($year));
+    }
+
+    public function ages(SubscriptionAgeMetricsCalculator $ages): JsonResponse
+    {
+        return response()->json($ages());
+    }
+
+    public function exportAgesJson(SubscriptionAgeMetricsCalculator $ages): JsonResponse
+    {
+        $payload = $ages();
+        $filename = 'distribucion_edades_'.date('Ymd_His').'.json';
+        return response()->json($payload)->withHeaders([
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"'
+        ]);
+    }
+
+    public function exportAgesExcel(SubscriptionAgeMetricsCalculator $ages, CsvExportService $csv): BinaryFileResponse
+    {
+        $payload = $ages();
+    // Export only rows (range/count/percentage) ensuring array type
+    $rows = is_array($payload['rows']) ? $payload['rows'] : $payload['rows']->toArray();
+    return $csv($rows, 'distribucion_edades');
     }
 
     // Exports JSON for percentages

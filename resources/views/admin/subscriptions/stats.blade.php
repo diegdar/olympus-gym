@@ -6,7 +6,7 @@
         {{-- Users by monthly fee --}}
         <div class="rounded border border-zinc-200 dark:border-zinc-700 p-4 bg-white dark:bg-zinc-900">
             <div class="flex justify-between gap-2 mb-3 text-xs items-center flex-wrap">
-                <h2 class="font-semibold text-center sm:text-left">Usuarios activos por cuota</h2>
+                <h2 class="font-semibold text-center sm:text-left">Miembros activos por cuota</h2>
 
                 <article class="ml-auto flex gap-2 text-xs items-center">
                     <strong>Descargar:</strong>
@@ -25,7 +25,7 @@
         <div class="rounded border border-zinc-200 dark:border-zinc-700 p-4 bg-white dark:bg-zinc-900 space-y-4">
             <div class="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-3">    
                 <div class="flex flex-wrap items-center justify-center">
-                    <h2 class="font-semibold text-center">Altas/ Bajas, año:</h2>
+                    <h2 class="font-semibold text-center">Altas/Bajas en el año:</h2>
                     <label class="text-sm flex items-center gap-2">
                         <select id="subscription-year-select"
                             class="border rounded px-2 py-1 bg-white dark:bg-zinc-800 text-sm"
@@ -50,6 +50,23 @@
             </div>
             <div class="overflow-x-auto -mx-1 px-1">
                 <div id="subscription-monthly-net-table"></div>
+            </div>
+        </div>
+
+        {{-- Age metrics --}}
+        <div class="rounded border border-zinc-200 dark:border-zinc-700 p-4 bg-white dark:bg-zinc-900 space-y-4">
+            <div class="flex justify-between gap-2 mb-3 text-xs items-center flex-wrap">
+                <h2 class="font-semibold text-center">Miembros activos por edad</h2>
+                <article class="ml-auto flex gap-2 text-xs items-center">
+                    <strong>Descargar:</strong>
+                    <a href="{{ route('admin.subscriptions.ages.export.json') }}"
+                        class="px-2 py-1 border rounded hover:bg-zinc-100 dark:hover:bg-zinc-800">JSON</a>
+                    <a href="{{ route('admin.subscriptions.ages.export.excel') }}"
+                        class="px-2 py-1 border rounded hover:bg-zinc-100 dark:hover:bg-zinc-800">CSV</a>
+                </article>
+            </div>
+            <div class="overflow-x-auto -mx-1 px-1">
+                <div id="subscription-ages-table" data-endpoint="{{ route('admin.subscriptions.ages') }}"></div>
             </div>
         </div>
     </div>
