@@ -3,6 +3,7 @@
 
 <head>
     @include('partials.head')
+    <meta name="csrf-token" content="{{ csrf_token() }}">    
 </head>
 
 <body class="min-h-screen bg-white dark:bg-zinc-800">
