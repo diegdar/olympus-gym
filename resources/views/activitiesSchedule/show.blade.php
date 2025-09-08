@@ -74,6 +74,31 @@
             </div>
         </article>
     </div>
+    @role('member')
+        <div class="mt-6 mx-2 sm:mx-5">
+            @can('activity.schedules.enroll')
+                @if(!$isEnrolled)
+                    <form method="POST" action="{{ route('activity.schedules.enroll', $activitySchedule) }}">
+                        @csrf
+                        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:opacity-50" {{ $availableSlots <= 0 ? 'disabled' : '' }}>
+                            {{ $availableSlots > 0 ? 'Inscribirme' : 'Sin plazas disponibles' }}
+                        </button>
+                    </form>
+                @endif
+            @endcan
+            @can('activity.schedules.unenroll')
+                @if($isEnrolled)
+                    <form method="POST" action="{{ route('activity.schedules.unenroll', $activitySchedule) }}" class="mt-3">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="px-4 py-2 bg-rose-600 text-white rounded hover:bg-rose-700">
+                            Desinscribirme
+                        </button>
+                    </form>
+                @endif
+            @endcan
+        </div>
+    @endrole
     @role('admin')
         <div class="mt-10 mx-2 sm:mx-5 space-y-4">
             <div class="flex flex-wrap items-center gap-3">

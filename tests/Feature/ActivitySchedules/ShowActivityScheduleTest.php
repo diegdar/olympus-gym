@@ -9,6 +9,7 @@ use Tests\Traits\TestHelper;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Illuminate\Testing\TestResponse;
+use App\Models\User;
 
 class ShowActivityScheduleTest extends TestCase
 {
@@ -69,6 +70,54 @@ class ShowActivityScheduleTest extends TestCase
 
             $response->assertStatus(403);
         }
+    }
+
+    public function test_member_sees_enroll_button_when_not_enrolled_and_slots_available(): void
+    {
+        $schedule = ActivitySchedule::factory()->create([
+            'max_enrollment' => 5,
+            'current_enrollment' => 0,
+        ]);
+
+        $member = $this->createUserAndAssignRole('member');
+
+        $resp = $this->actingAs($member)->get(route(self::ROUTE, $schedule));
+        $resp->assertStatus(200)
+             ->assertSee('Inscribirme')
+             ->assertDontSee('Desinscribirme');
+    }
+
+    public function test_member_sees_unenroll_button_when_already_enrolled(): void
+    {
+        $schedule = ActivitySchedule::factory()->create([
+            'max_enrollment' => 5,
+            'current_enrollment' => 0,
+        ]);
+
+        $member = $this->createUserAndAssignRole('member');
+        // attach enrollment
+        $schedule->users()->attach($member->id);
+
+        $resp = $this->actingAs($member)->get(route(self::ROUTE, $schedule));
+        $resp->assertStatus(200)
+             ->assertSee('Desinscribirme')
+             ->assertDontSee('Inscribirme');
+    }
+
+    public function test_member_sees_disabled_inscribe_when_no_slots_available(): void
+    {
+        $schedule = ActivitySchedule::factory()->create([
+            'max_enrollment' => 1,
+            'current_enrollment' => 0,
+        ]);
+        // Fill the only slot with another user
+        $another = User::factory()->create();
+        $schedule->users()->attach($another->id);
+
+        $member = $this->createUserAndAssignRole('member');
+        $resp = $this->actingAs($member)->get(route(self::ROUTE, $schedule));
+        $resp->assertStatus(200)
+             ->assertSee('Sin plazas disponibles');
     }
 
 }

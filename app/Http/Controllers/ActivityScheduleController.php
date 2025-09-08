@@ -20,6 +20,7 @@ use App\Services\ListActivityScheduleService;
 use App\Services\StoreActivityScheduleService;
 use Carbon\Carbon;
 use App\Services\ActivityScheduleAttendanceService;
+use Illuminate\Support\Facades\Auth;
 
 class ActivityScheduleController extends Controller implements HasMiddleware
 {
@@ -73,13 +74,17 @@ class ActivityScheduleController extends Controller implements HasMiddleware
         $realEnrollment = $activitySchedule->users()->count();
         $availableSlots = $activitySchedule->max_enrollment - $realEnrollment;     
         $hasMismatch = $realEnrollment !== (int)$activitySchedule->current_enrollment;
+        $isEnrolled = Auth::check()
+            ? $activitySchedule->users()->where('users.id', Auth::id())->exists()
+            : false;
         return view('activitiesSchedule.show', compact([
             'activitySchedule',
             'startTimeFormatted',
             'dayDateFormatted',
             'availableSlots',
             'realEnrollment',
-            'hasMismatch'
+            'hasMismatch',
+            'isEnrolled',
         ]));
     }
 
