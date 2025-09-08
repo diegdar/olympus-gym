@@ -69,6 +69,10 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'activity.schedules.enroll', 'description' => 'Inscribirse a una actividad'])->syncRoles([$member]);
         Permission::create(['name' => 'activity.schedules.unenroll', 'description' => 'Desinscribirse de una actividad'])->syncRoles([$member]);
 
+        // Manage attendance in activity schedule
+        Permission::create(['name' => 'activity.schedules.enrolled-users', 'description' => 'Ver listado de usuarios inscritos en el horario de una actividad'])->syncRoles([$admin]);
+        Permission::create(['name' => 'activity.schedules.attendance', 'description' => 'Gestionar asistencia en el horario de una actividad'])->syncRoles([$admin]);
+
         // subscription statistics
         Permission::create(['name' => 'admin.subscriptions.stats', 'description' => 'Ver estadísticas de suscripciones'])
             ->syncRoles([$superAdmin, $admin]);

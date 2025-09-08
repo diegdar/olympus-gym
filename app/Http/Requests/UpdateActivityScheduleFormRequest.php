@@ -32,6 +32,11 @@ class UpdateActivityScheduleFormRequest extends FormRequest
                 'after_or_equal:today',
                 new StartTimeRangeRule(),
             ],
+            'end_datetime' => [
+                'required',
+                'date',
+                'after:start_datetime',
+            ],
             'room_id' => [
                 'required', 
                 'exists:rooms,id',

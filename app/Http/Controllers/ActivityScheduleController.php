@@ -19,6 +19,7 @@ use Illuminate\Http\RedirectResponse;
 use App\Services\ListActivityScheduleService;
 use App\Services\StoreActivityScheduleService;
 use Carbon\Carbon;
+use App\Services\ActivityScheduleAttendanceService;
 
 class ActivityScheduleController extends Controller implements HasMiddleware
 {
@@ -33,6 +34,8 @@ class ActivityScheduleController extends Controller implements HasMiddleware
             new Middleware('permission:activity.schedules.enroll', only: ['enrollUserInSchedule']),
             new Middleware('permission:activity.schedules.unenroll', only: ['unenrollUserInSchedule']),
             new Middleware('permission:user.reservations', only: ['showUserReservations']),
+            // new Middleware('permission:activity.schedules.enrolled-users', only: ['enrolledUsers']),
+            // new Middleware('permission:activity.schedules.attendance', only: ['updateAttendance']),
         ];
     }
     
@@ -67,10 +70,44 @@ class ActivityScheduleController extends Controller implements HasMiddleware
         $dayDateFormatted = Carbon::parse   
             ($activitySchedule->start_datetime)
                 ->translatedFormat('l, d F');
-        $availableSlots = $activitySchedule->max_enrollment 
-            - $activitySchedule->current_enrollment;     
+        $realEnrollment = $activitySchedule->users()->count();
+        $availableSlots = $activitySchedule->max_enrollment - $realEnrollment;     
+        $hasMismatch = $realEnrollment !== (int)$activitySchedule->current_enrollment;
+        return view('activitiesSchedule.show', compact([
+            'activitySchedule',
+            'startTimeFormatted',
+            'dayDateFormatted',
+            'availableSlots',
+            'realEnrollment',
+            'hasMismatch'
+        ]));
+    }
 
-        return view('activitiesSchedule.show', compact(['activitySchedule', 'startTimeFormatted', 'dayDateFormatted', 'availableSlots']));
+    /**
+     * Returns enrolled users for a schedule (AJAX Tabulator).
+     */
+    public function enrolledUsers(ActivitySchedule $activitySchedule, ActivityScheduleAttendanceService $service)
+    {
+        $format = request()->query('format','json');
+        if ($format === 'csv') {
+            return $service->exportCsv($activitySchedule);
+        }
+
+        return response()->json(['data' => $service->getEnrolledUsers($activitySchedule)]);
+    }
+
+    /**
+     * Bulk update attendance for enrolled users.
+     */
+    public function updateAttendance(ActivitySchedule $activitySchedule, ActivityScheduleAttendanceService $service)
+    {
+        $data = request()->validate([
+            'records' => 'required|array',
+            'records.*.id' => 'required|integer|exists:users,id',
+            'records.*.attended' => 'required|boolean'
+        ]);
+        $service->updateAttendance($activitySchedule, $data['records']);
+        return response()->json(['status'=>'success']);
     }
 
     /**
@@ -139,7 +176,7 @@ class ActivityScheduleController extends Controller implements HasMiddleware
      */
     public function update(UpdateActivityScheduleFormRequest $request, ActivitySchedule $activitySchedule): RedirectResponse
     {
-        $activitySchedule->update($request->all());
+        $activitySchedule->update($request->validated());
         return redirect()->route('activity.schedules.index')->with('success', 'Horario actualizado correctamente.');
     }
 
