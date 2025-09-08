@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('activity_schedule_user', function (Blueprint $table) {
             $table->foreignId('activity_schedule_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->boolean('attended')->default(false);
             $table->primary(['activity_schedule_id', 'user_id']);
             $table->timestamps();
         });
