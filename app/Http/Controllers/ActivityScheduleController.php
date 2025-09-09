@@ -71,9 +71,8 @@ class ActivityScheduleController extends Controller implements HasMiddleware
         $dayDateFormatted = Carbon::parse   
             ($activitySchedule->start_datetime)
                 ->translatedFormat('l, d F');
-        $realEnrollment = $activitySchedule->users()->count();
-        $availableSlots = $activitySchedule->max_enrollment - $realEnrollment;     
-        $hasMismatch = $realEnrollment !== (int)$activitySchedule->current_enrollment;
+        $currentEnrollment = $activitySchedule->users()->count();
+        $availableSlots = $activitySchedule->max_enrollment - $currentEnrollment;     
         $isEnrolled = Auth::check()
             ? $activitySchedule->users()->where('users.id', Auth::id())->exists()
             : false;
@@ -82,8 +81,7 @@ class ActivityScheduleController extends Controller implements HasMiddleware
             'startTimeFormatted',
             'dayDateFormatted',
             'availableSlots',
-            'realEnrollment',
-            'hasMismatch',
+            'currentEnrollment',
             'isEnrolled',
         ]));
     }

@@ -41,7 +41,7 @@ class ShowActivityScheduleTest extends TestCase
             $startTime = Carbon::parse($activitySchedule->start_datetime)->format('G:i');
             $availableSlots = (string) (
                                     $activitySchedule->max_enrollment 
-                                    - $activitySchedule->current_enrollment
+                                    - $activitySchedule->users()->count()
                                 );
 
             $response = $this->showActivitySchedule($authorizedRole, $activitySchedule->id);         
@@ -54,8 +54,7 @@ class ShowActivityScheduleTest extends TestCase
                             $startTime,
                             $activitySchedule->activity->duration,
                             $availableSlots,
-                            $activitySchedule->max_enrollment,
-                            $activitySchedule->current_enrollment
+                            $activitySchedule->max_enrollment
                         ]
                      );
         }

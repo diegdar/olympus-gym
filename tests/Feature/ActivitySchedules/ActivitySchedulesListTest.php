@@ -165,4 +165,24 @@ class ActivitySchedulesListTest extends TestCase
             'Inscribirse'
         );
     }
+
+    public function test_index_shows_free_slots_based_on_current_enrollment(): void
+    {
+        $schedule = ActivitySchedule::factory()->create([
+            'max_enrollment' => 3,
+            'current_enrollment' => 0,
+            'start_datetime' => now()->addDay()->setTime(10, 0),
+            'end_datetime' => now()->addDay()->setTime(11, 0),
+        ]);
+
+        $u1 = $this->createUserAndAssignRole('member');
+        $u2 = $this->createUserAndAssignRole('member');
+        $schedule->users()->attach([$u1->id, $u2->id]);
+
+        $admin = $this->createUserAndAssignRole('admin');
+        $resp = $this->actingAs($admin)->get(route(self::ROUTE));
+
+        $resp->assertStatus(200)
+             ->assertSeeText('plazas libres: 1');
+    }
 }

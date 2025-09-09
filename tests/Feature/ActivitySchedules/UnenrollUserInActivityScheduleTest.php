@@ -38,8 +38,8 @@ class UnenrollUserInActivityScheduleTest extends TestCase
             'activity_schedule_id' => $activitySchedule->id,
         ]);
 
-        $activitySchedule->refresh();
-        $this->assertEquals(1, $activitySchedule->current_enrollment);  
+    $activitySchedule->refresh();
+    $this->assertEquals(1, $activitySchedule->users()->count());  
     }    
 
     private function performUnenrollmentRequest(ActivitySchedule $activitySchedule)
@@ -70,7 +70,7 @@ class UnenrollUserInActivityScheduleTest extends TestCase
             ]);
 
             $activitySchedule->refresh();
-            $this->assertEquals(0, $activitySchedule->current_enrollment);
+            $this->assertEquals(0, $activitySchedule->users()->count());
         }
     }
 
@@ -94,7 +94,7 @@ class UnenrollUserInActivityScheduleTest extends TestCase
             ]);
             
             $activitySchedule->refresh();
-            $this->assertEquals(1, $activitySchedule->current_enrollment);
+            $this->assertEquals(1, $activitySchedule->users()->count());
         }
     }
 
