@@ -1,6 +1,17 @@
 {
+  "_tabulator_esm-9i1y9qwb.css": {
+    "file": "assets/tabulator_esm-9i1y9qwb.css",
+    "src": "_tabulator_esm-9i1y9qwb.css"
+  },
+  "_tabulator_esm-DcdEcX3q.js": {
+    "file": "assets/tabulator_esm-DcdEcX3q.js",
+    "name": "tabulator_esm",
+    "css": [
+      "assets/tabulator_esm-9i1y9qwb.css"
+    ]
+  },
   "resources/css/app.css": {
-    "file": "assets/app-B2uoLlPd.css",
+    "file": "assets/app-wnPD_MAS.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -9,13 +20,22 @@
     "src": "resources/css/tableList.css",
     "isEntry": true
   },
+  "resources/js/activity-schedule/show.js": {
+    "file": "assets/show-nXjmnkt1.js",
+    "name": "show",
+    "src": "resources/js/activity-schedule/show.js",
+    "isEntry": true,
+    "imports": [
+      "_tabulator_esm-DcdEcX3q.js"
+    ]
+  },
   "resources/js/admin/subscriptions/stats.js": {
-    "file": "assets/stats-BaNajqLe.js",
+    "file": "assets/stats-BVx1a24S.js",
     "name": "stats",
     "src": "resources/js/admin/subscriptions/stats.js",
     "isEntry": true,
-    "css": [
-      "assets/stats-9i1y9qwb.css"
+    "imports": [
+      "_tabulator_esm-DcdEcX3q.js"
     ]
   },
   "resources/js/app.js": {

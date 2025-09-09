@@ -16,6 +16,7 @@ export default defineConfig({
                 'resources/js/hideTableHeaders.js',
                 'resources/js/messageTransition.js',
                 'resources/js/admin/subscriptions/stats.js',
+                'resources/js/activity-schedule/show.js',
             ],
             refresh: [`resources/views/**/*`],
         }),
