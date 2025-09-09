@@ -85,8 +85,8 @@ class ShowUserReservationsTest extends TestCase
             'activity_schedule_id' => $activitySchedule->id,
         ]);
 
-        $activitySchedule->refresh();
-        $this->assertEquals(1, $activitySchedule->current_enrollment);
+    $activitySchedule->refresh();
+    $this->assertEquals(1, $activitySchedule->users()->count());
     }
 
     public function test_authorized_user_can_see_their_reservations(): void
@@ -134,7 +134,7 @@ class ShowUserReservationsTest extends TestCase
             ]);
 
             $activitySchedule->refresh();
-            $this->assertEquals(0, $activitySchedule->current_enrollment);
+            $this->assertEquals(0, $activitySchedule->users()->count());
         }
     }
 
@@ -178,7 +178,7 @@ class ShowUserReservationsTest extends TestCase
                 ->assertSeeText(Carbon::parse($activitySchedule->start_datetime)->translatedFormat('l, d F'))
                 ->assertSeeText($activitySchedule->activity->duration)
                 ->assertSeeText($activitySchedule->max_enrollment)
-                ->assertSeeText($activitySchedule->current_enrollment);
+                ->assertSeeText((string) $activitySchedule->users()->count());
         }
     }
 }

@@ -22,7 +22,7 @@ class ActivitySchedule extends Model
         'room_id',
         'end_datetime',
         'max_enrollment',
-        'current_enrollment'
+        'current_enrollment'        
     ];
 
     /**
@@ -47,9 +47,9 @@ class ActivitySchedule extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class,
-                'activity_schedule_user'
-                )->withTimestamps();
+        return $this->belongsToMany(User::class, 'activity_schedule_user')
+            ->withPivot('attended')
+            ->withTimestamps();
     }
        
 }

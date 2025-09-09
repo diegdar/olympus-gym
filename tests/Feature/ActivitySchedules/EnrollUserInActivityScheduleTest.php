@@ -85,7 +85,7 @@ class EnrollUserInActivityScheduleTest extends TestCase
                 'activity_schedule_id' => $activitySchedule->id,
             ]);
             $activitySchedule->refresh();
-            $this->assertEquals(1, $activitySchedule->current_enrollment);
+            $this->assertEquals(1, $activitySchedule->users()->count());
         }
     }
 
@@ -121,7 +121,7 @@ class EnrollUserInActivityScheduleTest extends TestCase
                 'activity_schedule_id' => $activitySchedule->id,
             ]);
             $activitySchedule->refresh();
-            $this->assertEquals(1, $activitySchedule->current_enrollment);
+            $this->assertEquals(1, $activitySchedule->users()->count());
 
             $secondEnrollmentResponse = $this->performEnrollmentRequest($activitySchedule);
             $secondEnrollmentResponse->assertStatus(302);
@@ -132,16 +132,20 @@ class EnrollUserInActivityScheduleTest extends TestCase
 
             $this->assertDatabaseCount('activity_schedule_user', 1);
             $activitySchedule->refresh();
-            $this->assertEquals(1, $activitySchedule->current_enrollment);
+            $this->assertEquals(1, $activitySchedule->users()->count());
         }
     }
 
     public function test_authorized_user_cannot_enroll_if_no_slots_available(): void
     {
-        $activitySchedule = $this->createAnActivitySchedule(maxEnrollment: 1, currentEnrollment: 1);
+        $activitySchedule = $this->createAnActivitySchedule(maxEnrollment: 1, currentEnrollment: 0);
 
         foreach ($this->getAuthorizedRoles(self::PERMISSION_ENROLL_USER) as $authorizedRole) {
             $user = $this->actingAsRole($authorizedRole); 
+
+            // ocupar la plaza con otro usuario para simular lleno
+            $other = User::factory()->create()->assignRole('member');
+            $activitySchedule->users()->attach($other->id);
 
             $response = $this->performEnrollmentRequest($activitySchedule);
 
@@ -156,7 +160,7 @@ class EnrollUserInActivityScheduleTest extends TestCase
                 'activity_schedule_id' => $activitySchedule->id,
             ]);
             $activitySchedule->refresh();
-            $this->assertEquals(1, $activitySchedule->current_enrollment);
+            $this->assertEquals(1, $activitySchedule->users()->count());
         }
     }
 

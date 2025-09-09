@@ -42,6 +42,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('my-reservations', [ActivityScheduleController::class, 'showUserReservations'])
             ->name('user.reservations');
 
+        Route::get('{activitySchedule}/enrolled-users', [ActivityScheduleController::class, 'enrolledUsers'])
+            ->name('activity.schedules.enrolled-users');
+        Route::put('{activitySchedule}/attendance', [ActivityScheduleController::class, 'updateAttendance'])
+            ->name('activity.schedules.attendance');
+
         Route::post('{activitySchedule}/enroll', [ActivityScheduleController::class, 'enrollUserInSchedule'])
             ->name('activity.schedules.enroll');
 

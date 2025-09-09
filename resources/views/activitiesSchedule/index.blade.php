@@ -120,6 +120,15 @@
                                                         </span>
                                                         {{ $entry['room_name'] }}
                                                     </article>
+                                                    {{-- free slots --}}
+                                                    <article class="text-sm text-green-700 dark:text-green-300 text-center">
+                                                        @php
+                                                            $used = $entry['current_enrollment'] ?? $entry['current_enrollment'] ?? 0;
+                                                            $free = ($entry['max_enrollment'] ?? 0) - $used;
+                                                            if ($free < 0) { $free = 0; }
+                                                        @endphp
+                                                        plazas libres: {{ $free }}
+                                                    </article>
                                                     <div class="flex justify-center my-1 gap-1">   
                                                         {{-- show button --}}
                                                         @can('activity.schedules.show')

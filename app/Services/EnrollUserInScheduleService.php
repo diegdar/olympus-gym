@@ -44,8 +44,7 @@ class EnrollUserInScheduleService
         $date = $this->formatDate($activitySchedule->start_datetime);
         $activityScheduleName = $activitySchedule->activity->name;
 
-        $activitySchedule->users()->detach($this->userId);
-        $activitySchedule->decrement('current_enrollment');
+    $activitySchedule->users()->detach($this->userId);
 
         return [
             'status'  => 'success',
@@ -70,8 +69,9 @@ class EnrollUserInScheduleService
      */
     private function validate(ActivitySchedule $activitySchedule,string $date, string $activityScheduleName): ?array
     {
+        $currentEnrollment = $activitySchedule->users()->count();
         $checks = [
-            [$activitySchedule->current_enrollment >= $activitySchedule->max_enrollment,
+            [$currentEnrollment >= $activitySchedule->max_enrollment,
              "⚠️ No hay cupos disponibles para la actividad {$activityScheduleName} el día {$date}."],
             [$activitySchedule->users->contains($this->userId),
              "⚠️ Ya estabas inscrito en la actividad {$activityScheduleName} para el {$date}."],
@@ -101,7 +101,6 @@ class EnrollUserInScheduleService
     private function performEnrollment(ActivitySchedule $activitySchedule, string $activityScheduleName, string $date): array
     {
         $activitySchedule->users()->attach($this->userId);
-        $activitySchedule->increment('current_enrollment');
 
         return [
             'status'  => 'success',

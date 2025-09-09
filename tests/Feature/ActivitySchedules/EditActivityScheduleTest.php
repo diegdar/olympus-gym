@@ -89,15 +89,33 @@ class EditActivityScheduleTest extends TestCase
             ) 
         {            
             $activityScheduleToEdit = ActivitySchedule::factory()->create();
-            $newActivityScheduleData = ActivitySchedule::factory()->raw();
-            $response = $this->submitActivityScheduleToUpdate($authorizedRole, $activityScheduleToEdit, 
-                $newActivityScheduleData);
+            $activity = Activity::factory()->create();
+            $room = Room::factory()->create();
+
+            $newActivityScheduleData = [
+                'activity_id' => $activity->id,
+                'room_id' => $room->id,
+                'start_datetime' => '2028-01-01 14:30:00',
+                'end_datetime' => '2028-01-01 15:00:00',
+                'max_enrollment' => 40,
+                // current_enrollment no se valida/actualiza en update(), pero la columna existe
+                // y puede permanecer con su valor previo; no lo usamos en la aserción
+            ];
+
+            $response = $this->submitActivityScheduleToUpdate($authorizedRole, $activityScheduleToEdit, $newActivityScheduleData);
 
             $response->assertRedirect(route(self::ROUTE_INDEX))
                      ->assertStatus(302)
                      ->assertSessionHas('success');
-  
-            $this->assertDatabaseHas('activity_schedules', $newActivityScheduleData);
+
+            $this->assertDatabaseHas('activity_schedules', [
+                'id' => $activityScheduleToEdit->id,
+                'activity_id' => $newActivityScheduleData['activity_id'],
+                'room_id' => $newActivityScheduleData['room_id'],
+                'start_datetime' => $newActivityScheduleData['start_datetime'],
+                'end_datetime' => $newActivityScheduleData['end_datetime'],
+                'max_enrollment' => $newActivityScheduleData['max_enrollment'],
+            ]);
         }
     }
 
