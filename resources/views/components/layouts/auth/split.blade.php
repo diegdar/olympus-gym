@@ -9,8 +9,8 @@
                 <div class="absolute inset-0 bg-neutral-900"></div>
                 <a href="{{ route('home') }}" class="relative z-20 flex items-center text-lg font-medium" wire:navigate>
                     <span class="flex h-10 w-10 items-center justify-center rounded-md">
-                        <x-app-logo-icon class="mr-2 h-7 fill-current text-white" />
-                    </span>
+                    <img src="{{ asset('img/logos/gym-logo.webp') }}" class="w-[50px] h-[40px]" alt="logo gimnasio" />
+                    <p class="text-sm fond-bold">Olympus Gym</p>                    </span>
                     {{ config('app.name', 'Laravel') }}
                 </a>
 
@@ -29,7 +29,7 @@
                 <div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
                     <a href="{{ route('home') }}" class="z-20 flex flex-col items-center gap-2 font-medium lg:hidden" wire:navigate>
                         <span class="flex h-9 w-9 items-center justify-center rounded-md">
-                            <x-app-logo-icon class="size-9 fill-current text-black dark:text-white" />
+                            <img src="{{ asset('img/logos/gym-logo.webp') }}" alt="Logo del gimnasio" class="h-9 w-9 object-contain" />
                         </span>
 
                         <span class="sr-only">{{ config('app.name', 'Laravel') }}</span>

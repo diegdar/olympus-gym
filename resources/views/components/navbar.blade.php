@@ -10,11 +10,6 @@
                     <img src="{{ asset('img/logos/my-web-logo.webp') }}" class="w-[50px] h-[40px]" alt="logo Diego Chacon que redirige a su sitio web" title="Ir a portfolio Diego Chacon" />
                 </a>
             </div>
-            {{-- logo --}}
-            <div class="flex items-center">
-                <img src="{{ asset('img/logos/gym-logo.webp') }}" class="w-[50px] h-[40px]" alt="logo gimnasio" />
-                <p class="text-sm fond-bold">Olympus Gym</p>
-            </div>
             {{-- button menu --}}
             <button id="menu-toggle" class="text-gray-700 sm:hidden cursor-pointer">
                 <svg class="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" width="100" height="100"
@@ -28,7 +23,7 @@
         {{-- nav-links --}}
         <div id="nav-links" class="sm:flex w-full sm:m-0 hidden">
             {{-- web-links --}}
-            <div class="sm:flex justify-center me-6 sm:flex-row w-full gap-4 text-md sm:text-lg md:text-2xl lg:text-2xl xl:text-3xl fond-bold">
+            <div class="sm:flex justify-around me-6 sm:flex-row w-full gap-4 text-md sm:text-lg md:text-2xl lg:text-2xl xl:text-3xl fond-bold">
                 <article
                     class="flex sm:justify-center min-w-[70px] pt-3 border-b border-transparent hover:border-yellow-400 transition-colors duration-300">
                     <a href="/">
