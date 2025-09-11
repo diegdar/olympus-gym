@@ -1,4 +1,5 @@
 <x-layouts.app>
+    @section('title', 'Estadisticas suscripciones')
     <div class="p-6 space-y-6">
         <div>
             <h1 class="text-2xl font-bold mb-2">Estadísticas de Suscripciones</h1>

@@ -1,6 +1,5 @@
 <x-layouts.app>
-
-    <x-slot name="title">Editar sala</x-slot>
+    @section('title', 'Editar sala')
     <h1>Editar sala</h1>
     <!-- form -->
     <form action="{{ route('rooms.update', $room) }}" method="post" class="mt-4">

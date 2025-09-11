@@ -1,5 +1,5 @@
 <x-layouts.app>
-    <x-slot name="title">Mi suscripción</x-slot>
+    @section('title', 'Mi suscripción')
     <h1 class="mb-3">Mi suscripción</h1>
     {{-- Mensaje de alerta --}}
     @if (session('msg'))

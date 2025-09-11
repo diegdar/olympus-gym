@@ -1,4 +1,5 @@
 <section class="w-full">
+    @section('title', 'Cambiar contraseña')
     @include('partials.settings-heading')
 
     <x-settings.layout :heading="__('Update password')" :subheading="__('Ensure your account is using a long, random password to stay secure')">

@@ -1,7 +1,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>{{ $title ?? 'Olympus Gym:Diego Chacon' }}</title>
+<title>@yield('title', $title ?? 'Olympus Gym:Diego Chacon')</title>
 
 {{-- Favicon --}}
 <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('img/favicon/apple-touch-icon.png') }}">

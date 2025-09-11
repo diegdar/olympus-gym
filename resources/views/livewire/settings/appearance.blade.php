@@ -1,4 +1,5 @@
 <div class="flex flex-col items-start">
+    @section('title', 'Cambiar apariencia')
     @include('partials.settings-heading')
 
     <x-settings.layout :heading="__('Appearance')" :subheading=" __('Update the appearance settings for your account')">

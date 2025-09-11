@@ -1,6 +1,6 @@
 <x-layouts.app>
 
-    <x-slot name="title">Crear actividad</x-slot>
+    @section('title', 'Crear actividad')
     <h1>Crear actividad</h1>
     <!-- form -->
     <form action="{{ route('activities.store') }}" method="post" class="mt-4">

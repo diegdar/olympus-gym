@@ -1,6 +1,6 @@
 <x-layouts.app>
 
-    <x-slot name="title">Users</x-slot>
+    @section('title', 'Ver usuarios')
       
     @can('admin.users.create')
         <livewire:admin.users.create-user />        

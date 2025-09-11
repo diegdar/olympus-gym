@@ -1,4 +1,5 @@
 <section class="w-full">
+    @section('title', 'Configuracion perfil')
     @include('partials.settings-heading')
 
     <x-settings.layout :heading="__('Profile')" :subheading="__('Update your name and email address')">

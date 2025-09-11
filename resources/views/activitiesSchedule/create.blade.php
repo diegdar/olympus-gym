@@ -1,5 +1,5 @@
 <x-layouts.app>
-    <x-slot name="title">Crear horario actividad</x-slot>
+    @section('title', 'Crear horario para una actividad')
     <h1>Crear horario para una actividad</h1>
     <!-- form -->
     <form action="{{ route('activity.schedules.store') }}" method="post" class="my-4">

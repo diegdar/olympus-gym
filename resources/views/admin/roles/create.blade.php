@@ -1,6 +1,6 @@
 <x-layouts.app>
 
-    <x-slot name="title">Crear roles</x-slot>
+    @section('title', 'Crear role')
     <h1>Crear role</h1>
     <!-- form -->
     <form action="{{ route('admin.roles.store') }}" method="post" class="mt-4">

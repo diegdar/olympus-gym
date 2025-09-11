@@ -1,4 +1,5 @@
 <x-layouts.app>
+    @section('title', 'Ver actividades')
     <div class="relative transform-none">
         <x-slot name="title">Lista actividades</x-slot>
         <h1 class="mb-3">Lista de actividades</h1>

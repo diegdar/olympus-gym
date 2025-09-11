@@ -1,7 +1,7 @@
 <div class="flex flex-col gap-6">
     {{-- Font Awesome: icons --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <x-auth-header title="Crear cuenta" description="Introduce tus datos para crear tu cuenta" />
+    @section('title', 'Crear cuenta')
 
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />

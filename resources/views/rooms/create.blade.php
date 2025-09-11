@@ -1,6 +1,5 @@
 <x-layouts.app>
-
-    <x-slot name="title">Crear sala</x-slot>
+    @section('title', 'Crear sala')
     <h1>Crear sala</h1>
     <!-- form -->
     <form action="{{ route('rooms.store') }}" method="post" class="mt-4">

@@ -1,5 +1,5 @@
 <div class="flex flex-col gap-6">
-    <x-auth-header title="Reset password" description="Please enter your new password below" />
+    @section('title', 'Restablecer contraseña')
 
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />

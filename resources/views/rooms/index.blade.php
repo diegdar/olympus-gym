@@ -1,6 +1,6 @@
 <x-layouts.app>
+    @section('title', 'Ver salas')
     <div class="relative transform-none">
-        <x-slot name="title">Lista salas</x-slot>
         <h1 class="mb-3">Lista de salas</h1>
         {{-- Mensaje de alerta --}}
         @if (session('msg'))

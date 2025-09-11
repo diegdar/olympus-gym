@@ -1,6 +1,6 @@
 <x-layouts.app>
+    @section('title', 'Mis reservas')
     <div class="relative transform-none">
-        <x-slot name="title">Horario Actividades</x-slot>
         {{-- alert message --}}
         @if (session('success'))
             <div id="message" class="absolute left-0 top-5 w-full z-50 bg-green-100 
