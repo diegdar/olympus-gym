@@ -25,19 +25,19 @@
             {{-- web-links --}}
             <div class="sm:flex justify-around me-6 sm:flex-row w-full gap-4 text-md sm:text-lg md:text-2xl lg:text-2xl xl:text-3xl fond-bold">
                 <article
-                    class="flex sm:justify-center min-w-[70px] pt-3 border-b border-transparent hover:border-yellow-400 transition-colors duration-300">
-                    <a href="/">
+                    class="flex sm:justify-center min-w-[70px] pt-3 border-b-3 hover:border-yellow-200 transition-colors duration-300 {{ request()->routeIs('home') ? 'border-[#c8a27a]' : 'border-transparent hover:border-yellow-500' }}">
+                    <a href="{{ route('home') }}">
                         Inicio
                     </a>
                 </article>
                 <article
-                    class="flex sm:justify-center min-w-[70px] pt-3 border-b border-transparent hover:border-yellow-400 transition-colors duration-300">
+                    class="flex sm:justify-center min-w-[70px] pt-3 border-b-3 hover:border-yellow-200 transition-colors duration-300 {{ request()->routeIs('facilities') ? 'border-[#c8a27a]' : 'border-transparent hover:border-yellow-500' }}">
                     <a href="">
-                        Actividades
+                        Instalaciones
                     </a>
                 </article>
                 <article
-                    class="flex sm:justify-center min-w-[70px] pt-3 border-b border-transparent hover:border-yellow-400 transition-colors duration-300">
+                    class="flex sm:justify-center min-w-[70px] pt-3 border-b-3 hover:border-yellow-200 transition-colors duration-300 {{ request()->routeIs('contact') ? 'border-[#c8a27a]' : 'border-transparent hover:border-yellow-500' }}">
                     <a href="">
                         Contacto
                     </a>
