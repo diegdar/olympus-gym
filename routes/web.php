@@ -8,6 +8,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,9 +20,16 @@ Route::get('/privacy-policy', function () {
     return view('privacy-policy');
 })->name('privacy.policy');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
+Route::get('dashboard', DashboardController::class)
+    ->middleware(['auth','verified','can:member.panel'])
     ->name('dashboard');
+
+Route::middleware(['auth','verified','can:member.panel'])->group(function() {
+    Route::get('member/stats/weekly-attendance', [DashboardController::class, 'weeklyAttendance'])
+        ->name('member.stats.weekly-attendance');
+    Route::get('member/stats/activity-distribution', [DashboardController::class, 'activityDistribution'])
+        ->name('member.stats.activity-distribution');
+});
 
 Route::middleware(['auth'])->group(function () {
 
