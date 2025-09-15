@@ -29,12 +29,13 @@ return new class extends Migration
                     ->index('idx_activity_schedules_room_id');
             $table->dateTime('end_datetime')
                 ->nullable(false);
-            // Capacidad máxima permitida para la sesión (validada entre 10 y 50 en FormRequest)
             $table->unsignedTinyInteger('max_enrollment')
                 ->comment('Capacidad máxima de plazas para la sesión');
             $table->timestamps();
 
             $table->unique(['start_datetime', 'room_id'], 'idx_activity_schedule_start_time_room_id');
+            $table->index(['activity_id','start_datetime'], 'idx_activity_schedules_activity_start');
+
         });
     }
 
