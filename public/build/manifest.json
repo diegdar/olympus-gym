@@ -1,4 +1,8 @@
 {
+  "_chart-Cp_wvYwL.js": {
+    "file": "assets/chart-Cp_wvYwL.js",
+    "name": "chart"
+  },
   "_tabulator_esm-9i1y9qwb.css": {
     "file": "assets/tabulator_esm-9i1y9qwb.css",
     "src": "_tabulator_esm-9i1y9qwb.css"
@@ -10,8 +14,26 @@
       "assets/tabulator_esm-9i1y9qwb.css"
     ]
   },
+  "node_modules/chart.js/auto/auto.js": {
+    "file": "assets/auto-CzjS41M7.js",
+    "name": "auto",
+    "src": "node_modules/chart.js/auto/auto.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chart-Cp_wvYwL.js"
+    ]
+  },
+  "node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.esm.js": {
+    "file": "assets/chartjs-plugin-datalabels.esm-m-GpYHQd.js",
+    "name": "chartjs-plugin-datalabels.esm",
+    "src": "node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.esm.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chart-Cp_wvYwL.js"
+    ]
+  },
   "resources/css/app.css": {
-    "file": "assets/app-CnlfK7KG.css",
+    "file": "assets/app-DHKV3Kx7.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -30,7 +52,7 @@
     ]
   },
   "resources/js/admin/subscriptions/stats.js": {
-    "file": "assets/stats-BVx1a24S.js",
+    "file": "assets/stats-BmZpmU2i.js",
     "name": "stats",
     "src": "resources/js/admin/subscriptions/stats.js",
     "isEntry": true,
@@ -43,6 +65,16 @@
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true
+  },
+  "resources/js/dashboard/memberCharts.js": {
+    "file": "assets/memberCharts-CEnfMyGA.js",
+    "name": "memberCharts",
+    "src": "resources/js/dashboard/memberCharts.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "node_modules/chart.js/auto/auto.js",
+      "node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.esm.js"
+    ]
   },
   "resources/js/hideTableHeaders.js": {
     "file": "assets/hideTableHeaders-DKQDBfi0.js",
