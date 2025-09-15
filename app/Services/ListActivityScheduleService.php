@@ -7,6 +7,7 @@ namespace App\Services;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth; // Import Auth facade
+use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 
 class ListActivityScheduleService
@@ -76,11 +77,16 @@ class ListActivityScheduleService
      */
     public function getNestedSchedules(): array
     {
-        $records = $this->getActivityScheduleRecords();
-        $tree    = $this->buildScheduleTree($records);
+        $userId  = Auth::id() ?? 'guest';
+        $weekKey = Carbon::today()->format('Ymd');
+        $cacheKey = "activity_schedules:list:{$userId}:{$weekKey}";
 
-        $sortedDays = $this->sortDays($tree);
-        return $this->sortSlots($sortedDays);
+        return Cache::remember($cacheKey, now()->addMinutes(5), function () {
+            $records = $this->getActivityScheduleRecords();
+            $tree    = $this->buildScheduleTree($records);
+            $sortedDays = $this->sortDays($tree);
+            return $this->sortSlots($sortedDays);
+        });
     }
 
     /**
