@@ -34,9 +34,9 @@ class UserSeeder extends Seeder
 
         // Crear un member con suscripción mensual
         $member = $this->createUser([
-            'name' => 'member',
-            'email' => 'member@member.com',
-            'password' => Hash::make('PassNix$123'),
+            'name' => env('MEMBER_NAME'),
+            'email' => env('MEMBER_EMAIL'),
+            'password' => Hash::make(env('MEMBER_PASSWORD')),
             'birth_date' => now()->subYears(29)->toDateString(),
         ], 'member');
 
