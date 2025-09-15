@@ -1,7 +1,7 @@
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import { TabulatorFull as Tabulator } from 'tabulator-tables';
 
-// Utilidades ---------------------------------------------------------------
+// Utilities ---------------------------------------------------------------
 const qs = (id) => document.getElementById(id);
 const PERCENTAGES_ID = 'subscription-percentages-table';
 const MONTHLY_NET_ID = 'subscription-monthly-net-table';
@@ -118,9 +118,18 @@ function initSubscriptionStatsTables() {
     }
 }
 
-['DOMContentLoaded','livewire:navigated','flux:navigate'].forEach(evt => window.addEventListener(evt, initSubscriptionStatsTables));
+// Run immediately if the DOM is already ready (SPA navigation)
+if (document.readyState === 'interactive' || document.readyState === 'complete') {
+    queueMicrotask(initSubscriptionStatsTables);
+}
 
-// Fallback (solo si eventos SPA no disparan):
+// Subscribe to common navigation/load events
+['DOMContentLoaded','livewire:navigated','flux:navigate','pageshow'].forEach(evt => window.addEventListener(evt, initSubscriptionStatsTables));
+
+// Fallback: slight delay to catch late DOM replacements
+setTimeout(initSubscriptionStatsTables, 0);
+
+// Fallback (only if SPA events do not fire):
 if (!window.__subscriptionStatsObserver) {
     window.__subscriptionStatsObserver = new MutationObserver(() => {
         const el = qs(PERCENTAGES_ID);
