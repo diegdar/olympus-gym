@@ -56,7 +56,7 @@ class EnrollUserInActivityScheduleTest extends TestCase
         return "⚠️ No hay cupos disponibles para la actividad {$activitySchedule->activity->name} el día {$dateFormatted}.";
     }
 
-    private function createAnActivitySchedule(?string $startDatetime = null, int $maxEnrollment = 10, int $currentEnrollment = 0): ActivitySchedule
+    private function createAnActivitySchedule(?string $startDatetime = null, int $maxEnrollment = 10): ActivitySchedule
     {
       $activity = Activity::factory()->create();
       $room = Room::factory()->create();
@@ -64,7 +64,6 @@ class EnrollUserInActivityScheduleTest extends TestCase
             'activity_id' => $activity->id,
             'room_id' => $room->id,
             'max_enrollment' => $maxEnrollment,
-            'current_enrollment' => $currentEnrollment,
             'start_datetime' => $startDatetime?? Carbon::now(),
         ]);
     }
@@ -140,7 +139,7 @@ class EnrollUserInActivityScheduleTest extends TestCase
 
     public function test_authorized_user_cannot_enroll_if_no_slots_available(): void
     {
-        $activitySchedule = $this->createAnActivitySchedule(maxEnrollment: 1, currentEnrollment: 0);
+        $activitySchedule = $this->createAnActivitySchedule(maxEnrollment: 1);
 
         foreach ($this->getAuthorizedRoles(self::PERMISSION_ENROLL_USER) as $authorizedRole) {
             $user = $this->actingAsRole($authorizedRole); 

@@ -81,7 +81,6 @@ class ActivityScheduleController extends Controller implements HasMiddleware
             'startTimeFormatted',
             'dayDateFormatted',
             'availableSlots',
-            'currentEnrollment',
             'isEnrolled',
         ]));
     }

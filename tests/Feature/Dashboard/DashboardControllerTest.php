@@ -104,7 +104,6 @@ class DashboardControllerTest extends TestCase
                 'room_id' => $room->id,
                 'end_datetime' => $end->toDateTimeString(),
                 'max_enrollment' => 20,
-                'current_enrollment' => 0,
             ]);
 
             $sch->users()->attach($user->id, ['attended' => true]);

@@ -98,8 +98,6 @@ class EditActivityScheduleTest extends TestCase
                 'start_datetime' => '2028-01-01 14:30:00',
                 'end_datetime' => '2028-01-01 15:00:00',
                 'max_enrollment' => 40,
-                // current_enrollment no se valida/actualiza en update(), pero la columna existe
-                // y puede permanecer con su valor previo; no lo usamos en la aserción
             ];
 
             $response = $this->submitActivityScheduleToUpdate($authorizedRole, $activityScheduleToEdit, $newActivityScheduleData);
@@ -159,23 +157,23 @@ class EditActivityScheduleTest extends TestCase
         return [
             // activity_id
             'empty activity_id' => [
-                ['activity_id' => '', 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => 0],
+                ['activity_id' => '', 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30],
                 'activity_id',
                 'empty activity_id'
             ],
             'activity_id does not exist' => [
-                ['activity_id' => 9999, 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => 0],
+                ['activity_id' => 9999, 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30],
                 'activity_id',
                 'activity_id does not exist'
             ],
             // start_datetime
             'empty start_datetime' => [
-                ['activity_id' => 1, 'start_datetime' => '', 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => 0],
+                ['activity_id' => 1, 'start_datetime' => '', 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30],
                 'start_datetime',
                 'empty start_datetime'
             ],
             'start_datetime in the past' => [
-                ['activity_id' => 1, 'start_datetime' => $pastDay, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => 0],
+                ['activity_id' => 1, 'start_datetime' => $pastDay, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30],
                 'start_datetime',
                 'start_datetime in the past'
             ],
@@ -183,7 +181,7 @@ class EditActivityScheduleTest extends TestCase
                 [   'activity_id' => 1, 
                     'start_datetime' => now()
                         ->setHour(OperationHours::START_HOUR->value - 1),
-                    'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => 0
+                    'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30
                 ],
                 'start_datetime',
                 'start_datetime before operation hours'
@@ -191,19 +189,19 @@ class EditActivityScheduleTest extends TestCase
             'start_datetime after operation hours' => [
                 [   'activity_id' => 1, 'start_datetime' => now()
                         ->setHour(OperationHours::END_HOUR->value + 1),
-                    'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => 0
+                    'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 30
                 ],
                 'start_datetime',
                 'start_datetime after operation hours'
             ],
             // room_id
             'empty room_id' => [
-                ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => '', 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => 0],
+                ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => '', 'end_datetime' => $nextHour, 'max_enrollment' => 30],
                 'room_id',
                 'empty room_id'
             ],
             'room_id does not exist' => [
-                ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => 9999, 'end_datetime' => $nextHour, 'max_enrollment' => 30, 'current_enrollment' => 0],
+                ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => 9999, 'end_datetime' => $nextHour, 'max_enrollment' => 30],
                 'room_id',
                 'room_id does not exist'
             ],
@@ -214,24 +212,23 @@ class EditActivityScheduleTest extends TestCase
                     'room_id' => 1,
                     'end_datetime' => $nextHour,
                     'max_enrollment' => 30, 
-                    'current_enrollment' => 0
                 ],
                 'room_id',
                 'room is not available'
             ],
             // max_enrollment
             'empty max_enrollment' => [
-                ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => '', 'current_enrollment' => 0],
+                ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => ''],
                 'max_enrollment',
                 'empty max_enrollment'
             ],
             'max_enrollment less than 10' => [
-                ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 5, 'current_enrollment' => 0],
+                ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 5],
                 'max_enrollment',
                 'max_enrollment less than 10'
             ],
             'max_enrollment greater than 50' => [
-                ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 60, 'current_enrollment' => 0],
+                ['activity_id' => 1, 'start_datetime' => $now, 'room_id' => 1, 'end_datetime' => $nextHour, 'max_enrollment' => 60],
                 'max_enrollment',
                 'max_enrollment greater than 50'
             ],

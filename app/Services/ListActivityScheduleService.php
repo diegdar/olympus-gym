@@ -61,11 +61,10 @@ class ListActivityScheduleService
                 'act.name as activity_name',
                 'act.duration',
                 'asch.max_enrollment',
-                'asch.current_enrollment',
                 'r.id as room_id',
                 'r.name as room_name',
                 DB::raw('CASE WHEN asu.user_id IS NOT NULL THEN TRUE ELSE FALSE END as is_enrolled'),
-                DB::raw('(SELECT COUNT(*) FROM activity_schedule_user x WHERE x.activity_schedule_id = asch.id) as current_enrollment')
+                DB::raw('(SELECT COUNT(*) FROM activity_schedule_user x WHERE x.activity_schedule_id = asch.id) as users_count'),
             )
             ->get();
     }
@@ -126,7 +125,7 @@ class ListActivityScheduleService
             'duration'              => $row->duration,
             'max_enrollment'        => $row->max_enrollment,
             'is_enrolled'           => (bool) $row->is_enrolled,
-            'current_enrollment'       => isset($row->current_enrollment) ? (int) $row->current_enrollment : null,
+            'users_count'           => (int) ($row->users_count ?? 0),
         ];
     }
 

@@ -75,7 +75,6 @@ class ShowActivityScheduleTest extends TestCase
     {
         $schedule = ActivitySchedule::factory()->create([
             'max_enrollment' => 5,
-            'current_enrollment' => 0,
         ]);
 
         $member = $this->createUserAndAssignRole('member');
@@ -90,7 +89,6 @@ class ShowActivityScheduleTest extends TestCase
     {
         $schedule = ActivitySchedule::factory()->create([
             'max_enrollment' => 5,
-            'current_enrollment' => 0,
         ]);
 
         $member = $this->createUserAndAssignRole('member');
@@ -107,7 +105,6 @@ class ShowActivityScheduleTest extends TestCase
     {
         $schedule = ActivitySchedule::factory()->create([
             'max_enrollment' => 1,
-            'current_enrollment' => 0,
         ]);
         // Fill the only slot with another user
         $another = User::factory()->create();

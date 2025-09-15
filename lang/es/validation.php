@@ -175,7 +175,6 @@ return [
         'room_id' => 'sala',
         'max_enrollment' => 'total plazas',
         'end_datetime' => 'fecha/hora final',
-        'current_enrollment' => 'plazas inscritas',
     ],
 
 ];
