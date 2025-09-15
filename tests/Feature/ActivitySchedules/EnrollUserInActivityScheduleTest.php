@@ -11,6 +11,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\TestHelper;
 use Carbon\Carbon;
+use Database\Seeders\ActivitySeeder;
+use Database\Seeders\RoleSeeder;
 
 class EnrollUserInActivityScheduleTest extends TestCase
 {
@@ -25,7 +27,7 @@ class EnrollUserInActivityScheduleTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
+        $this->seed([RoleSeeder::class, ActivitySeeder::class]);
     }
 
     private function actingAsRole(string $roleName): User
