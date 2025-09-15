@@ -1,4 +1,4 @@
-a<x-layouts.app>
+<x-layouts.app>
     @section('title', 'Ver horario actividad')
     <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mx-2 sm:mx-5"> 
         <!-- name -->
