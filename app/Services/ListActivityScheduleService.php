@@ -6,7 +6,7 @@ namespace App\Services;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth; // Import Auth facade
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 
@@ -79,7 +79,8 @@ class ListActivityScheduleService
     {
         $userId  = Auth::id() ?? 'guest';
         $weekKey = Carbon::today()->format('Ymd');
-        $cacheKey = "activity_schedules:list:{$userId}:{$weekKey}";
+        $version = (int) (Cache::get('activity_schedules:list:version', 1));
+        $cacheKey = "activity_schedules:list:{$userId}:{$weekKey}:v{$version}";
 
         return Cache::remember($cacheKey, now()->addMinutes(5), function () {
             $records = $this->getActivityScheduleRecords();

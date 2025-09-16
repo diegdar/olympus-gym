@@ -84,12 +84,6 @@ class ListActivityScheduleServiceTest extends TestCase
         [$schedules1] = ($this->service)();
         $count1 = $this->countEntries($schedules1);
 
-        // Add another schedule after first call
-        ActivitySchedule::factory()->create([
-            'start_datetime' => now()->addHours(7),
-            'end_datetime'   => now()->addHours(8),
-        ]);
-
         [$schedules2] = ($this->service)();
         $count2 = $this->countEntries($schedules2);
 
@@ -120,6 +114,25 @@ class ListActivityScheduleServiceTest extends TestCase
         $countB = $this->countEntries($schedB);
 
         $this->assertSame($countA, $countB);
+    }
+
+    public function test_cache_is_invalidated_on_schedule_changes(): void
+    {
+        Cache::flush();
+
+        [$schedules1] = ($this->service)();
+        $count1 = $this->countEntries($schedules1);
+
+        // Create a new schedule (should trigger observer and bump version)
+        ActivitySchedule::factory()->create([
+            'start_datetime' => now()->addHours(9),
+            'end_datetime'   => now()->addHours(10),
+        ]);
+
+        [$schedules2] = ($this->service)();
+        $count2 = $this->countEntries($schedules2);
+
+        $this->assertGreaterThanOrEqual($count1 + 1, $count2);
     }
 
     private function countEntries(array $schedules): int
