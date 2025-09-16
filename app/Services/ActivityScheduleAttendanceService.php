@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\ActivitySchedule;
+use App\Contracts\Export\Exporter;
+use App\Services\Export\CsvExporter;
+use App\Services\Export\JsonExporter;
 
 /**
  * ActivityScheduleAttendanceService
@@ -32,28 +35,30 @@ class ActivityScheduleAttendanceService
 
     public function exportCsv(ActivitySchedule $schedule)
     {
+        // Mantener compatibilidad con tests existentes (CSV por defecto)
+        return $this->export($schedule, 'csv');
+    }
+
+    public function export(ActivitySchedule $schedule, string $format = 'csv')
+    {
         $rows = $this->getEnrolledUsers($schedule);
-        $filename = 'usuarios_inscritos_schedule_'.$schedule->id.'_'.date('Ymd_His').'.csv';
-        $handle = fopen('php://temp', 'w+');
-        // BOM UTF-8
-        fwrite($handle, "\xEF\xBB\xBF");
-        $delimiter = ';';
-        fputcsv($handle, ['ID','Nombre','Email','attended'], $delimiter);
-        foreach ($rows as $row) {
-            fputcsv($handle, [
-                $row['id'],
-                $row['name'],
-                $row['email'],
-                $row['attended'] ? 'true' : 'false',
-            ], $delimiter);
-        }
-        rewind($handle);
-        $csv = stream_get_contents($handle);
-        fclose($handle);
-        return response($csv, 200, [
-            'Content-Type' => 'text/csv; charset=UTF-8',
+
+        $exporter = $this->makeExporter($format);
+        $payload = $exporter->export($rows);
+        $filename = $exporter->filename('usuarios_inscritos_schedule_'.$schedule->id.'_'.date('Ymd_His'));
+
+        return response($payload, 200, [
+            'Content-Type' => $exporter->contentType(),
             'Content-Disposition' => 'attachment; filename="'.$filename.'"'
         ]);
+    }
+
+    private function makeExporter(string $format): Exporter
+    {
+        return match (strtolower($format)) {
+            'json' => new JsonExporter(),
+            default => new CsvExporter(),
+        };
     }
 
     /**
