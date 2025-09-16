@@ -44,7 +44,19 @@ class Login extends Component
         RateLimiter::clear($this->throttleKey());//clear failed login attempts
         Session::regenerate();
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        $this->redirectIntended(default: $this->postLoginRedirect(), navigate: true);
+    }
+
+    /**
+     * Decide post-login redirect based on role.
+     */
+    private function postLoginRedirect(): string
+    {
+        $user = Auth::user();
+        if ($user?->hasRole('member')) {
+            return route('dashboard', absolute: false);
+        }
+        return route('admin.subscriptions.stats', absolute: false);
     }
 
     /**

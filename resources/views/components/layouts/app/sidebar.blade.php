@@ -11,7 +11,7 @@
                                      dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
-        {{-- my web-icon --}}
+        {{-- My web icon --}}
         <div class="">
             <a href="https://diegochacondev.es" target="_blank">
                 <img src="{{ asset('img/logos/my-web-logo.webp') }}" class="w-[50px] h-[40px]"
@@ -19,12 +19,14 @@
             </a>
         </div>
 
-        {{-- Inicio links --}}
+        {{-- Home links --}}
         <flux:navlist variant="outline">
             <flux:navlist.group heading="Inicio" class="grid">
+                @can('member.panel')
                 <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
                     wire:navigate>{{ __('Dashboard') }}
-                </flux:navlist.item>
+                </flux:navlist.item>                    
+                @endcan
                 {{-- Activities Schedule --}}
                 <flux:navlist.item icon="calendar" :href="route('activity.schedules.index')"
                     :current="request()->routeIs('activity.schedules.index')" wire:navigate>
