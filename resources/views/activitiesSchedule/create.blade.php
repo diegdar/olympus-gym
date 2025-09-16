@@ -38,6 +38,30 @@
                         @enderror
                     </div>
                 </article>
+                <!-- max_enrollment -->
+                <article class="flex flex-col sm:flex-wrap gap-2">
+                    <label for="max_enrollment" 
+                        class="font-bold sm:text-xl">
+                        Total plazas:
+                    </label>
+                    <div class="flex flex-col">
+                        <select name="max_enrollment" id="max_enrollment"
+                            class="w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 text-center">
+                            <option value="">-Seleccione el número de plazas-</option>
+                            @foreach ([20, 30, 40, 50] as $value)
+                                <option value="{{ $value }}"
+                                    {{ old('max_enrollment') == $value ? 'selected' : '' }}>
+                                    {{ $value }} plazas
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('max_enrollment')
+                            <span class="text-red-500 text-sm dark:text-red-400">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                </article>                
                 <!-- activity dateTime -->
                 <article class="flex flex-col sm:flex-wrap gap-2">
                     <label for="start_datetime" 
@@ -81,26 +105,6 @@
                         @enderror
                     </div>
                 </article>
-                <!-- max_enrollment -->
-                <article class="flex flex-col sm:flex-wrap gap-2">
-                    <label for="max_enrollment" 
-                        class="font-bold sm:text-xl">
-                        Total plazas:
-                    </label>
-                    <div class="flex flex-col">
-                        <input name="max_enrollment" id="max_enrollment"
-                            class="w-full shadow 
-                            appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
-                            type="number"
-                            value="{{ old('max_enrollment', '') }}"
-                            min="10" max='50' step="1">
-                        @error('max_enrollment')
-                            <span class="text-red-500 text-sm dark:text-red-400">
-                                {{ $message }}
-                            </span>
-                        @enderror
-                    </div>
-                </article>                
             </div>
         </section>
     </form>
