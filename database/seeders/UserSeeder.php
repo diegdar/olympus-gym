@@ -17,7 +17,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Crear super-admin y admin
         $this->createUser([
             'name' => env('SUPER_ADMIN_NAME'),
             'email' => env('SUPER_ADMIN_EMAIL'),
@@ -32,11 +31,10 @@ class UserSeeder extends Seeder
             'birth_date' => now()->subYears(34)->toDateString(),
         ], 'admin');
 
-        // Crear un member con suscripción mensual
         $member = $this->createUser([
-            'name' => env('MEMBER_NAME'),
-            'email' => env('MEMBER_EMAIL'),
-            'password' => Hash::make(env('MEMBER_PASSWORD')),
+            'name' => 'raul_socio',
+            'email' => 'raul_socio@socio.com',
+            'password' => Hash::make('PassNix$123'),
             'birth_date' => now()->subYears(29)->toDateString(),
         ], 'member');
 
