@@ -41,12 +41,17 @@
                         Duración:
                     </label>
                     <div class="flex flex-col">
-                        <input name="duration"
-                            class="w-full shadow 
+                        <select name="duration"
+                            class="w-full shadow text-center
                             appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
-                            type="number" id="duration" placeholder="Duración de la actividad"
-                            value="{{ old('duration', $activity->duration ?? '') }}"
-                            min="30" step="15">
+                            id="duration">
+                            <option value="" class="text-center">-Selecciona la duración-</option>
+                            @foreach ([30, 45, 60, 90] as $minutes)
+                                <option value="{{ $minutes }}" class="text-center" {{ old('duration', $activity->duration ?? '') == $minutes ? 'selected' : '' }}>
+                                    {{ $minutes }} minutos
+                                </option>
+                            @endforeach
+                        </select>
                         @error('duration')
                             <span class="text-red-500 text-sm dark:text-red-400">
                                 {{ $message }}

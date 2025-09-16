@@ -112,7 +112,6 @@ class UserAttendanceSeeder extends Seeder
                 'room_id' => $room->id,
                 'end_datetime' => $end->toDateTimeString(),
                 'max_enrollment' => $maxEnrollment,
-                'current_enrollment' => 0,
             ]);
 
             DB::table('activity_schedule_user')->insert([

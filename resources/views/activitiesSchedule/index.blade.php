@@ -118,13 +118,14 @@
                                                     {{-- free slots --}}
                                                     <article class="text-sm text-green-700 dark:text-green-300 text-center">
                                                         @php
-                                                            $used = $entry['current_enrollment'] ?? $entry['current_enrollment'] ?? 0;
-                                                            $free = ($entry['max_enrollment'] ?? 0) - $used;
-                                                            if ($free < 0) {
-                                                                $free = 0;
-                                                            }
+                                                            $used = $entry['users_count']
+                                                                ?? (isset($entry['enrolled']) ? (int) explode('/', (string) $entry['enrolled'])[0] : 0);
+                                                            $free = max(0, (int)($entry['max_enrollment'] ?? 0) - (int)$used);
                                                         @endphp
-                                                        plazas libres: {{ $free }}
+                                                        <span class="font-bold">
+                                                            Plazas libres:
+                                                        </span>
+                                                        {{ $free }}
                                                     </article>
                                                     <div class="flex justify-center my-1 gap-1 mt-3">
                                                         {{-- show button --}}

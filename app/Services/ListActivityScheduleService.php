@@ -6,7 +6,8 @@ namespace App\Services;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth; // Import Auth facade
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 
 class ListActivityScheduleService
@@ -61,11 +62,10 @@ class ListActivityScheduleService
                 'act.name as activity_name',
                 'act.duration',
                 'asch.max_enrollment',
-                'asch.current_enrollment',
                 'r.id as room_id',
                 'r.name as room_name',
                 DB::raw('CASE WHEN asu.user_id IS NOT NULL THEN TRUE ELSE FALSE END as is_enrolled'),
-                DB::raw('(SELECT COUNT(*) FROM activity_schedule_user x WHERE x.activity_schedule_id = asch.id) as current_enrollment')
+                DB::raw('(SELECT COUNT(*) FROM activity_schedule_user x WHERE x.activity_schedule_id = asch.id) as users_count'),
             )
             ->get();
     }
@@ -77,11 +77,17 @@ class ListActivityScheduleService
      */
     public function getNestedSchedules(): array
     {
-        $records = $this->getActivityScheduleRecords();
-        $tree    = $this->buildScheduleTree($records);
+        $userId  = Auth::id() ?? 'guest';
+        $weekKey = Carbon::today()->format('Ymd');
+        $version = (int) (Cache::get('activity_schedules:list:version', 1));
+        $cacheKey = "activity_schedules:list:{$userId}:{$weekKey}:v{$version}";
 
-        $sortedDays = $this->sortDays($tree);
-        return $this->sortSlots($sortedDays);
+        return Cache::remember($cacheKey, now()->addMinutes(5), function () {
+            $records = $this->getActivityScheduleRecords();
+            $tree    = $this->buildScheduleTree($records);
+            $sortedDays = $this->sortDays($tree);
+            return $this->sortSlots($sortedDays);
+        });
     }
 
     /**
@@ -126,7 +132,7 @@ class ListActivityScheduleService
             'duration'              => $row->duration,
             'max_enrollment'        => $row->max_enrollment,
             'is_enrolled'           => (bool) $row->is_enrolled,
-            'current_enrollment'       => isset($row->current_enrollment) ? (int) $row->current_enrollment : null,
+            'users_count'           => (int) ($row->users_count ?? 0),
         ];
     }
 

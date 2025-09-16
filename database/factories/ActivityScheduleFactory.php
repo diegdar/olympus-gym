@@ -40,7 +40,6 @@ class ActivityScheduleFactory extends Factory
             'room_id' => $room->id,
             'end_datetime' => $formatedEndTime,
             'max_enrollment' => $maxEnrollment,
-            'current_enrollment' => 0,
         ];
     }
 }

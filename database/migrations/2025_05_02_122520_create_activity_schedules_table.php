@@ -29,17 +29,13 @@ return new class extends Migration
                     ->index('idx_activity_schedules_room_id');
             $table->dateTime('end_datetime')
                 ->nullable(false);
-            $table->integer('max_enrollment')
-                ->nullable(false)
-                ->unsigned()
-                ->default(0);
-            $table->integer('current_enrollment')
-                ->nullable(false)
-                ->unsigned()
-                ->default(0);
+            $table->unsignedTinyInteger('max_enrollment')
+                ->comment('Capacidad máxima de plazas para la sesión');
             $table->timestamps();
 
             $table->unique(['start_datetime', 'room_id'], 'idx_activity_schedule_start_time_room_id');
+            $table->index(['activity_id','start_datetime'], 'idx_activity_schedules_activity_start');
+
         });
     }
 
@@ -48,6 +44,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('activity_schedule');
+        Schema::dropIfExists('activity_schedules');
     }
 };

@@ -7,6 +7,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 use Carbon\Carbon;
+use App\Models\ActivitySchedule;
+use App\Observers\ActivityScheduleObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,6 +36,10 @@ class AppServiceProvider extends ServiceProvider
                 ->action('Verificar correo electrónico', $url)
                 ->salutation('Saludos,')
                 ->salutation('Laravel');                
-        });        
+    });
+
+    // Observe ActivitySchedule to invalidate cache via version bump
+    ActivitySchedule::observe(ActivityScheduleObserver::class);
+        
     }
 }

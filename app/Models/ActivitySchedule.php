@@ -22,7 +22,6 @@ class ActivitySchedule extends Model
         'room_id',
         'end_datetime',
         'max_enrollment',
-        'current_enrollment'        
     ];
 
     /**

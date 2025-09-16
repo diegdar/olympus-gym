@@ -71,7 +71,6 @@ class ActivitySchedulesSeeder extends Seeder
                 'room_id'           => $room->id,
                 'end_datetime'      => $end->toDateTimeString(),
                 'max_enrollment'    => $maxEnrollment,
-                'current_enrollment'=> $currentEnrollment,
             ]);
 
             $existing->push(compact('room', 'start', 'end'));

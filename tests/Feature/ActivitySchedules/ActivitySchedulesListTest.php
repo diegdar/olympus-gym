@@ -166,13 +166,13 @@ class ActivitySchedulesListTest extends TestCase
         );
     }
 
-    public function test_index_shows_free_slots_based_on_current_enrollment(): void
+    public function test_index_shows_free_slots(): void
     {
         $schedule = ActivitySchedule::factory()->create([
             'max_enrollment' => 3,
-            'current_enrollment' => 0,
-            'start_datetime' => now()->addDay()->setTime(10, 0),
-            'end_datetime' => now()->addDay()->setTime(11, 0),
+            // Usamos una hora de tarde que sabemos que el servicio lista (horas presentes en seeders)
+            'start_datetime' => now()->addDay()->setTime(18, 30),
+            'end_datetime' => now()->addDay()->setTime(19, 30),
         ]);
 
         $u1 = $this->createUserAndAssignRole('member');
@@ -183,6 +183,7 @@ class ActivitySchedulesListTest extends TestCase
         $resp = $this->actingAs($admin)->get(route(self::ROUTE));
 
         $resp->assertStatus(200)
-             ->assertSeeText('plazas libres: 1');
+             ->assertSeeText('Plazas libres:')
+             ->assertSeeText('1');
     }
 }

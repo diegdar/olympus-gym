@@ -18,6 +18,7 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Services\ListActivityScheduleService;
 use App\Services\StoreActivityScheduleService;
+use App\Services\UpdateActivityScheduleService;
 use Carbon\Carbon;
 use App\Services\ActivityScheduleAttendanceService;
 use Illuminate\Support\Facades\Auth;
@@ -81,7 +82,6 @@ class ActivityScheduleController extends Controller implements HasMiddleware
             'startTimeFormatted',
             'dayDateFormatted',
             'availableSlots',
-            'currentEnrollment',
             'isEnrolled',
         ]));
     }
@@ -177,9 +177,9 @@ class ActivityScheduleController extends Controller implements HasMiddleware
      * If the request is valid, the activity schedule will be updated in the database.
      * The user will then be redirected to the activities schedule list with a success message.
      */
-    public function update(UpdateActivityScheduleFormRequest $request, ActivitySchedule $activitySchedule): RedirectResponse
+    public function update(UpdateActivityScheduleFormRequest $request, ActivitySchedule $activitySchedule, UpdateActivityScheduleService $updateService): RedirectResponse
     {
-        $activitySchedule->update($request->validated());
+        $updateService($request, $activitySchedule);
         return redirect()->route('activity.schedules.index')->with('success', 'Horario actualizado correctamente.');
     }
 

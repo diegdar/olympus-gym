@@ -71,7 +71,7 @@
                 <span class="font-bold dark:text-red-300">
                     Total inscritos:</span>
                 <p class="text-gray-700 dark:text-gray-300 text-lg font-semibold mb-2 ml-3" id="description">
-                    {{ $currentEnrollment }}</p>
+                    {{ $activitySchedule->users_count ?? $activitySchedule->users()->count() }}</p>
             </div>
         </article>
     </div>
