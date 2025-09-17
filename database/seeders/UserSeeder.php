@@ -18,22 +18,22 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $this->createUser([
-            'name' => 'diego_superadmin',
-            'email' => 'diego_superadmin@superadmin.com',
+            'name' => 'diego chacon',
+            'email' => 'diego_chacon@superadmin.com',
             'password' => Hash::make('PassNix$123'),
             'birth_date' => now()->subYears(38)->toDateString(),
         ], 'super-admin');
 
         $this->createUser([
-            'name' => 'luis_admin',
-            'email' => 'luis_admin@admin.com',
+            'name' => 'luis guillermo',
+            'email' => 'luis_guillermo@admin.com',
             'password' => Hash::make('PassNix$123'),
             'birth_date' => now()->subYears(34)->toDateString(),
         ], 'admin');
 
         $member = $this->createUser([
-            'name' => 'raul_socio',
-            'email' => 'raul_socio@socio.com',
+            'name' => 'raul prieto',
+            'email' => 'raul_prieto@socio.com',
             'password' => Hash::make('PassNix$123'),
             'birth_date' => now()->subYears(29)->toDateString(),
         ], 'member');
