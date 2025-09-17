@@ -23,6 +23,10 @@ class UserAttendanceSeeder extends Seeder
      */
     public function run(): void
     {
+        if (app()->environment('testing')) {
+            $this->command?->warn('Skipping UserAttendanceSeeder in testing environment.');
+            return;
+        }
         $email = (string) env('MEMBER_EMAIL');
         $user = User::where('email', $email)->first();
         if (! $user) {

@@ -28,7 +28,8 @@ class ActivityScheduleFactory extends Factory
          OperationHours::END_HOUR->value - 1
         );
         $startMinute = fake()->randomElement([0, 30]);
-        $startTime = now()->setHour($startHour)->setMinute($startMinute)->setSecond(0);
+        // Ensure the schedule is in the future (tomorrow) to be captured by list service window
+        $startTime = now()->addDay()->setHour($startHour)->setMinute($startMinute)->setSecond(0);
         $formatedStartTime = $startTime->format('Y-m-d H:i:s');
         $endTime = $startTime->copy()->addMinutes((int) $activity->duration);
         $formatedEndTime = $endTime->format('Y-m-d H:i:s');

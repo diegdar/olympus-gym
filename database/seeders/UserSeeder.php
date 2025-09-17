@@ -40,8 +40,8 @@ class UserSeeder extends Seeder
 
         $this->attachSubscription($member, 'quarterly');
 
-        // Crear otros miembros
-        $this->createMultipleMembers(15);
+    // create less users in testing environment
+    $this->createMultipleMembers(app()->environment('testing') ? 3 : 15);
     }
 
     /**
