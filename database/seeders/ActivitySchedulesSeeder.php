@@ -20,10 +20,8 @@ class ActivitySchedulesSeeder extends Seeder
     private const MIN_PER_DAY = 5;
     private const MAX_PER_DAY = 8;
 
-    /**
-     * Weekdays to seed (next 7 days).
-     */
-    private const DAYS_COUNT = 30; // reduced for faster local seeding
+
+    private const DAYS_COUNT = 30; // default for non-testing environments
 
     /**
      * Run the database seeds for activity schedules.
@@ -37,7 +35,8 @@ class ActivitySchedulesSeeder extends Seeder
         $activities = Activity::all();
         $rooms = Room::all();
 
-        foreach (range(0, self::DAYS_COUNT - 1) as $offset) {
+        $days = $this->daysCount();
+        foreach (range(0, $days - 1) as $offset) {
             $date = Carbon::today()->addDays($offset);
             $this->seedDay($date, $activities, $rooms);
         }
@@ -52,7 +51,8 @@ class ActivitySchedulesSeeder extends Seeder
      */
     private function seedDay(Carbon $date, Collection $activities, Collection $rooms): void
     {
-        $slotsNeeded = rand(self::MIN_PER_DAY, self::MAX_PER_DAY);
+    [$min, $max] = $this->slotsRange();
+    $slotsNeeded = rand($min, $max);
         $existing = collect();
 
         while ($existing->count() < $slotsNeeded) {
@@ -65,13 +65,14 @@ class ActivitySchedulesSeeder extends Seeder
                 break;
             }
 
-            ActivitySchedule::create([
+            // Avoid firing observers while seeding to reduce overhead
+            ActivitySchedule::withoutEvents(fn() => ActivitySchedule::create([
                 'activity_id'       => $activity->id,
                 'start_datetime'    => $start->toDateTimeString(),
                 'room_id'           => $room->id,
                 'end_datetime'      => $end->toDateTimeString(),
                 'max_enrollment'    => $maxEnrollment,
-            ]);
+            ]));
 
             $existing->push(compact('room', 'start', 'end'));
         }
@@ -114,5 +115,21 @@ class ActivitySchedulesSeeder extends Seeder
         } while ($attempts < $maxAttempts);
 
         return [null, null];
+    }
+
+    private function daysCount(): int
+    {
+        return app()->environment('testing') ? 7 : self::DAYS_COUNT;
+    }
+
+    /**
+     * Returns [min, max] slots per day depending on environment.
+     */
+    private function slotsRange(): array
+    {
+        if (app()->environment('testing')) {
+            return [2, 3];
+        }
+        return [self::MIN_PER_DAY, self::MAX_PER_DAY];
     }
 }

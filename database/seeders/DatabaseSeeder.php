@@ -14,6 +14,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // In testing, keep seeding minimal to speed up and reduce memory usage
+        if (app()->environment('testing')) {
+            $this->call(RoleSeeder::class);
+            $this->call(SubscriptionSeeder::class);
+            $this->call(ActivitySeeder::class);
+            $this->call(RoomSeeder::class);
+            $this->call(UserSeeder::class);
+            // Skip SubscriptionUserSeeder, ActivitySchedulesSeeder and UserAttendanceSeeder in tests
+            return;
+        }
+
+        // Default (non-testing) seeding
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(SubscriptionSeeder::class);
