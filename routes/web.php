@@ -20,6 +20,10 @@ Route::get('/privacy-policy', function () {
     return view('privacy-policy');
 })->name('privacy.policy');
 
+Route::get('/instalaciones', function(){
+    return view('facilities');
+})->name('facilities');
+
 Route::get('dashboard', DashboardController::class)
     ->middleware(['auth','verified','can:member.panel'])
     ->name('dashboard');
