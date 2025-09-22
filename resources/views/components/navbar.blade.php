@@ -32,7 +32,7 @@
                 </article>
                 <article
                     class="flex sm:justify-center min-w-[70px] pt-3 border-b-3 hover:border-yellow-200 transition-colors duration-300 {{ request()->routeIs('facilities') ? 'border-[#c8a27a]' : 'border-transparent hover:border-yellow-500' }}">
-                    <a href="">
+                    <a href="{{ route('facilities') }}">
                         Instalaciones
                     </a>
                 </article>
