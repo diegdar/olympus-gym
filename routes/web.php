@@ -24,6 +24,10 @@ Route::get('/instalaciones', function(){
     return view('facilities');
 })->name('facilities');
 
+Route::get('/servicios', function(){
+    return view('services');
+})->name('services');
+
 Route::get('dashboard', DashboardController::class)
     ->middleware(['auth','verified','can:member.panel'])
     ->name('dashboard');
