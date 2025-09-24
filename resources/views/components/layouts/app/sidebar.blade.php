@@ -3,7 +3,7 @@
 
 <head>
     @include('partials.head')
-    <meta name="csrf-token" content="{{ csrf_token() }}">    
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body class="min-h-screen bg-white dark:bg-zinc-800">
@@ -19,26 +19,40 @@
             </a>
         </div>
 
-        {{-- Home links --}}
-        <flux:navlist variant="outline">
-            <flux:navlist.group heading="Inicio" class="grid">
-                @can('member.panel')
-                <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
-                    wire:navigate>{{ __('Dashboard') }}
-                </flux:navlist.item>                    
-                @endcan
-                {{-- Activities Schedule --}}
-                <flux:navlist.item icon="calendar" :href="route('activity.schedules.index')"
-                    :current="request()->routeIs('activity.schedules.index')" wire:navigate>
-                    {{ __('Horario Actividades') }}
-                </flux:navlist.item>
-            </flux:navlist.group>
-        </flux:navlist>
+        {{-- Main Panel --}}
+        @can('member.panel')
+            <flux:navlist variant="outline">
+                <flux:navlist.group heading="Panel Principal" class="grid">
+                    <flux:navlist.item icon="presentation-chart-bar" :href="route('dashboard')"
+                        :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item icon="home" :href="route('home')" :current="request()->routeIs('home')"
+                        wire:navigate>{{ __('Inicio') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item icon="building-office" :href="route('facilities')"
+                        :current="request()->routeIs('facilities')" wire:navigate>{{ __('Instalaciones') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item icon="list-bullet" :href="route('services')"
+                        :current="request()->routeIs('services')" wire:navigate>{{ __('Servicios') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item icon="phone" :href="route('contact')" :current="request()->routeIs('contact')"
+                        wire:navigate>{{ __('Contacto') }}
+                    </flux:navlist.item>
+                </flux:navlist.group>
+            </flux:navlist>
+        @endcan
 
         {{-- Admin Panel --}}
         @can('admin.panel')
             <flux:navlist variant="outline">
                 <flux:navlist.group heading="Gestion Operativa" class="grid">
+                    {{-- Subscription Stats --}}
+                    @can('admin.subscriptions.stats')
+                        <flux:navlist.item icon="chart-pie" :href="route('admin.subscriptions.stats')"
+                            :current="request()->routeIs('admin.subscriptions.stats')">
+                            {{ __('Estadísticas Suscripciones') }}
+                        </flux:navlist.item>
+                    @endcan
                     {{-- Users --}}
                     @can('admin.users.index')
                         <flux:navlist.item icon="users" :href="route('admin.users.index')"
@@ -67,13 +81,6 @@
                             {{ __('Actividades') }}
                         </flux:navlist.item>
                     @endcan
-                    {{-- Subscription Stats --}}
-                    @can('admin.subscriptions.stats')
-                        <flux:navlist.item icon="chart-pie" :href="route('admin.subscriptions.stats')"
-                            :current="request()->routeIs('admin.subscriptions.stats')">
-                            {{ __('Estadísticas Suscripciones') }}
-                        </flux:navlist.item>
-                    @endcan
                 </flux:navlist.group>
             </flux:navlist>
         @endcan
@@ -82,6 +89,11 @@
         @can('member.panel')
             <flux:navlist variant="outline">
                 <flux:navlist.group heading="Mis Gestiones" class="grid">
+                    {{-- Activities Schedule --}}
+                    <flux:navlist.item icon="calendar" :href="route('activity.schedules.index')"
+                        :current="request()->routeIs('activity.schedules.index')" wire:navigate>
+                        {{ __('Horario Actividades') }}
+                    </flux:navlist.item>
                     {{-- Activities Schedule --}}
                     @can('user.reservations')
                         <flux:navlist.item icon="ticket" :href="route('user.reservations')"
