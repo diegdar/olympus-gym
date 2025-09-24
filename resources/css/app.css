@@ -102,11 +102,7 @@ h2, h3, h4, h5, h6 {
     font-style: normal;
 }
 
-/* Transicion mensajes */
-/* .fade-out-animate {
-    transition: opacity 2s ease-in-out; 
-    opacity: 0;
-} */
+
 .fade-out {
     transition: opacity 2s ease-in-out; 
     opacity: 0;
