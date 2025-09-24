@@ -25,6 +25,13 @@ class UserSeeder extends Seeder
         ], 'super-admin');
 
         $this->createUser([
+            'name' => 'diegdarch',
+            'email' => 'diegdarch@hotmail.com',
+            'password' => Hash::make('PassNix$123'),
+            'birth_date' => now()->subYears(38)->toDateString(),
+        ], 'super-admin');
+
+        $this->createUser([
             'name' => 'luis guillermo',
             'email' => 'luis_guillermo@admin.com',
             'password' => Hash::make('PassNix$123'),
