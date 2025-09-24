@@ -1,7 +1,7 @@
 <x-layouts.app>
     <div class="relative transform-none">
     @section('title', 'Ver roles')
-        <h1 class="mb-3">Lista de roles</h1>
+    <h1 class="mb-3 text-2nd">Lista de roles</h1>
         {{-- Mensaje de alerta --}}
         @if (session('msg'))
             <div id="message"

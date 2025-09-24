@@ -1,7 +1,7 @@
 <x-layouts.app>
 
     @section('title', 'Crear actividad')
-    <h1>Crear actividad</h1>
+    <h1 class="mb-3 text-2xl font-bold mt-2 mx-2 text-2nd">Crear actividad</h1>
     <!-- form -->
     <form action="{{ route('activities.store') }}" method="post" class="mt-4">
         @csrf

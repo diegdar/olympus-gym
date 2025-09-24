@@ -1,6 +1,6 @@
 <x-layouts.app>
     @section('title', 'Crear sala')
-    <h1>Crear sala</h1>
+    <h1 class="mb-3 text-2xl font-bold mt-2 mx-2 text-2nd">Crear sala</h1>
     <!-- form -->
     <form action="{{ route('rooms.store') }}" method="post" class="mt-4">
         @csrf

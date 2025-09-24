@@ -1,7 +1,7 @@
 <x-layouts.app>
     @section('title', 'Ver salas')
     <div class="relative transform-none">
-        <h1 class="mb-3">Lista de salas</h1>
+    <h1 class="mb-3 text-2nd">Lista de salas</h1>
         {{-- Mensaje de alerta --}}
         @if (session('msg'))
             <div id="message"

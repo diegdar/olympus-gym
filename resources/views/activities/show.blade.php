@@ -1,6 +1,6 @@
 <x-layouts.app>
     @section('title', 'Ver actividad')
-    <h1>Actividad: {{ $activity->name }}</h1>
+    <h1 class="mb-3 text-2xl font-bold mt-2 mx-2 text-2nd">Actividad: {{ $activity->name }}</h1>
     <!-- duration -->
     <article class="flex flex-wrap gap-2n mt-5 mx-3">
         <div class="flex flex-col sm:flex-row">
