@@ -2,7 +2,7 @@
     @section('title', 'Estadisticas suscripciones')
     <div class="p-6 space-y-6">
         <div>
-            <h1 class="text-2xl font-bold mb-2">Estadísticas de Suscripciones</h1>
+            <h1 class="text-2xl font-bold mb-2 text-2nd">Estadísticas de Suscripciones</h1>
         </div>
         {{-- Users by monthly fee --}}
         <div class="rounded border border-zinc-200 dark:border-zinc-700 p-4 bg-white dark:bg-zinc-900">

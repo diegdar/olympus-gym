@@ -15,7 +15,7 @@
                 <span class="block sm:inline font-bold">{{ session('error') }}</span>
             </div>
         @endif
-        <h1 class="mb-3 text-2xl font-bold mt-2 mx-2">Horario Actividades</h1>
+    <h1 class="mb-3 text-2xl font-bold mt-2 mx-2 text-2nd">Horario Actividades</h1>
         {{-- new activity schedule --}}
         @can(['activity.schedules.create'])
             <div class="text-center sm:text-right mb-4 mt-7 mr-0 sm:mr-6 md:mr-3">

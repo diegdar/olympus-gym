@@ -1,6 +1,6 @@
 <x-layouts.app>
     @section('title', 'Crear horario para una actividad')
-    <h1>Crear horario para una actividad</h1>
+    <h1 class="mb-3 text-2xl font-bold mt-2 mx-2 text-2nd">Crear horario para una actividad</h1>
     <!-- form -->
     <form action="{{ route('activity.schedules.store') }}" method="post" class="my-4">
         @csrf

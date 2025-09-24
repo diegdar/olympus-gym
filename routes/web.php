@@ -17,11 +17,11 @@ Route::get('/', function () {
 
 
 Route::get('/privacy-policy', function () {
-    return view('privacy-policy');
+    return view('guest/privacy-policy');
 })->name('privacy.policy');
 
 Route::get('/instalaciones', function(){
-    return view('facilities');
+    return view('guest/facilities');
 })->name('facilities');
 
 Route::get('/contact', function(){
@@ -29,7 +29,7 @@ Route::get('/contact', function(){
 })->name('contact');
 
 Route::get('/servicios', function(){
-    return view('services');
+    return view('guest/services');
 })->name('services');
 
 Route::get('dashboard', DashboardController::class)

@@ -2,7 +2,7 @@
     <x-slot name="title">Olympus Gym: Servicios para tu bienestar y rendimiento</x-slot>
     <x-slot name="content">
         <section class="container mx-auto px-4 py-8">
-            <h1 class="text-3xl font-bold mb-8 text-center">Nuestros Servicios</h1>
+            <h1 class="text-3xl font-bold mb-8 text-center text-2nd">Nuestros Servicios</h1>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Personal Training Service -->
                 <div class="bg-white dark:bg-zinc-900 rounded-lg shadow-lg overflow-hidden flex flex-col">

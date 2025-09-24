@@ -2,7 +2,7 @@
     <x-slot name="title">Home:Diego Chacon</x-slot>
     <x-slot name="content">
         <div class="container mx-auto p-8">
-            <h1 class="text-3xl font-bold mb-6">Política de Privacidad</h1>
+            <h1 class="text-3xl font-bold mb-6 text-2nd">Política de Privacidad</h1>
             <p class="mb-4">
                 En Olympus Gym, nos tomamos muy en serio la privacidad de nuestros usuarios. Esta política de privacidad describe cómo recopilamos, usamos, protegemos y compartimos la información personal que usted nos proporciona.
             </p>

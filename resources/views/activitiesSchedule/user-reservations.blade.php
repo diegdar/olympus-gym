@@ -15,7 +15,7 @@
                 <span class="block sm:inline font-bold">{{ session('error') }}</span>
             </div>
         @endif
-        <h1 class="mb-3 text-2xl font-bold mt-2 mx-2">Mis Reservas</h1>
+    <h1 class="mb-3 text-2xl font-bold mt-2 mx-2 text-2nd">Mis Reservas</h1>
         <div class="overflow-auto mb-4 sm:overflow-y-auto sm:max-h-[500px]">
             <table class="table-auto w-full">
                 <thead>

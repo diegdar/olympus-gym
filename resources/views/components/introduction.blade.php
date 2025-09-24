@@ -1,6 +1,6 @@
 <div>
-    <h1 class="font-bold text-center mb-2">Bienvenido a Olympus Gym</h1>
-    <p class="text-xl font-semibold text-center font-shadows-light text-2nd">tu santuario del fitness</p>
+    <h1 class="font-bold text-center mb-2 text-2nd">Bienvenido a Olympus Gym</h1>
+    <p class="text-2xl font-semibold text-center font-shadows-light mb-2">tu santuario del fitness</p>
     <!-- abanico de imagenes -->
     <section class="flex w-full h-[430px]">
         <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hidden sm:block hover:contrast-125" src="{{ asset('img/home/crossfit_class.webp') }}" alt="personas haciendo crossfit">

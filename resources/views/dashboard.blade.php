@@ -10,8 +10,8 @@
                         {{ auth()->user()->initials() }}
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold">Hola {{ auth()->user()->name }} 👋</h1>
-                        <p class="text-sm text-zinc-500 dark:text-zinc-400">Bienvenido de nuevo a tu panel</p>
+                        <h1 class="text-2xl font-bold text-2nd">Hola {{ auth()->user()->name }} 👋</h1>
+                        <p class="text-md text-zinc-500 dark:text-zinc-400 font-bold mt-2">Bienvenido de nuevo a tu panel</p>
                     </div>
                 </div>
             </div>

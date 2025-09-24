@@ -2,7 +2,7 @@
     @section('title', 'Ver actividades')
     <div class="relative transform-none">
         <x-slot name="title">Lista actividades</x-slot>
-        <h1 class="mb-3">Lista de actividades</h1>
+    <h1 class="mb-3 text-2nd">Lista de actividades</h1>
         {{-- Mensaje de alerta --}}
         @if (session('msg'))
             <div id="message"
