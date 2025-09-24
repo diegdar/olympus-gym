@@ -4,7 +4,7 @@ services:
             context: .
             dockerfile: docker/Dockerfile
         ports:
-            - "80:80"
+            - "0.0.0.0:8088:80"
         volumes:
             - .:/var/www/html
         extra_hosts:
@@ -26,19 +26,17 @@ services:
     mysql:
         image: mysql:8.0
         environment:
-            - MYSQL_DATABASE=${DB_DATABASE}
-            - MYSQL_USER=${DB_USERNAME}
-            - MYSQL_PASSWORD=${DB_PASSWORD}
-            - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+            - MYSQL_DATABASE=gym
+            - MYSQL_ROOT_PASSWORD=root
         volumes:
             - mysql-data:/var/lib/mysql
         ports:
-            - "3306:3306"
+            - "3307:3306"
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         ports:
-            - "8080:80"
+            - "8081:80"
         environment:
             - PMA_HOST=mysql
             - PMA_USER=${DB_USERNAME}

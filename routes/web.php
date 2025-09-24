@@ -24,6 +24,10 @@ Route::get('/instalaciones', function(){
     return view('facilities');
 })->name('facilities');
 
+Route::get('/contact', function(){
+    return view('guest/contact');
+})->name('contact');
+
 Route::get('/servicios', function(){
     return view('services');
 })->name('services');
