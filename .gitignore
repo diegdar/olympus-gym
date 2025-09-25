@@ -22,6 +22,5 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
-TODO.md
 Pruebas-creacionBD-insercion_datos.sql
 /.github/copilot-instructions.md
