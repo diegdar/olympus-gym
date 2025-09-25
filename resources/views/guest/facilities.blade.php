@@ -1,5 +1,5 @@
 <x-layouts.app.general>
-    <x-slot name="title">Olympus Gym: Instalaciones modernas y espaciosas</x-slot>
+    <x-slot name="title">Instalaciones</x-slot>
     <x-slot name="content">
         <section class="container mx-auto px-4 py-8">
             <h1 class="text-3xl font-bold mb-8 text-center text-2nd">Instalaciones Olympus Gym</h1>

@@ -1,6 +1,6 @@
 <x-layouts.app.general>
     <x-slot name="title">
-        Olympus Gym: Ubicación y Contacto        
+        Contacto        
     </x-slot>
     <x-slot name="content">
         {{-- Contact info and contact form --}}

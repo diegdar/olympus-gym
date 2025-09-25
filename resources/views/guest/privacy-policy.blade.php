@@ -1,5 +1,5 @@
 <x-layouts.app.general>
-    <x-slot name="title">Home:Diego Chacon</x-slot>
+    <x-slot name="title">Política Privacidad</x-slot>
     <x-slot name="content">
         <div class="container mx-auto p-8">
             <h1 class="text-3xl font-bold mb-6 text-2nd">Política de Privacidad</h1>
