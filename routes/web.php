@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+Route::get('/app-info', function () {
+    return view('app-info');
+})->name('app-info');
 
 Route::get('/privacy-policy', function () {
     return view('guest/privacy-policy');
