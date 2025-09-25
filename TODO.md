@@ -2,8 +2,8 @@
 # LINKS
 [Consulta creacion BD-GEMINI][https://gemini.google.com/app/b0af00bbe67eece1]
 
-# Activities-Schedule
-Hacer que el role Admin tambien pueda ver, crear, editar y eliminar un Activities-schedules.
+# login Github/google
+Cambiar la redireccion de dashboard a subscriptions/stats al iniciar sesion con estas RRSS.
 
 # Navbar
 introducir link introduccion y arreglar distribucion de todos los links en la vista tablet y pc.

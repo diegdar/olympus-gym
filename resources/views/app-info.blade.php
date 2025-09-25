@@ -46,7 +46,7 @@
                         <ul class="list-square pl-6 mt-2"> 
                             <li>Puede:
                                 <ul class="list-circle pl-6">
-                                    <li>Ver, crear, editar y eliminar: usuarios, Roles, Salas y Actividades.</li>
+                                    <li>Ver, crear, editar y eliminar: usuarios, Roles.</li>
                                     <li>Ver estadísticas de las suscripciones y descargar reportes.</li>
                                 </ul>
                             </li>
@@ -54,6 +54,7 @@
                                 <ul class="list-circle pl-6">
                                     <li>Gestionar la suscripción de un usuario ageno al suyo.</li>
                                     <li>gestionar el perfil de un usuario ageno al suyo.</li>
+                                    <li>Ver, crear, editar y eliminar: salas y actividades, ademas de horarios para las actividades.</li>
                                 </ul>
                             </li>
                         </ul>
