@@ -12,6 +12,9 @@ use Tests\TestCase;
 
 class LoginViaGithubTest extends TestCase
 {
+
+    private const REDIRECT_ROUTE = 'admin.subscriptions.stats';
+
     use RefreshDatabase;
 
     public function test_login_screen_can_be_rendered(): void
@@ -52,7 +55,7 @@ class LoginViaGithubTest extends TestCase
         $response = $this->get('/auth/github/callback');
 
         $response->assertStatus(302);
-        $response->assertRedirect(route('dashboard', absolute: false));
+        $response->assertRedirect(route(self::REDIRECT_ROUTE, absolute: false));
         $this->assertTrue(Auth::check());
         $this->assertAuthenticatedAs($existingUser);
     }

@@ -17,9 +17,10 @@
             {{-- link to repo --}}
             <div class="text-center m-4">
                 <a href="https://github.com/diegdar/olympus-gym"
-                    {{-- class="btn btn-dark btn-github btn-lg" target="_blank"> --}}
-                    class="inline-block px-6 py-3 text-lg font-semibold text-white bg-black-500 hover:bg-grey-900 rounded-lg" target="_blank">
-                    <i class="fab fa-github fa-xl"></i> Ver repositorio
+                    class="inline-flex items-center px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-lg transition duration-150 ease-in-out dark:bg-gray-800 dark:hover:bg-gray-600"
+                    target="_blank">
+                    Ver repositorio
+                    <i class="fa-brands fa-github fa-lg ml-3" style="color: #eef6ff;"></i>
                 </a>
             </div>
 

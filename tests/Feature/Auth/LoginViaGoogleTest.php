@@ -14,6 +14,8 @@ class LoginViaGoogleTest extends TestCase
 {
     use RefreshDatabase;
 
+    private const REDIRECT_ROUTE = 'admin.subscriptions.stats';    
+
     public function test_login_screen_can_be_rendered(): void
     {
         $response = $this->get('/login');
@@ -52,7 +54,7 @@ class LoginViaGoogleTest extends TestCase
         $response = $this->get('/auth/google/callback');
 
         $response->assertStatus(302);
-        $response->assertRedirect(route('dashboard', absolute: false));
+        $response->assertRedirect(route(self::REDIRECT_ROUTE, absolute: false));
         $this->assertTrue(Auth::check());
         $this->assertAuthenticatedAs($existingUser);
     }
