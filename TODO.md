@@ -3,11 +3,10 @@
 [Consulta creacion BD-GEMINI][https://gemini.google.com/app/b0af00bbe67eece1]
 
 # Navbar
-introducir link introduccion y arreglar distribucion de todos los links en la vista tablet y pc.
+- Para roles admin/super-admin: Cambiar ruta boton de dashboard a admin.subscriptions.stats 
+- introducir link introduccion y arreglar distribucion de todos los links en la vista tablet y pc.
 
 # app-info
-## Intro
-hacer que se vea el color gris para el boton de repo
 ## Roles y permisos
 Hacer que las viñetas se vean en la 2da y 3ra sangria.
 
