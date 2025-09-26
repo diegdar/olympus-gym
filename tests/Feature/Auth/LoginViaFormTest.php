@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Spatie\Permission\Models\Role;
 
 class LoginViaFormTest extends TestCase
 {
@@ -48,15 +49,17 @@ class LoginViaFormTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
-    #[DataProvider('rolesProvider')]
-    public function test_users_can_logout_by_role(string $role): void
+    public function test_users_can_logout_by_role(): void
     {
-        $user = $this->makeUserWithRole($role);
-
-        $response = $this->actingAs($user)->post('/logout');
-
-        $this->assertGuest();
-        $response->assertRedirect('/');
+        $roles = Role::pluck('name')->toArray();
+        foreach ($roles as $role) {
+            $user = $this->makeUserWithRole($role);
+    
+            $response = $this->actingAs($user)->post('/logout');
+    
+            $this->assertGuest();
+            $response->assertRedirect('/');            
+        }
     }
 
     /**
@@ -75,21 +78,9 @@ class LoginViaFormTest extends TestCase
     public static function accessProvider(): array
     {
         return [
-            'member can access dashboard'        => ['member', '/dashboard'],
-            'admin can access subscription stats' => ['admin', '/admin/subscriptions/stats'],
-            'super-admin can access subscription stats' => ['super-admin', '/admin/subscriptions/stats'],
-        ];
-    }
-
-    /**
-     * Roles to validate logout flow.
-     */
-    public static function rolesProvider(): array
-    {
-        return [
-            'super-admin' => ['super-admin'],
-            'admin'       => ['admin'],
-            'member'      => ['member'],
+            'member can access dashboard'        => ['member', route('dashboard', absolute: false)],
+            'admin can access subscription stats' => ['admin', route('admin.subscriptions.stats', absolute: false)],
+            'super-admin can access subscription stats' => ['super-admin', route('admin.subscriptions.stats', absolute: false)],
         ];
     }
 }
