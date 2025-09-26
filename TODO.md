@@ -3,8 +3,7 @@
 [Consulta creacion BD-GEMINI][https://gemini.google.com/app/b0af00bbe67eece1]
 
 # Navbar
-- Para roles admin/super-admin: Cambiar ruta boton de dashboard a admin.subscriptions.stats 
-- introducir link introduccion y arreglar distribucion de todos los links en la vista tablet y pc.
+Introducir link introduccion y arreglar distribucion de todos los links en la vista tablet y pc.
 
 # app-info
 ## Roles y permisos
