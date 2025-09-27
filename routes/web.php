@@ -11,19 +11,19 @@ use App\Livewire\Settings\Profile;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+Route::get('/home', function () {
     return view('home');
 })->name('home');
 
-Route::get('/app-info', function () {
-    return view('app-info');
+Route::get('/introduction', function () {
+    return view(view: 'app-info');
 })->name('app-info');
 
 Route::get('/privacy-policy', function () {
     return view('guest/privacy-policy');
 })->name('privacy.policy');
 
-Route::get('/instalaciones', function(){
+Route::get('/facilities', function(){
     return view('guest/facilities');
 })->name('facilities');
 
@@ -31,7 +31,7 @@ Route::get('/contact', function(){
     return view('guest/contact');
 })->name('contact');
 
-Route::get('/servicios', function(){
+Route::get('/services', function(){
     return view('guest/services');
 })->name('services');
 
@@ -80,7 +80,7 @@ Route::middleware(['auth'])->group(function () {
     ->names('activity.schedules');   
     
     // Subscriptions
-    Route::get('member/subscription', [SubscriptionController::class, 'index'])
+    Route::get('member/my-subscription', [SubscriptionController::class, 'index'])
         ->name('member.subscription');
     Route::put('member/subscription', [SubscriptionController::class, 'changeSubscription'])
         ->name('member.subscription.update');
