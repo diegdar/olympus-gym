@@ -84,10 +84,12 @@
                         </flux:navlist.item>
                     @endcan
                     {{-- Activities Schedule --}}
+                    @can('activity.schedules.index')
                     <flux:navlist.item icon="calendar" :href="route('activity.schedules.index')"
                         :current="request()->routeIs('activity.schedules.index')" wire:navigate>
                         {{ __('Horario Actividades') }}
                     </flux:navlist.item>
+                    @endcan
                 </flux:navlist.group>
             </flux:navlist>
         @endcan

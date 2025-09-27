@@ -1,6 +1,9 @@
 # LINKS
 [Consulta creacion BD-GEMINI][https://gemini.google.com/app/b0af00bbe67eece1]
 
+# Inicio
+Resolver bug: al hacer click en inscribirse los usuarios que ya estan registrados muestra un pantalla de eror: '403 |Esta acción no está autorizada.'
+
 # Usuarios
 Cambiar mensaje de creacion de usuario por el que se utiliza en la vista contact para enviar el formulario(utiliza alpine).
 

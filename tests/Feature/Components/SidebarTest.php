@@ -161,27 +161,102 @@ class SidebarTest extends TestCase
     public static function roleBasedSidebarProvider(): array
     {
         return [
-            'member sees member panel' => ['member', ['Panel Principal', 'Mis Gestiones'], ['Gestion Operativa'], 'dashboard'],
-            'admin sees admin panel' => ['admin', ['Panel Principal', 'Gestion Operativa'], ['Mis Gestiones'], 'admin.users.index'],
-            'super-admin sees admin panel' => ['super-admin', ['Panel Principal', 'Gestion Operativa'], ['Mis Gestiones'], 'admin.users.index'],
+            'member routes' =>[
+                'member',
+                [
+                // Panel Principal
+                    'home', 
+                    'app-info', 
+                    'dashboard', 
+                    'facilities', 
+                    'services', 
+                    'contact', 
+                //   Mis Gestiones
+                    'activity.schedules.index', 
+                    'user.reservations', 
+                    'member.subscription'
+                ],
+                [
+                // Admin Panel
+                    'admin.subscriptions.stats',
+                    'admin.users.index',
+                    'admin.roles.index',
+                    'rooms.index',
+                    'activities.index',
+                ],
+                'dashboard'
+            ],
+            'admin routes' =>[
+                'admin',
+                [
+                // Panel Principal
+                    'home', 
+                    'app-info', 
+                //   Gestion Operativa
+                    'admin.subscriptions.stats',
+                    'admin.users.index',
+                    'admin.roles.index',
+                    'rooms.index',
+                    'activities.index',
+                    'activity.schedules.index',
+                ],
+                [
+                // Panel Principal
+                    'dashboard', 
+                    'facilities', 
+                    'services', 
+                    'contact',
+                //   Mis Gestiones
+                    'user.reservations', 
+                    'member.subscription'
+                ],
+                'admin.subscriptions.stats'
+            ],
+            'super-admin routes' =>[
+                'super-admin',
+                [
+                // Panel Principal
+                    'home', 
+                    'app-info', 
+                //   Gestion Operativa
+                    'admin.subscriptions.stats',
+                    'admin.users.index',
+                    'admin.roles.index',
+                ],
+                [
+                // Panel Principal
+                    'dashboard', 
+                    'facilities', 
+                    'services', 
+                    'contact',
+                //   Mis Gestiones
+                    'user.reservations', 
+                    'member.subscription',
+                // Gestion Operativa
+                    'rooms.index',
+                    'activities.index',
+                    'activity.schedules.index',                
+                ],
+                'admin.subscriptions.stats'
+            ],
         ];
     }
 
     #[DataProvider('roleBasedSidebarProvider')]
-    public function test_sidebar_shows_correct_panels_based_on_role(string $role, array $expectedPanels, array $hiddenPanels, string $route = 'dashboard'): void
+    public function test_sidebar_shows_correct_panels_and_routes_based_on_role(string $role, array $expectedRoutes, array $hiddenRoutes, string $baseRoute = 'dashboard'): void
     {
         $user = $this->createUserAndAssignRole($role);
 
-        $response = $this->actingAs($user)->get(route($route));
+        $response = $this->actingAs($user)->get(route($baseRoute));
 
         $response->assertStatus(200);
 
-        foreach ($expectedPanels as $panel) {
-            $response->assertSee($panel);
+        foreach ($expectedRoutes as $route) {
+            $response->assertSee(route($route));
         }
 
-        foreach ($hiddenPanels as $panel) {
-            $response->assertDontSee($panel);
+        foreach ($hiddenRoutes as $route) {
+            $response->assertDontSee(route($route));
         }
     }
 }
