@@ -1,10 +1,6 @@
 # LINKS
 [Consulta creacion BD-GEMINI][https://gemini.google.com/app/b0af00bbe67eece1]
 
-# app-info
-## Roles y permisos
-Hacer que las viñetas se vean en la 2da y 3ra sangria.
-
 # Usuarios
 Cambiar mensaje de creacion de usuario por el que se utiliza en la vista contact para enviar el formulario(utiliza alpine).
 

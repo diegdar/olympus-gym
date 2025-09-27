@@ -61,13 +61,13 @@
                     @auth
                         @if (auth()->user()->hasRole('member'))
                             <a href="{{ url('/dashboard') }}"
-                                class="inline-block px-3 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border  dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                Dashboard
+                                class="text-xl inline-block px-3 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border  dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm leading-normal">
+                                🏠Dashboard
                             </a>
                         @else
                             <a href="{{ url('/admin/subscriptions/stats') }}"
-                                class="inline-block px-3 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border  dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                Panel
+                                class=" text-xl inline-block px-3 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border  dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm leading-normal">
+                                🏠Panel
                             </a>
                         @endif
                     @else
