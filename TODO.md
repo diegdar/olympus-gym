@@ -1,9 +1,5 @@
--- Active: 1742205386598@@127.0.0.1@3306@gym
 # LINKS
 [Consulta creacion BD-GEMINI][https://gemini.google.com/app/b0af00bbe67eece1]
-
-# Navbar
-Introducir link introduccion y arreglar distribucion de todos los links en la vista tablet y pc.
 
 # app-info
 ## Roles y permisos

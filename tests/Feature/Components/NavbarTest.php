@@ -23,6 +23,7 @@ class NavbarTest extends TestCase
         $response = $this->get(route('home'));
 
         $response->assertStatus(200)
+            ->assertSee('Introduccion')
             ->assertSee('Inicio')
             ->assertSee('Instalaciones')
             ->assertSee('Servicios')
@@ -45,6 +46,7 @@ class NavbarTest extends TestCase
         $response = $this->get(route('home'));
 
         $response->assertStatus(200)
+            ->assertSee(route('app-info'), false)
             ->assertSee(route('home'), false)
             ->assertSee(route('facilities'), false)
             ->assertSee(route('services'), false)
@@ -77,6 +79,10 @@ class NavbarTest extends TestCase
 
     public function test_navbar_highlights_active_link(): void
     {
+        $response = $this->get(route('app-info'));
+        $response->assertStatus(200)
+            ->assertSee('border-[#c8a27a]', false);
+
         $response = $this->get(route('home'));
         $response->assertStatus(200)
             ->assertSee('border-[#c8a27a]', false);
