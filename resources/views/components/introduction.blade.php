@@ -40,52 +40,54 @@
         </p>
     </section>
     <!-- Fees -->
-    <section class="m-5 mt-20">
-        <h2 class="mb-8">Elige tu cuota</h2>
-        <article class="flex flex-wrap justify-center gap-4">
-            <!-- fee-card 1 -->
-            <div class="w-full min-w-[200px] max-w-[280px] mx-3 border-1 min-h-[300px]  rounded-lg shadow-md p-6 flex flex-col justify-between hover:cursor-pointer hover:scale-105
-            ">
-                <a href="/register?fee=monthly">
-                    <h3 class="text-2xl font-semibold text-center mb-8">Cuota Mensual</h3>
-                    <p class="mb-2">-Acceso ilimitado al gimnasio</p>
-                    <p class="mb-2">-Clases grupales incluidas</p>
-                    <p class="text-3xl text-center font-bold text-green-500 mt-17">50€ / mes</p>
-                    <p class="mt-9 bg-green-500 hover:bg-green-600 font-semibold py-2 px-4 rounded w-full text-center block">
-                        ¡Inscríbete!
-                    </p>
-                </a>
-            </div>             
-            <!-- fee-card 2 -->
-            <div class="w-full min-w-[200px] max-w-[280px] mx-3 border-1 min-h-[300px]  rounded-lg shadow-md p-6 flex flex-col justify-between hover:cursor-pointer hover:scale-105
-            ">
-                <a href="/register?fee=quarterly">
-                    <h3 class="text-2xl font-semibold text-center mb-8">Cuota Trimestral</h3>
-                    <p class="mb-2">-Acceso ilimitado al gimnasio</p>
-                    <p class="mb-2">-Clases grupales incluidas</p>
-                    <p class="mb-2">-1 sesión de entrenamiento personal</p>
-                    <p class="text-3xl text-center font-bold text-blue-500 mt-3">135€ / trimestre</p>
-                    <p class="mt-8 bg-blue-500 hover:bg-blue-600 font-semibold py-2 px-4 rounded w-full text-center block">
-                        ¡Inscríbete!
-                    </p>
-                </a>
-            </div>
-            <!-- fee-card 3 -->
-            <div class="w-full min-w-[200px] max-w-[280px] mx-3 border-1 min-h-[300px]  rounded-lg shadow-md p-6 flex flex-col justify-between hover:cursor-pointer hover:scale-105
-            ">
-                <a href="/register?fee=yearly">
-                    <h3 class="text-2xl font-semibold text-center mb-8">Cuota Anual</h3>
-                    <p class="mb-2">-Acceso ilimitado al gimnasio</p>
-                    <p class="mb-2">-Clases grupales incluidas</p>
-                    <p class="mb-2">-4 sesiones de entrenamiento personal</p>
-                    <p class="text-3xl text-center font-bold text-purple-500">480€ / año</p>
-                    <p class="mt-8 bg-purple-500 hover:bg-purple-600 font-semibold py-2 px-4 rounded w-full text-center block">
-                        ¡Inscríbete!
-                    </p>
-                </a>
-            </div>
-        </article>
-    </section>
+    @if(!auth()->check())
+        <section class="m-5 mt-20">
+            <h2 class="mb-8">Elige tu cuota</h2>
+            <article class="flex flex-wrap justify-center gap-4">
+                <!-- fee-card 1 -->
+                <div class="w-full min-w-[200px] max-w-[280px] mx-3 border-1 min-h-[300px]  rounded-lg shadow-md p-6 flex flex-col justify-between hover:cursor-pointer hover:scale-105
+                ">
+                    <a href="/register?fee=monthly">
+                        <h3 class="text-2xl font-semibold text-center mb-8">Cuota Mensual</h3>
+                        <p class="mb-2">-Acceso ilimitado al gimnasio</p>
+                        <p class="mb-2">-Clases grupales incluidas</p>
+                        <p class="text-3xl text-center font-bold text-green-500 mt-17">50€ / mes</p>
+                        <p class="mt-9 bg-green-500 hover:bg-green-600 font-semibold py-2 px-4 rounded w-full text-center block">
+                            ¡Inscríbete!
+                        </p>
+                    </a>
+                </div>             
+                <!-- fee-card 2 -->
+                <div class="w-full min-w-[200px] max-w-[280px] mx-3 border-1 min-h-[300px]  rounded-lg shadow-md p-6 flex flex-col justify-between hover:cursor-pointer hover:scale-105
+                ">
+                    <a href="/register?fee=quarterly">
+                        <h3 class="text-2xl font-semibold text-center mb-8">Cuota Trimestral</h3>
+                        <p class="mb-2">-Acceso ilimitado al gimnasio</p>
+                        <p class="mb-2">-Clases grupales incluidas</p>
+                        <p class="mb-2">-1 sesión de entrenamiento personal</p>
+                        <p class="text-3xl text-center font-bold text-blue-500 mt-3">135€ / trimestre</p>
+                        <p class="mt-8 bg-blue-500 hover:bg-blue-600 font-semibold py-2 px-4 rounded w-full text-center block">
+                            ¡Inscríbete!
+                        </p>
+                    </a>
+                </div>
+                <!-- fee-card 3 -->
+                <div class="w-full min-w-[200px] max-w-[280px] mx-3 border-1 min-h-[300px]  rounded-lg shadow-md p-6 flex flex-col justify-between hover:cursor-pointer hover:scale-105
+                ">
+                    <a href="/register?fee=yearly">
+                        <h3 class="text-2xl font-semibold text-center mb-8">Cuota Anual</h3>
+                        <p class="mb-2">-Acceso ilimitado al gimnasio</p>
+                        <p class="mb-2">-Clases grupales incluidas</p>
+                        <p class="mb-2">-4 sesiones de entrenamiento personal</p>
+                        <p class="text-3xl text-center font-bold text-purple-500">480€ / año</p>
+                        <p class="mt-8 bg-purple-500 hover:bg-purple-600 font-semibold py-2 px-4 rounded w-full text-center block">
+                            ¡Inscríbete!
+                        </p>
+                    </a>
+                </div>
+            </article>
+        </section>             
+    @endif
     <!-- gym schedule -->
     <section class="m-5">
         <h2>Horario del gym</h2>

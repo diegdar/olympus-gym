@@ -1,8 +1,8 @@
 # LINKS
 [Consulta creacion BD-GEMINI][https://gemini.google.com/app/b0af00bbe67eece1]
 
-# Inicio
-Resolver bug: al hacer click en inscribirse los usuarios que ya estan registrados muestra un pantalla de eror: '403 |Esta acción no está autorizada.'
+# Test 🧪
+- Factorizar tests
 
 # Usuarios
 Cambiar mensaje de creacion de usuario por el que se utiliza en la vista contact para enviar el formulario(utiliza alpine).
@@ -24,6 +24,3 @@ hacer que cuando la fecha de end_date pase la fecha de hoy el valor del campo st
     - sexo
 - Modificar register con los nuevos campos para USER    
 - crear show 
-
-# Test 🧪
-- Factorizar tests
