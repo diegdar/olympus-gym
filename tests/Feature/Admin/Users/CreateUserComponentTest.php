@@ -6,6 +6,7 @@ namespace Tests\Feature\Admin\Users;
 
 use App\Livewire\Admin\Users\CreateUser;
 use App\Models\User;
+use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Role;
@@ -21,27 +22,25 @@ class CreateUserComponentTest extends TestCase
     protected array $authRolesToCreateUser;
     protected array $unauthRolesToCreateUser;
     protected Collection $roles;
-    protected const CREATE_USER_PERMISSION = 'admin.users.create';
-    protected const ROUTE_CREATE_USER = 'admin.users.index';
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
-        $this->authRolesToCreateUser = $this->getAuthorizedRoles(self::CREATE_USER_PERMISSION);
-        $this->unauthRolesToCreateUser = $this->getUnauthorizedRoles(self::CREATE_USER_PERMISSION);
+        $this->seed(RoleSeeder::class);
+        $this->authRolesToCreateUser = $this->getAuthorizedRoles('admin.users.create');
+        $this->unauthRolesToCreateUser = $this->getUnauthorizedRoles('admin.users.create');
         $this->roles = Role::all();
     }
 
     private function assertSeeCreateUserComponent(): void
     {
-        $this->get(route(self::ROUTE_CREATE_USER))
+        $this->get(route('admin.users.index'))
             ->assertSeeLivewire(CreateUser::class);
     }
 
     private function assertDontSeeCreateUserComponent(): void
     {
-        $this->get(route(self::ROUTE_CREATE_USER))
+        $this->get(route('admin.users.index'))
             ->assertDontSeeLivewire(CreateUser::class);
     }
 
@@ -57,7 +56,7 @@ class CreateUserComponentTest extends TestCase
     {
         foreach ($this->authRolesToCreateUser as $authorizedRole) {
             $this->actingAsRole($authorizedRole)
-                ->get(route(self::ROUTE_CREATE_USER))
+                ->get(route('admin.users.index'))
                 ->assertSee('Crear usuario')
                 ->assertSee('Nombre')
                 ->assertSee('Email')
@@ -240,13 +239,13 @@ class CreateUserComponentTest extends TestCase
                     'birth_date' => now()->subYears(28)->toDateString(),
                 ])
                 ->call('createUser')
-                ->assertSee('El usuario ha sido creado correctamente')
+                ->assertSet('successMessage', 'El usuario ha sido creado correctamente')
                 ->assertSet('name', '')
                 ->assertSet('email', '')
                 ->assertSet('role', '')
                 ->assertSet('birth_date', '');
 
-            $userNumber++;   
+            $userNumber++;
         }
     }
 

@@ -4,9 +4,6 @@
 # Test 🧪
 - Factorizar tests
 
-# Usuarios
-Cambiar mensaje de creacion de usuario por el que se utiliza en la vista contact para enviar el formulario(utiliza alpine).
-
 # ActivitySchedule
 hacer que en los dispositivos de tablet y movil se quede fija la hora de cada actividad al hacer scroll vertical.
 
