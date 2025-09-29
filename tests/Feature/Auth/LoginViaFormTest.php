@@ -4,19 +4,21 @@ declare(strict_types=1);
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
+use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Spatie\Permission\Models\Role;
+use Tests\Traits\TestHelper;
 
 class LoginViaFormTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, TestHelper;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
+        $this->seed(RoleSeeder::class);
     }
 
     public function test_login_screen_can_be_rendered(): void
@@ -38,22 +40,35 @@ class LoginViaFormTest extends TestCase
     }
 
     #[DataProvider('accessProvider')]
-    public function test_authenticated_users_can_access_expected_pages(string $role, string $path): void
+    public function test_authenticated_users_can_access_expected_pages(string $role, string $route): void
     {
-        $user = $this->makeUserWithRole($role);
+        $user = $this->createUserAndAssignRole($role);
 
         $this->actingAs($user)
-            ->get($path)
+            ->get(route($route))
             ->assertStatus(200);
 
         $this->assertAuthenticatedAs($user);
+    }    
+
+    public static function accessProvider(): array
+    {
+        return [
+            'member can access dashboard'
+              => ['member', 'dashboard'],
+            'admin can access subscription stats' 
+              => ['admin', 'admin.subscriptions.stats'],
+            'super-admin can access subscription stats' 
+              => ['super-admin', 'admin.subscriptions.stats'],
+        ];
     }
+    
 
     public function test_users_can_logout_by_role(): void
     {
         $roles = Role::pluck('name')->toArray();
         foreach ($roles as $role) {
-            $user = $this->makeUserWithRole($role);
+            $user = $this->createUserAndAssignRole($role);
     
             $response = $this->actingAs($user)->post('/logout');
     
@@ -62,25 +77,4 @@ class LoginViaFormTest extends TestCase
         }
     }
 
-    /**
-     * Create a fresh user and assign the given role.
-     */
-    private function makeUserWithRole(string $role): User
-    {
-        return User::factory()->create()->assignRole($role);
-    }
-
-    /**
-     * Roles and the path each role must be able to access successfully.
-     * super-admin and admin must access subscription stats;
-     * member must access dashboard.
-     */
-    public static function accessProvider(): array
-    {
-        return [
-            'member can access dashboard'        => ['member', route('dashboard', absolute: false)],
-            'admin can access subscription stats' => ['admin', route('admin.subscriptions.stats', absolute: false)],
-            'super-admin can access subscription stats' => ['super-admin', route('admin.subscriptions.stats', absolute: false)],
-        ];
-    }
 }
