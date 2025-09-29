@@ -27,6 +27,13 @@ class GitHubAuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('dashboard');
+        $role = $user->getRoleNames()->first();
+
+        if ($role == 'member') {
+            return redirect()->route('dashboard');
+        }else{
+            return redirect()->route('admin.subscriptions.stats');
+        }
+
     }
 }

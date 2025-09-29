@@ -24,3 +24,4 @@ yarn-error.log
 /.zed
 Pruebas-creacionBD-insercion_datos.sql
 /.github/copilot-instructions.md
+/packages-microsoft-prod.deb.2

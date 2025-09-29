@@ -17,16 +17,17 @@
             {{-- link to repo --}}
             <div class="text-center m-4">
                 <a href="https://github.com/diegdar/olympus-gym"
-                    {{-- class="btn btn-dark btn-github btn-lg" target="_blank"> --}}
-                    class="inline-block px-6 py-3 text-lg font-semibold text-white bg-black-500 hover:bg-grey-900 rounded-lg" target="_blank">
-                    <i class="fab fa-github fa-xl"></i> Ver repositorio
+                    class="inline-flex items-center px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-lg transition duration-150 ease-in-out dark:bg-gray-800 dark:hover:bg-gray-600"
+                    target="_blank">
+                    Ver repositorio
+                    <i class="fa-brands fa-github fa-lg ml-3" style="color: #eef6ff;"></i>
                 </a>
             </div>
 
             <!-- Características principales -->
             <section class="my-12">
                 <h2 class="text-2xl font-semibold mb-4">✨ Características principales</h2>
-                <ul class="list-disc pl-6 space-y-2">
+                <ul class="pl-7 space-y-2">
                     <li><strong>Registro de usuarios:</strong> mediante formulario.</li>
                     <li><strong>Inicio de sesión:</strong> mediante formulario, GitHub o Google.</li>
                     <li><strong>Gestión de roles y permisos:</strong> control granular de accesos.</li>
@@ -41,34 +42,41 @@
             <!-- Roles -->
             <section class="my-12">
                 <h2 class="text-2xl font-semibold mb-4">🛡️ Roles y permisos</h2>
-                <ul class="list-disc pl-6 space-y-3">
-                    <li><strong>Super-admin:</strong> 
-                        <ul class="list-square pl-6 mt-2"> 
-                            <li>Puede:
-                                <ul class="list-circle pl-6">
-                                    <li>Ver, crear, editar y eliminar: usuarios, Roles, Salas y Actividades.</li>
+                <ul class="pl-6 space-y-6">
+                    <li><strong>Super-admin:</strong>
+                        <ul class="pl-6 space-y-3">
+                            <li>✅<spam
+                                class="font-semibold underline">Puede:
+                                </spam>
+                                <ul class="pl-6">
+                                    <li>Ver, crear, editar y eliminar: usuarios, Roles.</li>
                                     <li>Ver estadísticas de las suscripciones y descargar reportes.</li>
                                 </ul>
                             </li>
-                            <li>No Puede:
-                                <ul class="list-circle pl-6">
+                            <li>❌<spam
+                                class="font-semibold underline">No Puede:</spam>
+                                <ul class="pl-6">
                                     <li>Gestionar la suscripción de un usuario ageno al suyo.</li>
                                     <li>gestionar el perfil de un usuario ageno al suyo.</li>
+                                    <li>Ver, crear, editar y eliminar: salas y actividades, ademas de horarios para las actividades.</li>
                                 </ul>
                             </li>
                         </ul>
                     </li>
-                    <li><strong>Admin:</strong> 
-                        <ul class="list-square pl-6 mt-2"> 
-                            <li>Puede:
-                                <ul class="list-circle pl-6">
+                    <li><strong>Admin:</strong>
+                        <ul class="pl-6 space-y-3">
+                            <li>✅<spam
+                                class="font-semibold underline">Puede:
+                                </spam>
+                                <ul class="pl-6 space-y-3">
                                     <li>Ver estadísticas de las suscripciones y descargar reportes.</li>
                                     <li>Ver: usuarios y Roles.</li>
                                     <li>Ver, crear, editar y eliminar: salas y actividades, ademas de horarios para las actividades.</li>
                                 </ul>
                             </li>
-                            <li>No Puede:
-                                <ul class="list-circle pl-6">
+                            <li>❌<spam
+                                class="font-semibold underline">No Puede:</spam>
+                                <ul class="pl-6">
                                     <li>Crear, editar y eliminar: usuarios y Roles.</li>
                                     <li>Gestionar la suscripción de un usuario ageno al suyo.</li>
                                     <li>gestionar el perfil de un usuario ageno al suyo.</li>
@@ -76,10 +84,12 @@
                             </li>
                         </ul>
                     </li>
-                    <li><strong>Member:</strong> 
-                        <ul class="list-square pl-6 mt-2"> 
-                            <li>Puede:
-                                <ul class="list-circle pl-6">
+                    <li><strong>Member:</strong>
+                        <ul class="pl-6 space-y-3">
+                            <li>✅<spam
+                                class="font-semibold underline">Puede:
+                                </spam>
+                                <ul class="pl-6">
                                     <li>Ver su dashboard y gestionarlo.</li>
                                     <li>Ver las vistas: Instalaciones, Servicios, Contacto.</li>
                                     <li>Inscribirse a una actividad.</li>
@@ -87,8 +97,9 @@
                                     <li>Ver y gestionar su suscripcion.</li>
                                 </ul>
                             </li>
-                            <li>No Puede:
-                                <ul class="list-circle pl-6">
+                            <li>❌<spam
+                                class="font-semibold underline">No Puede:</spam>
+                                <ul class="pl-6">
                                     <li>Ver, crear, editar y eliminar: usuarios y Roles.</li>
                                     <li>Crear, editar y eliminar: salas y actividades, ademas de horarios para las actividades.</li>
                                     <li>Gestionar la suscripción de un usuario ageno al suyo.</li>
@@ -188,7 +199,7 @@
                         class="text-indigo-600 font-semibold">JS-Tabulator</a>, las cuales se adaptan según el rol del
                     usuario:
                 </p>
-                <ul class="list-disc pl-6 mt-4 space-y-2">
+                <ul class="pl-6 mt-4 space-y-2">
                     <li><strong>Member (socio):</strong> podrá visualizar en su dashboard estadísticas personalizadas
                         sobre las clases asistidas, el porcentaje de participación en cada una de ellas y su progreso a
                         lo largo del tiempo.</li>
@@ -218,7 +229,7 @@
             <!-- Registro y acceso -->
             <section class="my-12">
                 <h2 class="text-2xl font-semibold mb-4">📲 Registro y acceso</h2>
-                <ul class="list-disc pl-6">
+                <ul class="pl-6">
                     <li><strong>Formulario de registro:</strong> completa tus datos y acepta la política de privacidad.
                     </li>
                     <li><strong>Acceso con GitHub o Google:</strong> inicia sesión rápidamente con tus credenciales

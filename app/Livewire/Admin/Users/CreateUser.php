@@ -22,7 +22,10 @@ class CreateUser extends Component
     public string $role;
     public string $birth_date;
 
-    public Collection $roles;  
+    public ?string $successMessage = null;
+    public int $messageKey = 0;
+
+    public Collection $roles;
 
 
     public function getRules(): array
@@ -51,10 +54,11 @@ class CreateUser extends Component
         $validated['password'] = Hash::make('Password123!');
         $validated['role'] = $this->roles->firstWhere('id', $this->role)->name;
 
-    $createUserService($validated);
+        $createUserService($validated);
 
-        session()->flash('msg', 'El usuario ha sido creado correctamente');
-    $this->reset(['name', 'email', 'role', 'birth_date']);
+        $this->successMessage = 'El usuario ha sido creado correctamente';
+        $this->messageKey++;
+        $this->reset(['name', 'email', 'role', 'birth_date']);
     }
 
     /**

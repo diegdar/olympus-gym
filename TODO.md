@@ -1,21 +1,8 @@
--- Active: 1742205386598@@127.0.0.1@3306@gym
 # LINKS
 [Consulta creacion BD-GEMINI][https://gemini.google.com/app/b0af00bbe67eece1]
 
-# Activities-Schedule
-Hacer que el role Admin tambien pueda ver, crear, editar y eliminar un Activities-schedules.
-
-# Navbar
-introducir link introduccion y arreglar distribucion de todos los links en la vista tablet y pc.
-
-# app-info
-## Intro
-hacer que se vea el color gris para el boton de repo
-## Roles y permisos
-Hacer que las viñetas se vean en la 2da y 3ra sangria.
-
-# Usuarios
-Cambiar mensaje de creacion de usuario por el que se utiliza en la vista contact para enviar el formulario(utiliza alpine).
+# Test 🧪
+- Factorizar tests
 
 # ActivitySchedule
 hacer que en los dispositivos de tablet y movil se quede fija la hora de cada actividad al hacer scroll vertical.
@@ -34,6 +21,3 @@ hacer que cuando la fecha de end_date pase la fecha de hoy el valor del campo st
     - sexo
 - Modificar register con los nuevos campos para USER    
 - crear show 
-
-# Test 🧪
-- Factorizar tests

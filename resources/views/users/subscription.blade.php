@@ -62,7 +62,37 @@
                     </div>
                 </form>
             </article>
-        </div>
+        </div>     
     </div>
+        {{-- Fees description --}}
+        <section class="m-5 mt-5 mb-15">
+            <h2 class="mb-8">Cuotas a elegir:</h2>
+            <article class="flex flex-wrap justify-center gap-4">
+                <!-- fee-card 1 -->
+                <div class="w-full min-w-[200px] max-w-[280px] mx-3 border-1 min-h-[300px]  rounded-lg shadow-md p-6 flex flex-col justify-between">
+                    <h3 class="text-2xl font-semibold text-center mb-8">Cuota Mensual</h3>
+                    <p class="mb-2">-Acceso ilimitado al gimnasio</p>
+                    <p class="mb-2">-Clases grupales incluidas</p>
+                    <p class="text-3xl text-center font-bold text-green-500 mt-17">50€ / mes</p>
+                </div>             
+                <!-- fee-card 2 -->
+                <div class="w-full min-w-[200px] max-w-[280px] mx-3 border-1 min-h-[300px]  rounded-lg shadow-md p-6 flex flex-col justify-between">
+                    <h3 class="text-2xl font-semibold text-center mb-8">Cuota Trimestral</h3>
+                    <p class="mb-2">-Acceso ilimitado al gimnasio</p>
+                    <p class="mb-2">-Clases grupales incluidas</p>
+                    <p class="mb-2">-1 sesión de entrenamiento personal</p>
+                    <p class="text-3xl text-center font-bold text-blue-500 mt-3">135€ / trimestre</p>
+                    </a>
+                </div>
+                <!-- fee-card 3 -->
+                <div class="w-full min-w-[200px] max-w-[280px] mx-3 border-1 min-h-[300px]  rounded-lg shadow-md p-6 flex flex-col justify-between">
+                    <h3 class="text-2xl font-semibold text-center mb-8">Cuota Anual</h3>
+                    <p class="mb-2">-Acceso ilimitado al gimnasio</p>
+                    <p class="mb-2">-Clases grupales incluidas</p>
+                    <p class="mb-2">-4 sesiones de entrenamiento personal</p>
+                    <p class="text-3xl text-center font-bold text-purple-500">480€ / año</p>
+                </div>
+            </article>
+        </section>         
     @vite('resources/js/messageTransition.js')
 </x-layouts.app>

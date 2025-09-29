@@ -1,4 +1,4 @@
-<div wire:poll.5s class="w-full mx-auto dark:bg-gray-800 dark:text-gray-100 p-0">
+<div class="w-full mx-auto dark:bg-gray-800 dark:text-gray-100 p-0">
     <div class="flex flex-wrap">
         <!-- title -->
         <h1 class="text-center w-full text-2nd text-3xl dark:text-gray-100">Usuarios </h1>
@@ -7,13 +7,15 @@
             <!-- create user -->
             <div class="w-full px-4">
                 {{-- Mensaje de alerta --}}
-                @if (session('msg'))
-                    <div class="w-full bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative dark:bg-green-800 dark:border-green-700 dark:text-green-200 text-center" role="alert">
-                        <span class="block sm:inline font-bold">
-                            {{ session('msg') }}
-                        </span>
+                @if ($successMessage)
+                    <div wire:key="success-{{ $messageKey }}" x-data="{ show: true }" x-show="show" x-transition.opacity.duration.1500ms
+                        x-init="setTimeout(() => show = false, 3000)"
+                        class="w-full left-2 top-25 z-50 bg-green-100
+                                border border-green-400 text-green-700 px-4 py-3 rounded
+                                dark:bg-green-800 dark:border-green-700 dark:text-green-200 text-center" role="alert">
+                        {{ $successMessage }}
                     </div>
-                @endif 
+                @endif
                 <h2 class="text-start text-2xl dark:text-gray-100 mb-2">Crear usuario</h2>
                 <!-- form -->
                 <form wire:submit.prevent='createUser' >
