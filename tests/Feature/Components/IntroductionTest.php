@@ -6,6 +6,7 @@ namespace Tests\Feature\Components;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\TestHelper;
+use Database\Seeders\RoleSeeder;
 
 class IntroductionTest extends TestCase
 {
@@ -14,7 +15,6 @@ class IntroductionTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
     }
 
     public function test_introduction_component_renders_on_home_page(): void
@@ -66,6 +66,8 @@ class IntroductionTest extends TestCase
 
     public function test_fees_section_is_hidden_for_authenticated_users(): void
     {
+        $this->seed(RoleSeeder::class);
+
         $user = $this->createUserAndAssignRole('member');
 
         $response = $this->actingAs($user)->get(route('home'));
