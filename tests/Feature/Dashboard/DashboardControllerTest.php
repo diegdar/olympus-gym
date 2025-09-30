@@ -11,6 +11,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Database\Seeders\RoleSeeder;
 
 class DashboardControllerTest extends TestCase
 {
@@ -19,7 +20,7 @@ class DashboardControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
+        $this->seed(RoleSeeder::class);
     }
 
     public function test_dashboard_view_renders_for_member(): void

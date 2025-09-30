@@ -7,40 +7,29 @@ use App\Models\Room;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\TestHelper;
+use Database\Seeders\RoleSeeder;
+use Database\Seeders\RoomSeeder;
 
 class RoomListTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    // permissions
-    protected const PERMISSION_LIST_ROOMS = 'rooms.index';
-    protected const PERMISSION_CREATE_ROOM = 'rooms.create';
-        protected const PERMISSION_SHOW_ROOM = 'rooms.show';
-
-    protected const PERMISSION_EDIT_ROOM = 'rooms.edit';
-    protected const PERMISSION_DESTROY_ROOM = 'rooms.destroy';
-    // routes
-    protected const ROUTE_ROOMS_INDEX = 'rooms.index';
-    protected const ROUTE_CREATE_ROOM_VIEW = 'rooms.create';
-    protected const ROUTE_SHOW_ROOM = 'rooms.show';
-    protected const ROUTE_EDIT_ROOM_VIEW = 'rooms.edit';
-
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
+        $this->seed([RoleSeeder::class, RoomSeeder::class]);
     }
 
     private function getRoomsListAs(?string $roleName = null)
     {
-        return $this->actingAsRole($roleName)->get(route(self::ROUTE_ROOMS_INDEX));
+        return $this->actingAsRole($roleName)->get(route('rooms.index'));
     }
 
     public function test_authorized_user_can_see_rooms(): void
     {
         $rooms = Room::all();
         foreach (
-                $this->getAuthorizedRoles                (self::PERMISSION_LIST_ROOMS)       
+                $this->getAuthorizedRoles                ('rooms.index')       
                 as $authorizedRole
             ) 
         { 
@@ -58,7 +47,7 @@ class RoomListTest extends TestCase
     public function test_unauthorized_user_cannot_see_rooms_list(): void
     {
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION_LIST_ROOMS) as $unauthorizedRole
+            $this->getUnauthorizedRoles('rooms.index') as $unauthorizedRole
         ) {
             $response = $this->getRoomsListAs($unauthorizedRole);
             $response->assertStatus(403)
@@ -71,12 +60,12 @@ class RoomListTest extends TestCase
     public function test_create_button_is_visible_depends_on_permission(): void
     {
         $this->assertButtonVisible(
-            self::PERMISSION_CREATE_ROOM,
+            'rooms.create',
             'Crear sala'
         );
 
         $this->assertButtonNotVisibleOr403(
-            self::PERMISSION_CREATE_ROOM,
+            'rooms.create',
             'Crear sala'
         );
     }
@@ -86,12 +75,12 @@ class RoomListTest extends TestCase
         $room = Room::factory()->create();
 
         $this->assertButtonVisible(
-            self::PERMISSION_EDIT_ROOM,
+            'rooms.edit',
             'Editar'
         );
 
         $this->assertButtonNotVisibleOr403(
-            self::PERMISSION_EDIT_ROOM,
+            'rooms.edit',
             'Editar'
         );
     }
@@ -101,12 +90,12 @@ class RoomListTest extends TestCase
         $room = Room::factory()->create();
 
         $this->assertButtonVisible(
-            self::PERMISSION_DESTROY_ROOM,
+            'rooms.destroy',
             'Borrar'
         );
 
         $this->assertButtonNotVisibleOr403(
-            self::PERMISSION_DESTROY_ROOM,
+            'rooms.destroy',
             'Borrar'            
         );
     }

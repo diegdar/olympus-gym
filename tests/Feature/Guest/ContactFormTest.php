@@ -20,17 +20,14 @@ class ContactFormTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    private const CONTACT_ROUTE = 'contact';
-
     public function setUp(): void
     {
         parent::setUp();
-        $this->seed(RoleSeeder::class);            
     }    
 
     public function test_contact_page_is_accessible_for_guests(): void
     {
-        $this->get(route(self::CONTACT_ROUTE))
+        $this->get(route('contact'))
             ->assertStatus(200)
             ->assertSee('Contacta con nosotros')
             ->assertSee('Enviar mensaje');
@@ -38,9 +35,11 @@ class ContactFormTest extends TestCase
 
     public function test_contact_page_is_accessible_for_authenticated_users(): void
     {
+        $this->seed(RoleSeeder::class);            
+
         $user = User::factory()->create()->assignRole('member');
 
-        $this->actingAs($user)->get(self::CONTACT_ROUTE)
+        $this->actingAs($user)->get('contact')
              ->assertStatus(200)
              ->assertSee('Contacta con nosotros')
              ->assertSee('Enviar mensaje');
@@ -48,7 +47,7 @@ class ContactFormTest extends TestCase
 
     public function test_contact_form_is_present_in_contact_page(): void
     {
-        $this->get(route(self::CONTACT_ROUTE))
+        $this->get(route('contact'))
              ->assertStatus(200)
              ->assertSee('wire:submit.prevent="submit"', false)
              ->assertSee('name="name"', false)
@@ -120,7 +119,7 @@ class ContactFormTest extends TestCase
 
     public function test_contact_page_shows_google_maps_address(): void
     {
-        $response = $this->get(route(self::CONTACT_ROUTE));
+        $response = $this->get(route('contact'));
         $response->assertStatus(200);
         $response->assertSee('https://www.google.com/maps', false);
         $response->assertSee('Calle Ejemplo 123, 08001 Barcelona, España');

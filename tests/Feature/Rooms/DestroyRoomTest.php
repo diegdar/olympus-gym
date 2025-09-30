@@ -14,11 +14,6 @@ class DestroyRoomTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    protected const PERMISSION = 'rooms.destroy';
-    // Routes
-    protected const ROUTE_ROOM_INDEX = 'rooms.index';
-    protected const ROUTE_DESTROY_ROOM = 'rooms.destroy';
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -27,20 +22,20 @@ class DestroyRoomTest extends TestCase
 
     private function destroyRoomAs(string $roleName, int $roomId): TestResponse
     {
-        return $this->actingAsRole($roleName)->delete(route(self::ROUTE_DESTROY_ROOM, $roomId));
+        return $this->actingAsRole($roleName)->delete(route('rooms.destroy', $roomId));
     }
 
     public function test_can_destroy_room_as_authorized_user()
     {        
         foreach (
-                $this->getAuthorizedRoles                (self::PERMISSION)       
+                $this->getAuthorizedRoles                ('rooms.destroy')       
                 as $authorizedRole
             ) 
         { 
             $roomToDestroy = Room::factory()->create();
             $response = $this->destroyRoomAs($authorizedRole, $roomToDestroy->id);
             $response->assertStatus(302)
-                     ->assertRedirect(route(self::ROUTE_ROOM_INDEX));
+                     ->assertRedirect(route('rooms.index'));
 
             $this->assertDatabaseMissing('rooms', ['id' => $roomToDestroy->id]);
         }
@@ -50,7 +45,7 @@ class DestroyRoomTest extends TestCase
     {        
         $roomToDestroy = Room::factory()->create();
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION) as $unauthorizedRole
+            $this->getUnauthorizedRoles('rooms.destroy') as $unauthorizedRole
         ) {
             $response = $this->destroyRoomAs($unauthorizedRole, $roomToDestroy->id);
             $response->assertStatus( 403);

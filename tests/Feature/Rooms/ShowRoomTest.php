@@ -14,9 +14,6 @@ class ShowRoomTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    protected const PERMISSION = 'rooms.show';
-    protected const ROUTE = 'rooms.show';
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -26,13 +23,13 @@ class ShowRoomTest extends TestCase
     private function showRoomAs(string $roleName, int $roomId): TestResponse
     {
         return $this->actingAsRole($roleName)
-                    ->get(route(self::ROUTE, $roomId)
+                    ->get(route('rooms.show', $roomId)
                 );
     }
     public function test_authorized_user_can_see_a_specific_room()
     {
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION) 
+            $this->getAuthorizedRoles('rooms.show') 
             as $authorizedRole
         ) {
             $roomToShow = Room::factory()->create();
@@ -47,7 +44,7 @@ class ShowRoomTest extends TestCase
     public function test_unauthorized_user_cannot_see_a_specific_room()
     {
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION) 
+            $this->getUnauthorizedRoles('rooms.show') 
             as $unauthorizedRole
         ) {
             $roomToShow = Room::factory()->create();
