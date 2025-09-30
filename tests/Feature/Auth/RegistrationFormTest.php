@@ -11,6 +11,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Livewire\Livewire;
 use Tests\TestCase;
+use Database\Seeders\RoleSeeder;
+use Database\Seeders\SubscriptionSeeder;
 
 class RegistrationFormTest extends TestCase
 {
@@ -19,7 +21,6 @@ class RegistrationFormTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();        
     }
 
     public function test_it_renders_the_register_component()
@@ -31,6 +32,8 @@ class RegistrationFormTest extends TestCase
 
     public function test_it_registers_a_user_successfully()
     {
+        $this->seed([RoleSeeder::class, SubscriptionSeeder::class]);
+
         Event::fake();// disable the events and pretends they were triggered
         Livewire::test(Register::class)
             ->set('name', 'Joe Doe')
