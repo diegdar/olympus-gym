@@ -19,27 +19,23 @@ class EditActivityScheduleTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    protected const PERMISSION = 'activity.schedules.edit';
-    protected const ROUTE_EDIT_VIEW = 'activity.schedules.edit';
-    protected const ROUTE_UPDATE = 'activity.schedules.update';
-    protected const ROUTE_INDEX = 'activity.schedules.index';
-
     protected function setUp(): void
     {
         parent::setUp();
         $this->seed(RoleSeeder::class);
     }
+    
     private function getEditActivityFormAs(string $roleName, ActivitySchedule $activitySchedule): TestResponse
     {
         return $this->actingAsRole($roleName)
-                    ->get(route(self::ROUTE_EDIT_VIEW, $activitySchedule));
+                     ->get(route('activity.schedules.edit', $activitySchedule));
     }
 
 
     public function test_authorized_user_can_view_edit_activity_schedule_form()
     {        
         foreach (
-                $this->getAuthorizedRoles(self::PERMISSION)       
+                $this->getAuthorizedRoles('activity.schedules.edit')
                 as $authorizedRole
             ) 
         {            
@@ -65,7 +61,7 @@ class EditActivityScheduleTest extends TestCase
     public function test_unauthorized_user_cannot_view_edit_activity_schedule_form()
     {
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION) as $unauthorizedRole
+            $this->getUnauthorizedRoles('activity.schedules.edit') as $unauthorizedRole
         ) {            
             $activityToEdit = ActivitySchedule::factory()->create();
             $response = $this->getEditActivityFormAs($unauthorizedRole, $activityToEdit);            
@@ -77,14 +73,14 @@ class EditActivityScheduleTest extends TestCase
     private function submitActivityScheduleToUpdate(string $roleName, ActivitySchedule $activitySchedule, array $Newdata): TestResponse
     {
         return $this->actingAsRole($roleName)
-                    ->from(route(self::ROUTE_EDIT_VIEW, $activitySchedule))
-                    ->put(route(self::ROUTE_UPDATE, $activitySchedule), $Newdata);
+                     ->from(route('activity.schedules.edit', $activitySchedule))
+                     ->put(route('activity.schedules.update', $activitySchedule), $Newdata);
     }
 
     public function test_authorized_user_can_update_activity_schedule_with_valid_data()
     {
         foreach (
-                $this->getAuthorizedRoles(self::PERMISSION)       
+                $this->getAuthorizedRoles('activity.schedules.edit')
                 as $authorizedRole
             ) 
         {            
@@ -102,7 +98,7 @@ class EditActivityScheduleTest extends TestCase
 
             $response = $this->submitActivityScheduleToUpdate($authorizedRole, $activityScheduleToEdit, $newActivityScheduleData);
 
-            $response->assertRedirect(route(self::ROUTE_INDEX))
+            $response->assertRedirect(route('activity.schedules.index'))
                      ->assertStatus(302)
                      ->assertSessionHas('success');
 
@@ -133,14 +129,14 @@ class EditActivityScheduleTest extends TestCase
         }
 
         foreach (
-                $this->getAuthorizedRoles(self::PERMISSION)       
+                $this->getAuthorizedRoles('activity.schedules.edit')
                 as $authorizedRole
             ) 
         {             
             $activityToEdit = ActivitySchedule::factory()->create();
             $response = $this->submitActivityScheduleToUpdate($authorizedRole, $activityToEdit, $invalidData);
 
-            $response->assertRedirect(route(self::ROUTE_EDIT_VIEW, $activityToEdit))
+            $response->assertRedirect(route('activity.schedules.edit', $activityToEdit))
                      ->assertSessionHasErrors($field);
 
             $this->assertDatabaseMissing('activity_schedules', $invalidData);                           

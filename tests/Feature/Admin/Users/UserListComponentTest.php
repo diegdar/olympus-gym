@@ -25,27 +25,24 @@ class UserListComponentTest extends TestCase
     protected array $unAuthRolesForUsersList;
     protected array $unauthRolesForEditUser;
     protected array $unauthRolesForDeleteUser;
-    protected const USERS_LIST_PERMISSION = 'admin.users.index';
-    protected const EDIT_USER_PERMISSION = 'admin.users.edit';
-    protected const DELETE_USER_PERMISSION = 'admin.users.edit';
-    protected const ROUTE_USERS_INDEX = 'admin.users.index';
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->seed(RoleSeeder::class);
-        $this->authRolesForUsersList = $this->getAuthorizedRoles(self::USERS_LIST_PERMISSION);
-        $this->authRolesForEditUser = $this->getAuthorizedRoles(self::EDIT_USER_PERMISSION);
-        $this->authRolesForDeleteUser = $this->getAuthorizedRoles(self::DELETE_USER_PERMISSION);
+        $this->authRolesForUsersList = $this->getAuthorizedRoles('admin.users.index');
+        $this->authRolesForEditUser = $this->getAuthorizedRoles('admin.users.edit');
+        $this->authRolesForDeleteUser = $this->getAuthorizedRoles('admin.users.edit');
 
-        $this->unAuthRolesForUsersList = $this->getUnauthorizedRoles(self::USERS_LIST_PERMISSION);
-        $this->unauthRolesForEditUser = $this->getUnauthorizedRoles(self::EDIT_USER_PERMISSION);
-        $this->unauthRolesForDeleteUser = $this->getUnauthorizedRoles(self::DELETE_USER_PERMISSION);
+        $this->unAuthRolesForUsersList = $this->getUnauthorizedRoles('admin.users.index');
+        $this->unauthRolesForEditUser = $this->getUnauthorizedRoles('admin.users.edit');
+        $this->unauthRolesForDeleteUser = $this->getUnauthorizedRoles('admin.users.edit');
+
     }
 
     private function getUsersIndexAs(?string $roleName = null)
     {
-        return $this->actingAsRole($roleName)->get(route(self::ROUTE_USERS_INDEX));
+        return $this->actingAsRole($roleName)->get(route('admin.users.index'));
     }
 
     public function tests_only_authorized_users_can_see_the_users_list()

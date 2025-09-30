@@ -6,6 +6,7 @@ namespace Tests\Feature\ActivitySchedules;
 use App\Models\ActivitySchedule;
 use Carbon\Carbon;
 use Tests\Traits\TestHelper;
+use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Illuminate\Testing\TestResponse;
@@ -14,24 +15,21 @@ use App\Models\User;
 class ShowActivityScheduleTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
-    protected const PERMISSION = 'activity.schedules.show';
-    protected const ROUTE = 'activity.schedules.show';
-
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();                       
+        $this->seed(RoleSeeder::class);
     }
 
     private function showActivitySchedule(string $roleName, int $activityScheduleId): TestResponse
     {
-        return $this->actingAsRole($roleName)->get(route(self::ROUTE, $activityScheduleId));
+        return $this->actingAsRole($roleName)->get(route('activity.schedules.show', $activityScheduleId));
     }
 
     public function test_authorized_user_can_see_an_activity_show_view()
     {
         foreach (
-                $this->getAuthorizedRoles(self::PERMISSION)       
+                $this->getAuthorizedRoles('activity.schedules.show')
                 as $authorizedRole
             ) 
         {
@@ -62,7 +60,7 @@ class ShowActivityScheduleTest extends TestCase
 
     public function test_unauthorized_user_cannot_see_an_activity_show_view()
     {
-        foreach ($this->getUnauthorizedRoles(self::PERMISSION) as $unauthorizedRole) {
+        foreach ($this->getUnauthorizedRoles('activity.schedules.show') as $unauthorizedRole) {
             $activitySchedule = ActivitySchedule::factory()->create();
 
             $response = $this->showActivitySchedule($unauthorizedRole, $activitySchedule->id);
@@ -79,7 +77,7 @@ class ShowActivityScheduleTest extends TestCase
 
         $member = $this->createUserAndAssignRole('member');
 
-        $resp = $this->actingAs($member)->get(route(self::ROUTE, $schedule));
+        $resp = $this->actingAs($member)->get(route('activity.schedules.show', $schedule));
         $resp->assertStatus(200)
              ->assertSee('Inscribirme')
              ->assertDontSee('Desinscribirme');
@@ -95,7 +93,7 @@ class ShowActivityScheduleTest extends TestCase
         // attach enrollment
         $schedule->users()->attach($member->id);
 
-        $resp = $this->actingAs($member)->get(route(self::ROUTE, $schedule));
+        $resp = $this->actingAs($member)->get(route('activity.schedules.show', $schedule));
         $resp->assertStatus(200)
              ->assertSee('Desinscribirme')
              ->assertDontSee('Inscribirme');
@@ -111,7 +109,7 @@ class ShowActivityScheduleTest extends TestCase
         $schedule->users()->attach($another->id);
 
         $member = $this->createUserAndAssignRole('member');
-        $resp = $this->actingAs($member)->get(route(self::ROUTE, $schedule));
+        $resp = $this->actingAs($member)->get(route('activity.schedules.show', $schedule));
         $resp->assertStatus(200)
              ->assertSee('Sin plazas disponibles');
     }

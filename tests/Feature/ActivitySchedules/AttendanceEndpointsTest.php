@@ -13,7 +13,6 @@ use Tests\Traits\TestHelper;
 class AttendanceEndpointsTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
-
     protected function setUp(): void
     {
         parent::setUp();

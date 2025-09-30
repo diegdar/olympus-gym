@@ -13,8 +13,6 @@ class ServicesViewTest extends TestCase
 {
     use RefreshDatabase;
 
-    private const SERVICES_ROUTE = 'services';
-
     public function setUp(): void
     {
         parent::setUp();
@@ -36,14 +34,14 @@ class ServicesViewTest extends TestCase
 
     public function test_services_view_is_accessible_for_guests(): void
     {
-        $response = $this->get(route(self::SERVICES_ROUTE));
+        $response = $this->get(route('services'));
         $this->assertServicesViewContent($response);
     }
 
     public function test_services_view_is_accessible_for_authenticated_users(): void
     {
         $user = User::factory()->create()->assignRole('member');
-        $response = $this->actingAs($user)->get(route(self::SERVICES_ROUTE));
+        $response = $this->actingAs($user)->get(route('services'));
         $this->assertServicesViewContent($response);
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Activities;
 
 use App\Models\Activity;
+use Database\Seeders\ActivitySeeder;
+use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Traits\TestHelper;
 use Tests\TestCase;
@@ -12,31 +14,22 @@ class ActivityListTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    // Permissions
-    protected const PERMISSION_LIST_ACTIVITIES = 'activities.index';
-    protected const PERMISSION_CREATE_ACTIVITY = 'activities.create';
-    protected const PERMISSION_EDIT_ACTIVITY = 'activities.edit';
-    protected const PERMISSION_DESTROY_ACTIVITY = 'activities.destroy';
-
-    // Routes
-    protected const ROUTE = 'activities.index';
-
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
+        $this->seed([RoleSeeder::class, ActivitySeeder::class]);
     }
 
     private function getActivitiesListAs(string $roleName)
     {
-        return $this->actingAsRole($roleName)->get(route(self::ROUTE));
+        return $this->actingAsRole($roleName)->get(route('activities.index'));
     }
 
     public function test_authorized_user_can_see_activities_list(): void
     {
         $activities = Activity::all();
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION_LIST_ACTIVITIES) 
+            $this->getAuthorizedRoles('activities.index')
             as $authorizedRole
         ) {
             $response = $this->getActivitiesListAs($authorizedRole);
@@ -53,7 +46,7 @@ class ActivityListTest extends TestCase
     public function test_unauthorized_user_cannot_see_activities_list(): void
     {
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION_LIST_ACTIVITIES)
+            $this->getUnauthorizedRoles('activities.index')
             as $unauthorizedRole
         ) {
             $response = $this->getActivitiesListAs($unauthorizedRole);
@@ -67,12 +60,12 @@ class ActivityListTest extends TestCase
     public function test_create_button_is_visible_depends_on_permission(): void
     {
         $this->assertButtonVisible(
-            self::PERMISSION_CREATE_ACTIVITY,
+            'activities.create',
             'Crear actividad'
         );
 
         $this->assertButtonNotVisibleOr403(
-            self::PERMISSION_CREATE_ACTIVITY,
+            'activities.create',
             'Crear actividad'
         );
     }
@@ -82,12 +75,12 @@ class ActivityListTest extends TestCase
         $activity = Activity::factory()->create();
 
         $this->assertButtonVisible(
-            self::PERMISSION_EDIT_ACTIVITY,
+            'activities.edit',
             'Editar'
         );
 
         $this->assertButtonNotVisibleOr403(
-            self::PERMISSION_EDIT_ACTIVITY,
+            'activities.edit',
             'Editar'
         );
     }
@@ -97,13 +90,13 @@ class ActivityListTest extends TestCase
         Activity::factory()->create();
 
         $this->assertButtonVisible(
-            self::PERMISSION_DESTROY_ACTIVITY,
+            'activities.destroy',
             'Borrar'
         );
 
         $this->assertButtonNotVisibleOr403(
-            self::PERMISSION_DESTROY_ACTIVITY,
-            'Borrar'            
+            'activities.destroy',
+            'Borrar'
         );
     }
 

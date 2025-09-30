@@ -18,7 +18,6 @@ class FacilitiesViewTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->seed(RoleSeeder::class);            
     }
 
     private function assertFacilitiesViewContent(TestResponse $response): void
@@ -41,6 +40,8 @@ class FacilitiesViewTest extends TestCase
 
     public function test_facilities_view_is_accessible_for_authenticated_users(): void
     {
+        $this->seed(RoleSeeder::class);            
+
         $user = User::factory()->create()->assignRole('member');
         $response = $this->actingAs($user)->get(route(self::FACILITIES_ROUTE));
         $this->assertFacilitiesViewContent($response);

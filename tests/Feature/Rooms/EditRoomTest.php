@@ -15,9 +15,6 @@ class EditRoomTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    protected const PERMISSION = 'rooms.edit';
-    protected const ROUTE_EDIT_ROOM_VIEW = 'rooms.edit';
-    protected const ROUTE_UPDATE_ROOM = 'rooms.update';
     protected const ROUTE_INDEX = 'rooms.index';
 
     protected function setUp(): void
@@ -29,13 +26,13 @@ class EditRoomTest extends TestCase
     private function getEditRoomFormAs(string $roleName, Room $room): TestResponse
     {
         return $this->actingAsRole($roleName)
-                    ->get(route(self::ROUTE_EDIT_ROOM_VIEW, $room));
+                    ->get(route('rooms.edit', $room));
     }    
 
     public function test_authorized_user_can_view_edit_room_form()
     {        
         foreach (
-                $this->getAuthorizedRoles                (self::PERMISSION)       
+                $this->getAuthorizedRoles                ('rooms.edit')       
                 as $authorizedRole
             ) 
         {            
@@ -56,7 +53,7 @@ class EditRoomTest extends TestCase
     public function test_unauthorized_user_cannot_view_edit_room_form()
     {
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION) as $unauthorizedRole
+            $this->getUnauthorizedRoles('rooms.edit') as $unauthorizedRole
         ) {            
             $roomToEdit = Room::factory()->create();
             $response = $this->getEditRoomFormAs($unauthorizedRole, $roomToEdit);
@@ -68,15 +65,15 @@ class EditRoomTest extends TestCase
     private function submitRoomToUpdate(string $roleName, Room $room, array $Newdata): TestResponse
     {
         return $this->actingAsRole($roleName)
-            ->from(route(self::ROUTE_EDIT_ROOM_VIEW, $room))
-            ->put(route(self::ROUTE_UPDATE_ROOM, $room), $Newdata);
+            ->from(route('rooms.edit', $room))
+            ->put(route('rooms.update', $room), $Newdata);
     }  
     
     public function test_can_update_room_with_valid_data()
     {
         
         foreach (
-                $this->getAuthorizedRoles                (self::PERMISSION)       
+                $this->getAuthorizedRoles                ('rooms.edit')       
                 as $authorizedRole
             ) 
         {             
@@ -84,7 +81,7 @@ class EditRoomTest extends TestCase
             $newRoomData = Room::factory()->raw();
             $response = $this->submitRoomToUpdate($authorizedRole, $roomToEdit, $newRoomData);
 
-            $response->assertRedirect(route(self::ROUTE_INDEX))
+            $response->assertRedirect(route('rooms.index'))
                      ->assertStatus(302)
                      ->assertSessionHas('msg');
 
@@ -101,14 +98,14 @@ class EditRoomTest extends TestCase
     public function test_validation_errors_are_shown_if_data_is_invalid(array $invalidData, array $expectedErrors): void
     {
         foreach (
-                $this->getAuthorizedRoles                (self::PERMISSION)       
+                $this->getAuthorizedRoles                ('rooms.edit')       
                 as $authorizedRole
             ) 
         {             
             $roomToEdit = Room::factory()->create();
             $response = $this->submitRoomToUpdate($authorizedRole, $roomToEdit, $invalidData);
 
-            $response->assertRedirect(route(self::ROUTE_EDIT_ROOM_VIEW, $roomToEdit))
+            $response->assertRedirect(route('rooms.edit', $roomToEdit))
                      ->assertSessionHasErrors($expectedErrors);
         }
     }

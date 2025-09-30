@@ -14,9 +14,6 @@ class ShowActivityTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    protected const PERMISSION = 'activities.show';
-    protected const ROUTE = 'activities.show';
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -25,14 +22,13 @@ class ShowActivityTest extends TestCase
 
     private function showActivityAs(string $roleName, int $activityId): TestResponse
     {
-        return $this->actingAsRole($roleName)->get(route(self::ROUTE,  $activityId));
+        return $this->actingAsRole($roleName)->get(route('activities.show',  $activityId));
     }
 
     public function test_authorized_user_can_see_a_specific_activity()
     {
         foreach (
-                $this->getAuthorizedRoles  
-                (self::PERMISSION) 
+                $this->getAuthorizedRoles('activities.show')
                 as $authorizedRole
             ) 
         {
@@ -48,8 +44,7 @@ class ShowActivityTest extends TestCase
     public function test_unauthorized_user_cannot_see_a_specific_activity()
     {
         foreach (
-                $this->getUnauthorizedRoles  
-                (self::PERMISSION) 
+                $this->getUnauthorizedRoles('activities.show')
                 as $unauthorizedRole
             ) 
         {

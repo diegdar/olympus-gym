@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Traits\TestHelper;
+use Database\Seeders\RoleSeeder;
 
 class SidebarTest extends TestCase
 {
@@ -15,7 +16,7 @@ class SidebarTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
+        $this->seed(RoleSeeder::class);
     }
 
     public function test_sidebar_renders_on_dashboard_page(): void

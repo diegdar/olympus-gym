@@ -5,6 +5,7 @@ namespace Tests\Feature\ActivitySchedules;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Traits\TestHelper;
+use Database\Seeders\RoleSeeder;
 use Tests\TestCase;
 use App\Models\ActivitySchedule;
 use App\Models\User;
@@ -13,23 +14,15 @@ class UnenrollUserInActivityScheduleTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    // Permissions
-    protected const PERMISSION_UNENROLL_USER = 'activity.schedules.unenroll';
-    protected const PERMISSION_ENROLL_USER = 'activity.schedules.enroll';
-    // Routes
-    protected const ROUTE_INDEX = 'activity.schedules.index';
-    protected const ROUTE_ENROLL = 'activity.schedules.enroll';
-    protected const ROUTE_UNENROLL = 'activity.schedules.unenroll';
-
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
+        $this->seed(RoleSeeder::class);
     }
 
     private function performEnrollmentRequest(ActivitySchedule $activitySchedule, User $user): void
     {
-        $this->post(route(self::ROUTE_ENROLL, $activitySchedule))
+        $this->post(route('activity.schedules.enroll', $activitySchedule))
             ->assertStatus(302)
             ->assertSessionHas('success');
 
@@ -44,7 +37,7 @@ class UnenrollUserInActivityScheduleTest extends TestCase
 
     private function performUnenrollmentRequest(ActivitySchedule $activitySchedule)
     {
-        return $this->delete(route(self::ROUTE_UNENROLL, $activitySchedule));
+        return $this->delete(route('activity.schedules.unenroll', $activitySchedule));
     }
 
     public function test_authorized_user_can_unenroll_in_an_activity_schedule(): void
@@ -52,7 +45,7 @@ class UnenrollUserInActivityScheduleTest extends TestCase
         $activitySchedule = ActivitySchedule::factory()->create();
         
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION_UNENROLL_USER)
+            $this->getAuthorizedRoles('activity.schedules.unenroll')
             as $authorizedRole
         ) {
             $user = $this->createUserAndAssignRole($authorizedRole);
@@ -61,7 +54,7 @@ class UnenrollUserInActivityScheduleTest extends TestCase
 
              $this->performUnenrollmentRequest($activitySchedule)
                   ->assertStatus(302)
-                  ->assertRedirect(route(self::ROUTE_INDEX))
+                  ->assertRedirect(route('activity.schedules.index'))
                   ->assertSessionHas('success');
 
             $this->assertDatabaseMissing('activity_schedule_user', [
@@ -78,11 +71,11 @@ class UnenrollUserInActivityScheduleTest extends TestCase
     {
         $activitySchedule = ActivitySchedule::factory()->create();
         $enrolledUser = $this->createUserAndAssignRole(
-                $this->getAuthorizedRoles(self::PERMISSION_ENROLL_USER)[0]);
+                $this->getAuthorizedRoles('activity.schedules.enroll')[0]);
         $this->performEnrollmentRequest($activitySchedule, $enrolledUser);
 
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION_UNENROLL_USER)
+            $this->getUnauthorizedRoles('activity.schedules.unenroll')
             as $unauthorizedRole
         ) {
             $this->createUserAndAssignRole($unauthorizedRole);

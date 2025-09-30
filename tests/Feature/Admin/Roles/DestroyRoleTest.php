@@ -14,10 +14,6 @@ class DestroyRoleTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    protected const PERMISSION = 'admin.roles.destroy';
-    // Routes
-    protected const ROUTE_ROLE_INDEX = 'admin.roles.index';
-    protected const ROUTE_DESTROY_ROLE = 'admin.roles.destroy';
 
     protected function setUp(): void
     {
@@ -27,20 +23,20 @@ class DestroyRoleTest extends TestCase
 
     private function destroyRoleAs(string $roleName, int $roleIdToDestroy): TestResponse
     {
-        return $this->actingAsRole($roleName)->delete(route(self::ROUTE_DESTROY_ROLE, $roleIdToDestroy));
+        return $this->actingAsRole($roleName)->delete(route('admin.roles.destroy', $roleIdToDestroy));
     }
 
     public function test_can_destroy_a_role_as_authorized_user()
     {
         
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION) 
+            $this->getAuthorizedRoles('admin.roles.destroy')
             as $authorizedRole
         ) {
             $roleToDestroy = Role::create(['name' => 'writer']);
             $response = $this->destroyRoleAs($authorizedRole, $roleToDestroy->id);
             $response->assertStatus(302)
-                     ->assertRedirect(route(self::ROUTE_ROLE_INDEX));
+                      ->assertRedirect(route('admin.roles.index'));
 
             $this->assertDatabaseMissing('roles', ['id' => $roleToDestroy->id]);
         }
@@ -51,7 +47,7 @@ class DestroyRoleTest extends TestCase
         
         $roleToDestroy = Role::create(['name' => 'writer']);
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION) 
+            $this->getUnauthorizedRoles('admin.roles.destroy')
             as $unauthorizedRole
         ) {
             $response = $this->destroyRoleAs($unauthorizedRole, $roleToDestroy->id);

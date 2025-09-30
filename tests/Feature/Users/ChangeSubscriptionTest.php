@@ -4,10 +4,11 @@ declare(strict_types=1);
 namespace Tests\Feature\Users;
 
 use App\Models\Subscription;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\TestHelper;
+use Database\Seeders\RoleSeeder;
+use Database\Seeders\SubscriptionSeeder;
 
 class ChangeSubscriptionTest extends TestCase
 {
@@ -16,7 +17,7 @@ class ChangeSubscriptionTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
+        $this->seed([RoleSeeder::class, SubscriptionSeeder::class]);
     }
 
     public function test_member_can_change_subscription(): void

@@ -15,17 +15,6 @@ class RoleListTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    // Permissions
-    protected const PERMISSION_LIST_ROLES = 'admin.roles.index';
-    protected const PERMISSION_CREATE_ROLE = 'admin.roles.create';
-    protected const PERMISSION_EDIT_ROLE = 'admin.roles.edit';
-    protected const PERMISSION_DESTROY_ROLE = 'admin.roles.destroy';
-
-    // Routes
-    protected const ROUTE_ROLE_INDEX = 'admin.roles.index';
-    protected const ROUTE_CREATE_ROLE_VIEW = 'admin.roles.create';
-    protected const ROUTE_EDIT_ROLE_VIEW = 'admin.roles.edit';
-    protected const ROUTE_DESTROY_ROLE = 'admin.roles.destroy';
 
     protected function setUp(): void
     {
@@ -35,7 +24,7 @@ class RoleListTest extends TestCase
 
     private function getRolesListAs(string $roleName): TestResponse
     {
-        return $this->actingAsRole($roleName)->get(route(self::ROUTE_ROLE_INDEX));
+        return $this->actingAsRole($roleName)->get(route('admin.roles.index'));
     }
 
     public function test_users_with_index_permission_can_see_role_list(): void
@@ -43,7 +32,7 @@ class RoleListTest extends TestCase
         $roles = Role::all();
 
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION_LIST_ROLES) 
+            $this->getAuthorizedRoles('admin.roles.index')
             as $role
         ) {
             $response = $this->getRolesListAs($role);
@@ -62,7 +51,7 @@ class RoleListTest extends TestCase
     public function test_users_without_index_permission_get_403(): void
     {
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION_LIST_ROLES) 
+            $this->getUnauthorizedRoles('admin.roles.index')
             as $role
         ) {
             $response = $this->getRolesListAs($role);
@@ -107,18 +96,18 @@ class RoleListTest extends TestCase
     public function test_create_button_is_visible_depends_on_permission(): void
     {
         $this->assertButtonVisibility(
-            self::PERMISSION_CREATE_ROLE,
+            'admin.roles.create',
             'Crear rol',
-            self::ROUTE_CREATE_ROLE_VIEW
+            'admin.roles.create'
         );
     }
 
     public function test_edit_button_is_visible_depends_on_permission(): void
     {
         $this->assertButtonVisibility(
-            self::PERMISSION_EDIT_ROLE,
+            'admin.roles.edit',
             'Editar',
-            self::ROUTE_EDIT_ROLE_VIEW,
+            'admin.roles.edit',
             1
         );
     }
@@ -126,9 +115,9 @@ class RoleListTest extends TestCase
     public function test_destroy_button_is_visible_depends_on_permission(): void
     {
         $this->assertButtonVisibility(
-            self::PERMISSION_DESTROY_ROLE,
+            'admin.roles.destroy',
             'Borrar',
-            self::ROUTE_DESTROY_ROLE,
+            'admin.roles.destroy',
             1
         );
     }

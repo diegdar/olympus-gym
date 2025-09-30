@@ -15,14 +15,6 @@ class CreateRoomTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    protected const PERMISSION_CREATE_ROOM = 'rooms.create';
-    protected const PERMISSION_STORE_ROOM = 'rooms.store';
-
-    protected const ROUTE_ROOMS_INDEX = 'rooms.index';
-
-    protected const ROUTE_CREATE_ROOM_VIEW = 'rooms.create';
-    protected const ROUTE_STORE_ROOM = 'rooms.store';
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -31,13 +23,13 @@ class CreateRoomTest extends TestCase
     
     private function getCreateRoomFormAs(string $roleName): TestResponse
     {
-        return $this->actingAsRole($roleName)->get(route(self::ROUTE_CREATE_ROOM_VIEW));
+        return $this->actingAsRole($roleName)->get(route('rooms.create'));
     }
 
     public function test_authorized_user_can_view_create_room_form()
     {
         foreach (
-                $this->getAuthorizedRoles                (self::PERMISSION_CREATE_ROOM)       
+                $this->getAuthorizedRoles                ('rooms.create')       
                 as $authorizedRole
             ) 
         {            
@@ -53,7 +45,7 @@ class CreateRoomTest extends TestCase
     public function test_unauthorized_user_cannot_view_create_room_form()
     {
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION_CREATE_ROOM) as $unauthorizedRole
+            $this->getUnauthorizedRoles('rooms.create') as $unauthorizedRole
         ) {
             $response = $this->getCreateRoomFormAs($unauthorizedRole);
 
@@ -67,19 +59,19 @@ class CreateRoomTest extends TestCase
     private function CreateRoomAs(string $roleName, array $newData): TestResponse
     {
         return $this->actingAsRole($roleName)
-            ->from(route(self::ROUTE_CREATE_ROOM_VIEW))
-            ->post(route(self::ROUTE_STORE_ROOM, $newData));
+            ->from(route('rooms.create'))
+            ->post(route('rooms.store', $newData));
     }    
 
     public function test_authorized_user_can_create_a_room()
     {
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION_STORE_ROOM) as $authorizedRole
+            $this->getAuthorizedRoles('rooms.store') as $authorizedRole
         ) {
             $room = Room::factory()->raw();
             $response = $this->CreateRoomAs($authorizedRole, $room);
 
-            $response->assertRedirect(route(self::ROUTE_ROOMS_INDEX))
+            $response->assertRedirect(route('rooms.index'))
                      ->assertSessionHas('msg');
 
             foreach ($room as $key => $value) {
@@ -93,7 +85,7 @@ class CreateRoomTest extends TestCase
     public function test_unauthorized_user_cannot_create_a_room()
     {
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION_STORE_ROOM) as $unauthorizedRole
+            $this->getUnauthorizedRoles('rooms.store') as $unauthorizedRole
         ) {
             $room = Room::factory()->raw();
             $response = $this->CreateRoomAs($unauthorizedRole, $room);
@@ -113,11 +105,11 @@ class CreateRoomTest extends TestCase
     public function test_validation_errors_for_invalid_room_data(array $invalidData, array $expectedErrors): void
     {
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION_STORE_ROOM) as $authorizedRole
+            $this->getAuthorizedRoles('rooms.store') as $authorizedRole
         ) {
             $response = $this->CreateRoomAs($authorizedRole, $invalidData);
 
-            $response->assertRedirect(route(self::ROUTE_CREATE_ROOM_VIEW))
+            $response->assertRedirect(route('rooms.create'))
                      ->assertSessionHasErrors($expectedErrors);
 
             foreach($invalidData as $key => $value) {
