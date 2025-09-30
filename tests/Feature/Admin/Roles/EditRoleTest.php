@@ -16,7 +16,6 @@ class EditRoleTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    protected const PERMISSION = 'admin.roles.edit';
 
     protected function setUp(): void
     {
@@ -35,7 +34,7 @@ class EditRoleTest extends TestCase
         $roleToEdit = Role::create(['name' => 'test-role']);
 
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION) as $authorizedRole
+            $this->getAuthorizedRoles('admin.roles.edit') as $authorizedRole
         ) {
             $response = $this->editRoleAs($authorizedRole, $roleToEdit->id);
 
@@ -51,7 +50,7 @@ class EditRoleTest extends TestCase
         $roleToEdit = Role::create(['name' => 'test-role']);
 
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION) 
+            $this->getUnauthorizedRoles('admin.roles.edit')
             as $unauthorizedRole
         ) {
             $response = $this->editRoleAs($unauthorizedRole, $roleToEdit->id);
@@ -75,7 +74,7 @@ class EditRoleTest extends TestCase
         $roleToEdit = Role::create(['name' => '']);
 
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION) as $authorizedRole
+            $this->getAuthorizedRoles('admin.roles.edit') as $authorizedRole
         ) {
             $response = $this->submitRoleToUpdate($authorizedRole, $roleToEdit, [
                 'name' => '',
@@ -91,7 +90,7 @@ class EditRoleTest extends TestCase
         $role = Role::create(['name' => 'test-role']);
 
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION) as $authorizedRole
+            $this->getAuthorizedRoles('admin.roles.edit') as $authorizedRole
         ) {
             $response = $this->submitRoleToUpdate($authorizedRole, $role, [
                 'name' => 'new-name',
@@ -110,7 +109,7 @@ class EditRoleTest extends TestCase
         $p2 = Permission::create(['name' => 'perm-2', 'description' => 'Permiso 2']);
 
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION) as $authorizedRole
+            $this->getAuthorizedRoles('admin.roles.edit') as $authorizedRole
         ) {
             $response = $this->submitRoleToUpdate($authorizedRole, $role, [
                 'name' => 'new-name',
@@ -136,7 +135,7 @@ class EditRoleTest extends TestCase
         $p2 = Permission::create(['name' => 'perm-2', 'description' => 'Permiso 2']);
 
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION) 
+            $this->getUnauthorizedRoles('admin.roles.edit')
             as $unauthorizedRole
         ) {
             $response = $this->submitRoleToUpdate($unauthorizedRole, $role, [

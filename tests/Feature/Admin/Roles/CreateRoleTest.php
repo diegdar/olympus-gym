@@ -15,11 +15,6 @@ class CreateRoleTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    protected const PERMISSION = 'admin.roles.create';
-
-    protected const ROUTE_CREATE_ROLE_VIEW = 'admin.roles.create';
-    protected const ROUTE_STORE_ROLE = 'admin.roles.store';
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -28,13 +23,13 @@ class CreateRoleTest extends TestCase
     
     private function getCreateRoleFormAs(string $roleName): TestResponse
     {
-        return $this->actingAsRole($roleName)->get(route(self::ROUTE_CREATE_ROLE_VIEW));
+        return $this->actingAsRole($roleName)->get(route('admin.roles.create'));
     }
 
     public function test_authorized_user_can_view_create_role_form()
     {
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION) as $authorizedRole
+            $this->getAuthorizedRoles('admin.roles.create') as $authorizedRole
         ) {
             $response = $this->getCreateRoleFormAs($authorizedRole);
 
@@ -47,7 +42,7 @@ class CreateRoleTest extends TestCase
     public function test_unauthorized_user_cannot_view_create_role_form()
     {
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION) as $unauthorizedRole
+            $this->getUnauthorizedRoles('admin.roles.create') as $unauthorizedRole
         ) {
             $response = $this->getCreateRoleFormAs($unauthorizedRole);
 
@@ -60,21 +55,21 @@ class CreateRoleTest extends TestCase
     private function createRoleAs(string $AuthorizedRole, array $newRoleData): TestResponse
     {
         return $this->actingAsRole($AuthorizedRole)
-            ->from(route(self::ROUTE_CREATE_ROLE_VIEW))
-            ->post(route(self::ROUTE_STORE_ROLE, $newRoleData));
+            ->from(route('admin.roles.create'))
+            ->post(route('admin.roles.store', $newRoleData));
     }    
 
     public function test_validation_errors_are_shown_if_name_field_is_empty()
     {
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION) as $authorizedRole
+            $this->getAuthorizedRoles('admin.roles.create') as $authorizedRole
         ) {
             $response = $this->createRoleAs($authorizedRole, [
                 'name' => '',
                 'permissions' => [],
             ]);
 
-            $response->assertRedirect(route(self::ROUTE_CREATE_ROLE_VIEW))->assertSessionHasErrors(['name']);
+            $response->assertRedirect(route('admin.roles.create'))->assertSessionHasErrors(['name']);
         }
     }
 
@@ -82,14 +77,14 @@ class CreateRoleTest extends TestCase
     {
         $newRoleNumber = 1;
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION) as $authorizedRole
+            $this->getAuthorizedRoles('admin.roles.create') as $authorizedRole
         ) {
             $response = $this->createRoleAs($authorizedRole, [
                 'name' => 'role-name' . $newRoleNumber,
                 'permissions' => [],
             ]);
 
-            $response->assertRedirect(route(self::ROUTE_CREATE_ROLE_VIEW))->assertSessionHasErrors(['permissions']);
+            $response->assertRedirect(route('admin.roles.create'))->assertSessionHasErrors(['permissions']);
 
             ++$newRoleNumber;
         }
@@ -102,7 +97,7 @@ class CreateRoleTest extends TestCase
 
         $newRoleNumber = 1;
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION) as $authorizedRole
+            $this->getAuthorizedRoles('admin.roles.create') as $authorizedRole
         ) {
             $response = $this->createRoleAs($authorizedRole, [
                 'name' => 'role-name' . $newRoleNumber,
@@ -127,7 +122,7 @@ class CreateRoleTest extends TestCase
 
         $newRoleNumber = 1;
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION) as $unauthorizedRole
+            $this->getUnauthorizedRoles('admin.roles.create') as $unauthorizedRole
         ) {
             $response = $this->createRoleAs($unauthorizedRole, [
                 'name' => 'role-name' . $newRoleNumber,

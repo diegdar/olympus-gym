@@ -14,8 +14,6 @@ class SubscriptionStatsTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    private const INDEX_ROUTE = 'admin.subscriptions.stats';
-    private const DATA_ROUTE = 'admin.subscriptions.percentages';
 
     protected function setUp(): void
     {
@@ -48,14 +46,14 @@ class SubscriptionStatsTest extends TestCase
 
     public function test_guest_cannot_access_index(): void
     {
-        $this->get(route(self::INDEX_ROUTE))->assertRedirect('/login');
+        $this->get(route('admin.subscriptions.stats'))->assertRedirect('/login');
     }
 
     public function test_user_without_permission_cannot_access_index(): void
     {
         $memberUser = User::factory()->create()->assignRole('member');
         $this->actingAs($memberUser)
-                ->get(route(self::INDEX_ROUTE))
+                ->get(route('admin.subscriptions.stats'))
                 ->assertForbidden();
     }
 
@@ -63,7 +61,7 @@ class SubscriptionStatsTest extends TestCase
     {
         $adminUser = User::factory()->create()->assignRole('admin');
         $this->actingAs($adminUser)
-                ->get(route(self::INDEX_ROUTE))
+                ->get(route('admin.subscriptions.stats'))
                 ->assertOk()
                 ->assertSee('Estadísticas');
     }
@@ -73,7 +71,7 @@ class SubscriptionStatsTest extends TestCase
         $this->seedScenario();
         $adminUser = User::factory()->create()->assignRole('admin');
         $this->actingAs($adminUser);
-        $this->getJson(route(self::DATA_ROUTE))
+        $this->getJson(route('admin.subscriptions.percentages'))
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
@@ -90,7 +88,7 @@ class SubscriptionStatsTest extends TestCase
         $adminUser = User::factory()->create()->assignRole('admin');
         $this->actingAs($adminUser);
 
-    $response = $this->getJson(route(self::DATA_ROUTE));
+    $response = $this->getJson(route('admin.subscriptions.percentages'));
         $data = collect($response->json('data'));
 
         $monthly = $data->firstWhere('fee','monthly');
