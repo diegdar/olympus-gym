@@ -18,12 +18,6 @@ class EnrollUserInActivityScheduleTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    // Permissions and Routes
-    protected const PERMISSION_ENROLL_USER = 'activity.schedules.enroll';
-    // Routes
-    protected const ROUTE_INDEX = 'activity.schedules.index';
-    protected const ROUTE_ENROLL = 'activity.schedules.enroll';
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -39,7 +33,7 @@ class EnrollUserInActivityScheduleTest extends TestCase
 
     private function performEnrollmentRequest(ActivitySchedule $activitySchedule)
     {
-        return $this->post(route(self::ROUTE_ENROLL, $activitySchedule));
+        return $this->post(route('activity.schedules.enroll', $activitySchedule));
     }
 
     private function getAlreadyEnrolledErrorMessage(ActivitySchedule $activitySchedule): string
@@ -72,13 +66,13 @@ class EnrollUserInActivityScheduleTest extends TestCase
     {
         $activitySchedule = $this->createAnActivitySchedule();
 
-        foreach ($this->getAuthorizedRoles(self::PERMISSION_ENROLL_USER) as $authorizedRole) {
+        foreach ($this->getAuthorizedRoles('activity.schedules.enroll') as $authorizedRole) {
             $user = $this->actingAsRole($authorizedRole);
 
             $response = $this->performEnrollmentRequest($activitySchedule);
 
             $response->assertStatus(302);
-            $response->assertRedirect(route(self::ROUTE_INDEX));
+            $response->assertRedirect(route('activity.schedules.index'));
             $response->assertSessionHas('success');
 
             $this->assertDatabaseHas('activity_schedule_user', [
@@ -94,7 +88,7 @@ class EnrollUserInActivityScheduleTest extends TestCase
     {
         $activitySchedule = $this->createAnActivitySchedule();
 
-        foreach ($this->getUnauthorizedRoles(self::PERMISSION_ENROLL_USER) as $unauthorizedRole) {
+        foreach ($this->getUnauthorizedRoles('activity.schedules.enroll') as $unauthorizedRole) {
             $this->actingAsRole($unauthorizedRole);
 
             $response = $this->performEnrollmentRequest($activitySchedule);
@@ -110,7 +104,7 @@ class EnrollUserInActivityScheduleTest extends TestCase
     {
         $activitySchedule = $this->createAnActivitySchedule();
 
-        foreach ($this->getAuthorizedRoles(self::PERMISSION_ENROLL_USER) as $authorizedRole) {
+        foreach ($this->getAuthorizedRoles('activity.schedules.enroll') as $authorizedRole) {
             $user = $this->actingAsRole($authorizedRole); 
 
             $firstEnrollmentResponse = $this->performEnrollmentRequest($activitySchedule);
@@ -141,7 +135,7 @@ class EnrollUserInActivityScheduleTest extends TestCase
     {
         $activitySchedule = $this->createAnActivitySchedule(maxEnrollment: 1);
 
-        foreach ($this->getAuthorizedRoles(self::PERMISSION_ENROLL_USER) as $authorizedRole) {
+        foreach ($this->getAuthorizedRoles('activity.schedules.enroll') as $authorizedRole) {
             $user = $this->actingAsRole($authorizedRole); 
 
             // ocupar la plaza con otro usuario para simular lleno
@@ -171,7 +165,7 @@ class EnrollUserInActivityScheduleTest extends TestCase
         $conflictingActivitySchedule = $this->createAnActivitySchedule(startDatetime: '2023-01-01 10:00');
 
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION_ENROLL_USER) 
+            $this->getAuthorizedRoles('activity.schedules.enroll')
             as $authorizedRole
         ) {
             $user = $this->actingAsRole($authorizedRole); 

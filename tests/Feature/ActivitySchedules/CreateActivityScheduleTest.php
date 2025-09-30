@@ -18,15 +18,6 @@ class CreateActivityScheduleTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    // Permissions
-    protected const PERMISSION_CREATE_ACTIVITY_SCHEDULE = 'activity.schedules.create';
-    protected const PERMISSION_STORE_ACTIVITY_SCHEDULE = 'activity.schedules.store';
-    // Routes
-    protected const ROUTE_ACTIVITY_SCHEDULES_INDEX = 'activity.schedules.index';
-
-    protected const ROUTE_CREATE_ACTIVITY_SCHEDULE_VIEW = 'activity.schedules.create';
-    protected const ROUTE_STORE_ACTIVITY_SCHEDULE = 'activity.schedules.store';
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -35,13 +26,13 @@ class CreateActivityScheduleTest extends TestCase
     
     private function getCreateActivityScheduleFormAs(string $roleName): TestResponse
     {
-        return $this->actingAsRole($roleName)->get(route(self::ROUTE_CREATE_ACTIVITY_SCHEDULE_VIEW));
+        return $this->actingAsRole($roleName)->get(route('activity.schedules.create'));
     }
 
     public function test_authorized_user_can_view_create_activity_schedule_form()
     {
         foreach (
-                $this->getAuthorizedRoles(self::PERMISSION_CREATE_ACTIVITY_SCHEDULE)       
+                $this->getAuthorizedRoles('activity.schedules.create')
                 as $authorizedRole
             ) 
         {            
@@ -59,7 +50,7 @@ class CreateActivityScheduleTest extends TestCase
     public function test_unauthorized_user_cannot_view_create_activity_schedule_form()
     {
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION_CREATE_ACTIVITY_SCHEDULE) as $unauthorizedRole
+            $this->getUnauthorizedRoles('activity.schedules.create') as $unauthorizedRole
         ) {
             $response = $this->getCreateActivityScheduleFormAs($unauthorizedRole);
 
@@ -75,19 +66,19 @@ class CreateActivityScheduleTest extends TestCase
     private function CreateActivityScheduleAs(string $roleName, array $newData): TestResponse
     {
         return $this->actingAsRole($roleName)
-            ->from(route(self::ROUTE_CREATE_ACTIVITY_SCHEDULE_VIEW))
-            ->post(route(self::ROUTE_STORE_ACTIVITY_SCHEDULE, $newData));
+            ->from(route('activity.schedules.create'))
+            ->post(route('activity.schedules.store', $newData));
     }    
 
     public function test_authorized_user_can_create_an_activity_schedule()
     {
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION_STORE_ACTIVITY_SCHEDULE) as $authorizedRole
+            $this->getAuthorizedRoles('activity.schedules.store') as $authorizedRole
         ) {
             $activityScheduleData = ActivitySchedule::factory()->raw();
             $response = $this->CreateActivityScheduleAs($authorizedRole, $activityScheduleData);
 
-            $response->assertRedirect(route(self::ROUTE_ACTIVITY_SCHEDULES_INDEX))
+            $response->assertRedirect(route('activity.schedules.index'))
                      ->assertSessionHas('success');
 
             $this->assertDatabaseHas('activity_schedules', $activityScheduleData);
@@ -97,7 +88,7 @@ class CreateActivityScheduleTest extends TestCase
     public function test_unauthorized_user_cannot_create_an_activity_schedule()
     {
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION_STORE_ACTIVITY_SCHEDULE) as $unauthorizedRole
+            $this->getUnauthorizedRoles('activity.schedules.store') as $unauthorizedRole
         ) {
             $activityScheduleData = ActivitySchedule::factory()->raw();
             $response = $this->CreateActivityScheduleAs($unauthorizedRole, $activityScheduleData);
@@ -125,11 +116,11 @@ class CreateActivityScheduleTest extends TestCase
         }
 
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION_STORE_ACTIVITY_SCHEDULE) as $authorizedRole
+            $this->getAuthorizedRoles('activity.schedules.store') as $authorizedRole
         ) {
             $response = $this->CreateActivityScheduleAs($authorizedRole, $invalidData);
 
-            $response->assertRedirect(route(self::ROUTE_CREATE_ACTIVITY_SCHEDULE_VIEW))
+            $response->assertRedirect(route('activity.schedules.create'))
                      ->assertSessionHasErrors($field);
 
             $this->assertDatabaseMissing('activity_schedules', $invalidData);                           

@@ -7,39 +7,29 @@ use App\Models\ActivitySchedule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\TestHelper;
+use Database\Seeders\ActivitySeeder;
+use Database\Seeders\RoleSeeder;
 
 class ActivitySchedulesListTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    // permission
-    protected const PERMISSION_LIST = 'activity.schedules.index';
-    protected const PERMISSION_CREATE = 'activity.schedules.create';
-    protected const PERMISSION_SHOW = 'activity.schedules.show';
-    protected const PERMISSION_EDIT = 'activity.schedules.edit';
-    protected const PERMISSION_DESTROY = 'activity.schedules.destroy';
-    protected const PERMISSION_ENROLL_USER = 'activity.schedules.enroll';
-
-
-    // routes
-    protected const ROUTE = 'activity.schedules.index';
-
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();            
+        $this->seed([RoleSeeder::class, ActivitySeeder::class]);
     }
 
     private function getActivitiesScheduleListAs(string $roleName)
     {
-        return $this->actingAsRole($roleName)->get(route(self::ROUTE));
+        return $this->actingAsRole($roleName)->get(route('activity.schedules.index'));
     }
 
     public function test_authorized_user_can_see_activities_schedule()
     {
         $activities = ActivitySchedule::all();
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION_LIST)
+            $this->getAuthorizedRoles('activity.schedules.index')
             as $authorizedRole
         ) {
             $response = $this->getActivitiesScheduleListAs($authorizedRole);
@@ -56,7 +46,7 @@ class ActivitySchedulesListTest extends TestCase
     public function test_unauthorized_user_gets_403()
     {
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION_LIST)
+            $this->getUnauthorizedRoles('activity.schedules.index')
             as $unauthorizedRole
         ) {
             $response = $this->getActivitiesScheduleListAs($unauthorizedRole);
@@ -97,12 +87,12 @@ class ActivitySchedulesListTest extends TestCase
     public function test_create_button_is_visible_depends_on_permission(): void
     {
         $this->assertButtonVisible(
-            self::PERMISSION_CREATE,
+            'activity.schedules.create',
             'Crear horario actividad'
         );
 
         $this->assertButtonNotVisibleOr403(
-            self::PERMISSION_CREATE,
+            'activity.schedules.create',
             'Crear horario actividad'
         );
     }
@@ -112,12 +102,12 @@ class ActivitySchedulesListTest extends TestCase
         ActivitySchedule::factory()->create();
 
         $this->assertButtonVisible(
-            self::PERMISSION_SHOW,
+            'activity.schedules.show',
             'Ver'
         );
 
         $this->assertButtonNotVisibleOr403(
-            self::PERMISSION_SHOW,
+            'activity.schedules.show',
             'Ver'
         );
     }
@@ -126,12 +116,12 @@ class ActivitySchedulesListTest extends TestCase
         ActivitySchedule::factory()->create();
 
         $this->assertButtonVisible(
-            self::PERMISSION_EDIT,
+            'activity.schedules.edit',
             'Editar'
         );
 
         $this->assertButtonNotVisibleOr403(
-            self::PERMISSION_EDIT,
+            'activity.schedules.edit',
             'Editar'
         );
     }
@@ -141,12 +131,12 @@ class ActivitySchedulesListTest extends TestCase
         ActivitySchedule::factory()->create();
 
         $this->assertButtonVisible(
-            self::PERMISSION_DESTROY,
+            'activity.schedules.destroy',
             'Borrar'
         );
 
         $this->assertButtonNotVisibleOr403(
-            self::PERMISSION_DESTROY,
+            'activity.schedules.destroy',
             'Borrar'
         );
     }
@@ -156,12 +146,12 @@ class ActivitySchedulesListTest extends TestCase
         ActivitySchedule::factory()->create();
 
         $this->assertButtonVisible(
-            self::PERMISSION_ENROLL_USER,
+            'activity.schedules.enroll',
             'Inscribirse'
         );
 
         $this->assertButtonNotVisibleOr403(
-            self::PERMISSION_ENROLL_USER,
+            'activity.schedules.enroll',
             'Inscribirse'
         );
     }
@@ -180,7 +170,7 @@ class ActivitySchedulesListTest extends TestCase
         $schedule->users()->attach([$u1->id, $u2->id]);
 
         $admin = $this->createUserAndAssignRole('admin');
-        $resp = $this->actingAs($admin)->get(route(self::ROUTE));
+        $resp = $this->actingAs($admin)->get(route('activity.schedules.index'));
 
         $resp->assertStatus(200)
              ->assertSeeText('Plazas libres:')

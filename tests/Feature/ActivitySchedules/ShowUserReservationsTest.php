@@ -5,6 +5,7 @@ namespace Tests\Feature\ActivitySchedules;
 
 use App\Models\ActivitySchedule;
 use App\Models\User;
+use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\TestHelper;
@@ -16,26 +17,15 @@ class ShowUserReservationsTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    // permission
-    protected const PERMISSION_SHOW_RESERVATIONS = 'user.reservations';
-    protected const PERMISSION_ENROLL_USER = 'activity.schedules.enroll';
-    protected const PERMISSION_UNENROLL_USER = 'activity.schedules.unenroll';
-
-    // routes
-    protected const ROUTE_SHOW_RESERVATIONS = 'user.reservations';
-    protected const ROUTE_SHOW_ACTIVITY_SCHEDULE = 'activity.schedules.show';
-    protected const ROUTE_ENROLL_USER = 'activity.schedules.enroll';
-    protected const ROUTE_UNENROLL_USER = 'activity.schedules.unenroll';
-
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
+        $this->seed(RoleSeeder::class);
     }
 
     private function getUserReservationsAs(string $roleName): TestResponse
     {
-        return $this->actingAsRole($roleName)->get(route(self::ROUTE_SHOW_RESERVATIONS));
+        return $this->actingAsRole($roleName)->get(route('user.reservations'));
     }
 
     private function formatDateTime($dateTime): string
@@ -76,7 +66,7 @@ class ShowUserReservationsTest extends TestCase
 
     private function performEnrollmentRequest(ActivitySchedule $activitySchedule, User $user): void
     {
-        $this->post(route(self::ROUTE_ENROLL_USER, $activitySchedule))
+        $this->post(route('activity.schedules.enroll', $activitySchedule))
             ->assertStatus(302)
             ->assertSessionHas('success');
 
@@ -92,7 +82,7 @@ class ShowUserReservationsTest extends TestCase
     public function test_authorized_user_can_see_their_reservations(): void
     {
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION_SHOW_RESERVATIONS)
+            $this->getAuthorizedRoles('user.reservations')
             as $role
         ) {
             $this->assertReservationDetailsAreVisible(
@@ -104,7 +94,7 @@ class ShowUserReservationsTest extends TestCase
     public function test_unauthorized_user_can_not_see_reservations(): void
     {
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION_SHOW_RESERVATIONS)
+            $this->getUnauthorizedRoles('user.reservations')
             as $role
         ) {
             $response = $this->getUserReservationsAs($role);
@@ -117,15 +107,15 @@ class ShowUserReservationsTest extends TestCase
     {
         $activitySchedule = ActivitySchedule::factory()->create();
 
-        foreach ($this->getAuthorizedRoles(self::PERMISSION_UNENROLL_USER) as $role) {
+        foreach ($this->getAuthorizedRoles('activity.schedules.unenroll') as $role) {
             $user = $this->createUserAndAssignRole($role);
 
             $this->performEnrollmentRequest($activitySchedule, $user);
 
-            $this->from(route(self::ROUTE_SHOW_RESERVATIONS))
-                ->delete(route(self::ROUTE_UNENROLL_USER, $activitySchedule))
+            $this->from(route('user.reservations'))
+                ->delete(route('activity.schedules.unenroll', $activitySchedule))
                 ->assertStatus(302)
-                ->assertRedirect(route(self::ROUTE_SHOW_RESERVATIONS))
+                ->assertRedirect(route('user.reservations'))
                 ->assertSessionHas('success');
 
             $this->assertDatabaseMissing('activity_schedule_user', [
@@ -142,15 +132,15 @@ class ShowUserReservationsTest extends TestCase
     {
         $activitySchedule = ActivitySchedule::factory()->create();
         $authorizedUser = $this->createUserAndAssignRole(
-            $this->getAuthorizedRoles(self::PERMISSION_ENROLL_USER)[0]
+            $this->getAuthorizedRoles('activity.schedules.enroll')[0]
         );
         $this->performEnrollmentRequest($activitySchedule, $authorizedUser);
 
-        foreach ($this->getUnauthorizedRoles(self::PERMISSION_UNENROLL_USER) as $role) {
+        foreach ($this->getUnauthorizedRoles('activity.schedules.unenroll') as $role) {
             $this->createUserAndAssignRole($role);
 
-            $this->from(route(self::ROUTE_SHOW_RESERVATIONS))
-                ->delete(route(self::ROUTE_UNENROLL_USER, $activitySchedule))
+            $this->from(route('user.reservations'))
+                ->delete(route('activity.schedules.unenroll', $activitySchedule))
                 ->assertStatus(403);
 
             $this->assertDatabaseHas('activity_schedule_user', [
@@ -164,13 +154,13 @@ class ShowUserReservationsTest extends TestCase
     {
         $activitySchedule = ActivitySchedule::factory()->create();
 
-        foreach ($this->getAuthorizedRoles(self::PERMISSION_SHOW_RESERVATIONS) as $role) {
+        foreach ($this->getAuthorizedRoles('user.reservations') as $role) {
             $user = $this->createUserAndAssignRole($role);
 
             $this->performEnrollmentRequest($activitySchedule, $user);
 
-            $this->from(route(self::ROUTE_SHOW_RESERVATIONS))
-                ->get(route(self::ROUTE_SHOW_ACTIVITY_SCHEDULE, $activitySchedule))
+            $this->from(route('user.reservations'))
+                ->get(route('activity.schedules.show', $activitySchedule))
                 ->assertStatus(200)
                 ->assertSeeText($activitySchedule->activity->name)
                 ->assertSeeText($activitySchedule->room->name)

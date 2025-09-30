@@ -14,11 +14,6 @@ class DestroyActivityScheduleTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    protected const PERMISSION = 'activity.schedules.destroy';
-    // Routes
-    protected const ROUTE_INDEX = 'activity.schedules.index';
-    protected const ROUTE_DESTROY = 'activity.schedules.destroy';
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -27,20 +22,20 @@ class DestroyActivityScheduleTest extends TestCase
 
     private function destroyActivityScheduleAs(string $roleName, int $activityScheduleId): TestResponse
     {
-        return $this->actingAsRole($roleName)->delete(route(self::ROUTE_DESTROY, $activityScheduleId));
+        return $this->actingAsRole($roleName)->delete(route('activity.schedules.destroy', $activityScheduleId));
     }
 
     public function test_can_destroy_an_activity_schedule_as_authorized_user()
     {        
         foreach (
-                $this->getAuthorizedRoles                (self::PERMISSION)       
+                $this->getAuthorizedRoles('activity.schedules.destroy')
                 as $authorizedRole
-            ) 
+            )
         {
             $activityScheduleToDestroy = ActivitySchedule::factory()->create();
             $response = $this->destroyActivityScheduleAs($authorizedRole, $activityScheduleToDestroy->id);
             $response->assertStatus(302)
-                     ->assertRedirect(route(self::ROUTE_INDEX));
+                      ->assertRedirect(route('activity.schedules.index'));
 
             $this->assertDatabaseMissing('activity_schedules', ['id' => $activityScheduleToDestroy->id]);
         }
@@ -50,7 +45,7 @@ class DestroyActivityScheduleTest extends TestCase
     {        
         $activityScheduleToDestroy = ActivitySchedule::factory()->create();
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION) as $unauthorizedRole
+            $this->getUnauthorizedRoles('activity.schedules.destroy') as $unauthorizedRole
         ) {
             $response = $this->destroyActivityScheduleAs($unauthorizedRole, $activityScheduleToDestroy->id);
             $response->assertStatus( 403);
