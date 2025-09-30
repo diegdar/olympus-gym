@@ -15,11 +15,6 @@ class EditActivityTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    protected const PERMISSION = 'activities.edit';
-    protected const ROUTE_EDIT_VIEW = 'activities.edit';
-    protected const ROUTE_UPDATE = 'activities.update';
-    protected const ROUTE_INDEX = 'activities.index';
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -29,13 +24,13 @@ class EditActivityTest extends TestCase
     private function getEditActivityFormAs(string $roleName, Activity $activity): TestResponse
     {
         return $this->actingAsRole($roleName)
-                    ->get(route(self::ROUTE_EDIT_VIEW, $activity));
+                     ->get(route('activities.edit', $activity));
     }    
 
     public function test_authorized_user_can_view_edit_activity_form()
     {        
         foreach (
-                $this->getAuthorizedRoles(self::PERMISSION)       
+                $this->getAuthorizedRoles('activities.edit')
                 as $authorizedRole
             ) 
         {            
@@ -56,7 +51,7 @@ class EditActivityTest extends TestCase
     public function test_unauthorized_user_cannot_view_edit_activity_form()
     {
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION) as $unauthorizedRole
+            $this->getUnauthorizedRoles('activities.edit') as $unauthorizedRole
         ) {            
             $activityToEdit = Activity::factory()->create();
             $response = $this->getEditActivityFormAs($unauthorizedRole, $activityToEdit);
@@ -68,15 +63,15 @@ class EditActivityTest extends TestCase
     private function submitActivityToUpdate(string $roleName, Activity $activity, array $Newdata): TestResponse
     {
         return $this->actingAsRole($roleName)
-            ->from(route(self::ROUTE_EDIT_VIEW, $activity))
-            ->put(route(self::ROUTE_UPDATE, $activity), $Newdata);
+            ->from(route('activities.edit', $activity))
+            ->put(route('activities.update', $activity), $Newdata);
     }  
     
     public function test_can_update_activity_with_valid_data()
     {
         
         foreach (
-                $this->getAuthorizedRoles(self::PERMISSION)       
+                $this->getAuthorizedRoles('activities.edit')
                 as $authorizedRole
             ) 
         {             
@@ -84,7 +79,7 @@ class EditActivityTest extends TestCase
             $newActivityData = Activity::factory()->raw();
             $response = $this->submitActivityToUpdate($authorizedRole, $activityToEdit, $newActivityData);
 
-            $response->assertRedirect(route(self::ROUTE_INDEX))
+            $response->assertRedirect(route('activities.index'))
                      ->assertStatus(302)
                      ->assertSessionHas('msg');
 
@@ -101,14 +96,14 @@ class EditActivityTest extends TestCase
     public function test_validation_errors_are_shown_if_data_is_invalid(array $invalidData, array $expectedErrors): void
     {
         foreach (
-                $this->getAuthorizedRoles(self::PERMISSION)       
+                $this->getAuthorizedRoles('activities.edit')
                 as $authorizedRole
             ) 
         {             
             $activityToEdit = Activity::factory()->create();
             $response = $this->submitActivityToUpdate($authorizedRole, $activityToEdit, $invalidData);
 
-            $response->assertRedirect(route(self::ROUTE_EDIT_VIEW, $activityToEdit))
+            $response->assertRedirect(route('activities.edit', $activityToEdit))
                      ->assertSessionHasErrors($expectedErrors);
         }
     }

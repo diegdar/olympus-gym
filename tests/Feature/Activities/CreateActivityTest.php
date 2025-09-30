@@ -15,14 +15,6 @@ class CreateActivityTest extends TestCase
 {
     use RefreshDatabase, TestHelper;
 
-    protected const PERMISSION_CREATE_ACTIVITY = 'activities.create';
-    protected const PERMISSION_STORE_ACTIVITY = 'activities.store';
-
-    protected const ROUTE_ACTIVITYS_INDEX = 'activities.index';
-
-    protected const ROUTE_CREATE_ACTIVITY_VIEW = 'activities.create';
-    protected const ROUTE_STORE_ACTIVITY = 'activities.store';
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -31,13 +23,13 @@ class CreateActivityTest extends TestCase
     
     private function getCreateActivityFormAs(string $roleName): TestResponse
     {
-        return $this->actingAsRole($roleName)->get(route(self::ROUTE_CREATE_ACTIVITY_VIEW));
+        return $this->actingAsRole($roleName)->get(route('activities.create'));
     }
 
     public function test_authorized_user_can_view_create_activity_form()
     {
         foreach (
-                $this->getAuthorizedRoles                (self::PERMISSION_CREATE_ACTIVITY)       
+                $this->getAuthorizedRoles('activities.create')
                 as $authorizedRole
             ) 
         {            
@@ -54,7 +46,7 @@ class CreateActivityTest extends TestCase
     public function test_unauthorized_user_cannot_view_create_activity_form()
     {
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION_CREATE_ACTIVITY) as $unauthorizedRole
+            $this->getUnauthorizedRoles('activities.create') as $unauthorizedRole
         ) {
             $response = $this->getCreateActivityFormAs($unauthorizedRole);
 
@@ -69,19 +61,19 @@ class CreateActivityTest extends TestCase
     private function CreateActivityAs(string $roleName, array $newData): TestResponse
     {
         return $this->actingAsRole($roleName)
-            ->from(route(self::ROUTE_CREATE_ACTIVITY_VIEW))
-            ->post(route(self::ROUTE_STORE_ACTIVITY, $newData));
+            ->from(route('activities.create'))
+            ->post(route('activities.store', $newData));
     }    
 
     public function test_authorized_user_can_create_an_activity()
     {
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION_STORE_ACTIVITY) as $authorizedRole
+            $this->getAuthorizedRoles('activities.store') as $authorizedRole
         ) {
             $activity = Activity::factory()->raw();
             $response = $this->CreateActivityAs($authorizedRole, $activity);
 
-            $response->assertRedirect(route(self::ROUTE_ACTIVITYS_INDEX))
+            $response->assertRedirect(route('activities.index'))
                      ->assertSessionHas('msg');
 
             foreach ($activity as $key => $value) {
@@ -95,7 +87,7 @@ class CreateActivityTest extends TestCase
     public function test_unauthorized_user_cannot_create_a_activity()
     {
         foreach (
-            $this->getUnauthorizedRoles(self::PERMISSION_STORE_ACTIVITY) as $unauthorizedRole
+            $this->getUnauthorizedRoles('activities.store') as $unauthorizedRole
         ) {
             $activity = Activity::factory()->raw();
             $response = $this->CreateActivityAs($unauthorizedRole, $activity);
@@ -115,11 +107,11 @@ class CreateActivityTest extends TestCase
     public function test_validation_errors_for_invalid_activity_data(array $invalidData, array $expectedErrors): void
     {
         foreach (
-            $this->getAuthorizedRoles(self::PERMISSION_STORE_ACTIVITY) as $authorizedRole
+            $this->getAuthorizedRoles('activities.store') as $authorizedRole
         ) {
             $response = $this->CreateActivityAs($authorizedRole, $invalidData);
 
-            $response->assertRedirect(route(self::ROUTE_CREATE_ACTIVITY_VIEW))
+            $response->assertRedirect(route('activities.create'))
                      ->assertSessionHasErrors($expectedErrors);
 
             foreach($invalidData as $key => $value) {
