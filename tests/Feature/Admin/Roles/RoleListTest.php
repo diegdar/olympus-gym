@@ -104,21 +104,23 @@ class RoleListTest extends TestCase
 
     public function test_edit_button_is_visible_depends_on_permission(): void
     {
+        $roleId = Role::first()->id;
         $this->assertButtonVisibility(
             'admin.roles.edit',
             'Editar',
             'admin.roles.edit',
-            1
+            $roleId
         );
     }
 
     public function test_destroy_button_is_visible_depends_on_permission(): void
     {
+        $roleId = Role::first()->id;
         $this->assertButtonVisibility(
             'admin.roles.destroy',
             'Borrar',
             'admin.roles.destroy',
-            1
+            $roleId
         );
     }
 }

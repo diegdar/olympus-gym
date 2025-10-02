@@ -1,8 +1,8 @@
 # LINKS
 [Consulta creacion BD-GEMINI][https://gemini.google.com/app/b0af00bbe67eece1]
 
-# Test 🧪
-- Factorizar tests
+# Login
+- impedir que se hagan mas de 3 intentos seguidos en menos de 10 minutos
 
 # ActivitySchedule
 hacer que en los dispositivos de tablet y movil se quede fija la hora de cada actividad al hacer scroll vertical.
