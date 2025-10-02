@@ -10,7 +10,6 @@ services:
         extra_hosts:
             - "host.docker.internal:host-gateway"
         environment:
-            - APP_ENV=local
             - APP_DEBUG=true
             - APP_KEY=${APP_KEY}
             - DB_CONNECTION=mysql
@@ -29,7 +28,7 @@ services:
             - MYSQL_DATABASE=gym
             - MYSQL_ROOT_PASSWORD=root
         volumes:
-            - mysql-data:/var/lib/mysql
+            - ./docker/mysql-data:/var/lib/mysql
         ports:
             - "3307:3306"
 

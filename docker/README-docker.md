@@ -122,5 +122,5 @@ Si la base de datos no se puede conectar:
 ## Notas Importantes
 
 - Los cambios en el código se reflejan automáticamente gracias al volumen montado
-- La base de datos persiste entre reinicios gracias al volumen mysql-data
+- La base de datos persiste entre reinicios gracias al directorio `./docker/mysql-data` en el sistema de archivos
 - Si modificas el Dockerfile, necesitas reconstruir los contenedores con `docker compose build --no-cache`
