@@ -34,7 +34,7 @@ class LoginViaFormTest extends TestCase
         $this->post('/login', [
             'email' => $user->email,
             'password' => 'wrong-password',
-        ])->assertStatus(405);
+        ])->assertStatus(302);
 
         $this->assertGuest();
     }
@@ -49,31 +49,31 @@ class LoginViaFormTest extends TestCase
             ->assertStatus(200);
 
         $this->assertAuthenticatedAs($user);
-    }    
+    }
 
     public static function accessProvider(): array
     {
         return [
             'member can access dashboard'
               => ['member', 'dashboard'],
-            'admin can access subscription stats' 
+            'admin can access subscription stats'
               => ['admin', 'admin.subscriptions.stats'],
-            'super-admin can access subscription stats' 
+            'super-admin can access subscription stats'
               => ['super-admin', 'admin.subscriptions.stats'],
         ];
     }
-    
+
 
     public function test_users_can_logout_by_role(): void
     {
         $roles = Role::pluck('name')->toArray();
         foreach ($roles as $role) {
             $user = $this->createUserAndAssignRole($role);
-    
+
             $response = $this->actingAs($user)->post('/logout');
-    
+
             $this->assertGuest();
-            $response->assertredirect(route('home'));            
+            $response->assertredirect(route('home'));
         }
     }
 
