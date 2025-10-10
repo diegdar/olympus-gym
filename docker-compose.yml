@@ -21,7 +21,20 @@ services:
             - XDEBUG_CONFIG=discover_client_host=true start_with_request=yes
         depends_on:
             - mysql
-
+    
+    vite:
+        build:
+            context: .
+            dockerfile: docker/Dockerfile
+        volumes:
+            - .:/var/www/html
+        working_dir: /var/www/html
+        command: npm run dev -- --host 0.0.0.0 --port 5173
+        ports:
+            - "5173:5173"
+        depends_on:
+            - app
+    
     mysql:
         image: mysql:8.0
         environment:
