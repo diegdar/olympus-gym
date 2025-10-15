@@ -42,7 +42,7 @@ class LoginViaFormTest extends TestCase
     #[DataProvider('accessProvider')]
     public function test_authenticated_users_can_access_expected_pages(string $role, string $route): void
     {
-        $user = $this->createUserAndAssignRole($role);
+        $user = $this->createUserAndSignIn($role);
 
         $this->actingAs($user)
             ->get(route($route))
@@ -68,7 +68,7 @@ class LoginViaFormTest extends TestCase
     {
         $roles = Role::pluck('name')->toArray();
         foreach ($roles as $role) {
-            $user = $this->createUserAndAssignRole($role);
+            $user = $this->createUserAndSignIn($role);
 
             $response = $this->actingAs($user)->post('/logout');
 

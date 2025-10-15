@@ -68,7 +68,7 @@ class NavbarTest extends TestCase
     public function test_navbar_shows_correct_links_for_authenticated_users(string $role, string $expectedLink): void
     {
         $this->seed(RoleSeeder::class);
-        $user = $this->createUserAndAssignRole($role);
+        $user = $this->createUserAndSignIn($role);
 
         $response = $this->actingAs($user)->get(route('home'));
 
