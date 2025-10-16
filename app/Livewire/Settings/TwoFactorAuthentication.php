@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Livewire\Settings;
 
 use Livewire\Component;
@@ -7,8 +7,8 @@ use Laravel\Fortify\Actions\ConfirmTwoFactorAuthentication;
 use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
 use Laravel\Fortify\Actions\EnableTwoFactorAuthentication;
 use Laravel\Fortify\Actions\GenerateNewRecoveryCodes;
-use Illuminate\Support\Facades\Auth;
-
+// use Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider;
+use \Illuminate\Validation\ValidationException;
 class TwoFactorAuthentication extends Component
 {
     /**
@@ -41,24 +41,23 @@ class TwoFactorAuthentication extends Component
      */
     public function mount(): void
     {
-        if ($this->enabled && is_null(Auth::user()->two_factor_confirmed_at)) {
+        if ($this->enabled && is_null(auth()->user()->two_factor_confirmed_at)) {
             // If 2FA is enabled but not confirmed, show the confirmation step
             $this->showingQrCode = true;
             $this->showingConfirmation = true;
-            $this->qrCode = Auth::user()->twoFactorQrCodeSvg();
+            $this->qrCode = auth()->user()->twoFactorQrCodeSvg();
         } elseif ($this->enabled) {
             // If 2FA is fully enabled, show recovery codes option
             $this->showingRecoveryCodes = false; // Don't show codes by default
         }
     }
 
-
     /**
      * Indicates if two factor authentication is enabled.
      */
     public function getEnabledProperty(): bool
     {
-        return ! empty(Auth::user()->two_factor_secret);
+        return ! empty(auth()->user()->two_factor_secret);
     }
 
     /**
@@ -66,14 +65,12 @@ class TwoFactorAuthentication extends Component
      */
     public function enableTwoFactorAuthentication(EnableTwoFactorAuthentication $enable): void
     {
-        $enable(Auth::user());
+        $enable(auth()->user());
 
         $this->showingQrCode = true;
         $this->showingConfirmation = true;
 
-        $this->qrCode = Auth::user()->twoFactorQrCodeSvg();
-
-        // Don't flash success here - wait for confirmation
+        $this->qrCode = auth()->user()->twoFactorQrCodeSvg();
     }
 
     /**
@@ -85,7 +82,13 @@ class TwoFactorAuthentication extends Component
             'code' => 'required|string|size:6',
         ]);
 
-        $confirm(Auth::user(), $this->code);
+        try {
+            $confirm(auth()->user(), $this->code);
+        } catch (ValidationException $e) {
+            throw ValidationException::withMessages([
+                'code' => 'El código de autenticación de dos factores proporcionado no es válido.',
+            ]);
+        }
 
         $this->showingQrCode = false;
         $this->showingConfirmation = false;
@@ -93,7 +96,8 @@ class TwoFactorAuthentication extends Component
 
         $this->code = null;
 
-        session()->flash('status', 'two-factor-authentication-enabled');
+        session()
+            ->flash('status', 'two-factor-authentication-enabled');
     }
 
     /**
@@ -101,13 +105,14 @@ class TwoFactorAuthentication extends Component
      */
     public function disableTwoFactorAuthentication(DisableTwoFactorAuthentication $disable): void
     {
-        $disable(Auth::user());
+        $disable(auth()->user());
 
         $this->showingQrCode = false;
         $this->showingConfirmation = false;
         $this->showingRecoveryCodes = false;
 
-        session()->flash('status', 'two-factor-authentication-disabled');
+        session()
+            ->flash('status', 'two-factor-authentication-disabled');
     }
 
     /**
@@ -115,7 +120,7 @@ class TwoFactorAuthentication extends Component
      */
     public function regenerateRecoveryCodes(GenerateNewRecoveryCodes $generate): void
     {
-        $generate(Auth::user());
+        $generate(auth()->user());
 
         $this->showingRecoveryCodes = true;
     }
@@ -126,7 +131,7 @@ class TwoFactorAuthentication extends Component
     public function showQrCode(): void
     {
         $this->showingQrCode = true;
-        $this->qrCode = Auth::user()->twoFactorQrCodeSvg();
+        $this->qrCode = auth()->user()->twoFactorQrCodeSvg();
     }
 
     /**
