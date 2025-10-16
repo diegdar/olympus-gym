@@ -68,7 +68,7 @@ class IntroductionTest extends TestCase
     {
         $this->seed(RoleSeeder::class);
 
-        $user = $this->createUserAndAssignRole('member');
+        $user = $this->createUserAndSignIn('member');
 
         $response = $this->actingAs($user)->get(route('home'));
 
