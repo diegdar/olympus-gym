@@ -16,11 +16,11 @@ RUN apt-get update && apt-get install -y \
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
 
-# Install and enable Xdebug for PHP debugging
+# Install and enable Xdebug for PHP debugging (commented out for Codespaces stability)
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 
-# Copy custom Xdebug configuration
+# Copy custom Xdebug configuration (commented out)
 COPY docker/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # Clean apt cache to reduce image size
@@ -53,6 +53,7 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/conf-availab
 # Create necessary directories and assign permissions for Laravel
 RUN mkdir -p /var/www/html/storage/framework/{sessions,views,cache} \
     && mkdir -p /var/www/html/storage/logs \
+    && mkdir -p /var/www/html/bootstrap/cache \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 777 /var/www/html/storage \
     && chmod -R 777 /var/www/html/bootstrap/cache

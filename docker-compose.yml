@@ -18,10 +18,10 @@ services:
             - DB_DATABASE=${DB_DATABASE}
             - DB_USERNAME=${DB_USERNAME}
             - DB_PASSWORD=${DB_PASSWORD}
-            - XDEBUG_CONFIG=discover_client_host=true start_with_request=yes
+            # - XDEBUG_CONFIG=discover_client_host=true start_with_request=yes
         depends_on:
             - mysql
-    
+
     vite:
         build:
             context: .
@@ -34,7 +34,7 @@ services:
             - "5173:5173"
         depends_on:
             - app
-    
+
     mysql:
         image: mysql:8.0
         environment:
@@ -45,16 +45,16 @@ services:
         ports:
             - "3308:3306"
 
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        ports:
-            - "8082:80"
-        environment:
-            - PMA_HOST=mysql
-            - PMA_USER=${DB_USERNAME}
-            - PMA_PASSWORD=${DB_PASSWORD}
-        depends_on:
-            - mysql
+    # phpmyadmin:  # Commented out to reduce resource usage in Codespaces
+    #     image: phpmyadmin/phpmyadmin
+    #     ports:
+    #         - "8082:80"
+    #     environment:
+    #         - PMA_HOST=mysql
+    #         - PMA_USER=${DB_USERNAME}
+    #         - PMA_PASSWORD=${DB_PASSWORD}
+    #     depends_on:
+    #         - mysql
 
 volumes:
     mysql-data:
