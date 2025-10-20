@@ -58,7 +58,7 @@
 
                     <div class="mt-4 max-w-xl text-sm text-gray-600 dark:text-gray-400">
                         <p class="font-semibold">
-                            {{ __('Clave de Configuración') }}: {{ decrypt(auth()->user()->two_factor_secret) }}
+                            {{ __('Clave de configuración') }}: {{ decrypt(auth()->user()->two_factor_secret) }}
                         </p>
                     </div>
 
@@ -93,7 +93,7 @@
                 @else
                     @if ($showingRecoveryCodes)
                         <flux:button wire:click="regenerateRecoveryCodes" variant="filled" class="mr-3">
-                            {{ __('Regenerar Códigos de Recuperación') }}
+                            {{ __('Regenerar códigos de recuperación') }}
                         </flux:button>
                     @elseif ($showingConfirmation)
                         <flux:button wire:click="confirmTwoFactorAuthentication" variant="primary" class="mr-3">
@@ -101,7 +101,7 @@
                         </flux:button>
                     @else
                         <flux:button wire:click="showRecoveryCodes" variant="filled" class="mr-3">
-                            {{ __('Mostrar Códigos de Recuperación') }}
+                            {{ __('Mostrar códigos de recuperación') }}
                         </flux:button>
                     @endif
 
