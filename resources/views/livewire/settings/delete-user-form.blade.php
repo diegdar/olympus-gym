@@ -4,11 +4,13 @@
         <flux:subheading>{{ __('Eliminar su cuenta y todos sus recursos') }}</flux:subheading>
     </div>
 
-    <flux:modal.trigger name="confirm-user-deletion">
-        <flux:button variant="danger" x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">
-            {{ __('Eliminar cuenta') }}
-        </flux:button>
-    </flux:modal.trigger>
+    <div class="mb-15">
+        <flux:modal.trigger name="confirm-user-deletion" >
+            <flux:button variant="danger" x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">
+                {{ __('Eliminar cuenta') }}
+            </flux:button>
+        </flux:modal.trigger>
+    </div>
 
     <flux:modal name="confirm-user-deletion" :show="$errors->isNotEmpty()" focusable class="max-w-lg">
         <form wire:submit="deleteUser" class="space-y-6">
