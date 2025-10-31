@@ -25,6 +25,9 @@
     <x-navbar>
     </x-navbar>
     
+    <!-- Floating Intro Button -->
+    <x-floating-intro-button />
+    
     <!-- Main -->
     <main>
         {{ $content }}

@@ -1,6 +1,21 @@
 # LINKS
 [Consulta creacion BD-GEMINI][https://gemini.google.com/app/b0af00bbe67eece1]
 
+# DarkMode
+- hacer que las vistas Inicio, Instalaciones, Servicios y Contacto muestren un fondo claro en modo claro.
+
+# vista activity-schedules
+hacer que la ventana del calendario llegue hasta abajo del viewport
+
+# footer
+Agregar mas cosas en el footer:
+- Mover Telefono(desde contacto) al footer.
+- Mover email(desde contacto) al footer. 
+- Mover(desde contacto) redes sociales al footer.
+
+# vista Instalaciones, Servicios
+Hacer la vista mas parecida a un gym real, cambiar el texto por bullet points, hacer que las imagenes tengan una estructura mas moderna(utilizar grid).
+
 ## ⚠️⚠️Hostinger
 Preguntar porque me muestra en algunas redes la pagina como peligrosa.
 
