@@ -4,9 +4,6 @@
 # DarkMode
 - hacer que las vistas Inicio, Instalaciones, Servicios y Contacto muestren un fondo claro en modo claro.
 
-# vista activity-schedules
-hacer que la ventana del calendario llegue hasta abajo del viewport
-
 # footer
 Agregar mas cosas en el footer:
 - Mover Telefono(desde contacto) al footer.
