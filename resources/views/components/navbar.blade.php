@@ -24,12 +24,6 @@
         <div id="nav-links" class="sm:flex w-full sm:m-0 hidden">
             {{-- web-links --}}
             <div class="sm:flex justify-around sm:flex-row w-full gap-4 text-xl sm:text-lg md:text-xl lg:text-2xl xl:text-3xl fond-bold">
-                <!-- <article
-                    class="flex sm:justify-center w-auto pt-3 border-b-3 hover:border-yellow-200 transition-colors duration-300 {{ request()->routeIs('app-info') ? 'border-[#c8a27a]' : 'border-transparent hover:border-yellow-500' }}">
-                    <a href="{{ route('app-info') }}">
-                        Introduccion
-                    </a>
-                </article> -->
                 <article
                     class="flex sm:justify-center w-auto pt-3 border-b-3 hover:border-yellow-200 transition-colors duration-300 {{ request()->routeIs('home') ? 'border-[#c8a27a]' : 'border-transparent hover:border-yellow-500' }}">
                     <a href="{{ route('home') }}">

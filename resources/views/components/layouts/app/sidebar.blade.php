@@ -21,9 +21,6 @@
         {{-- Main Panel --}}
         <flux:navlist variant="outline">
             <flux:navlist.group heading="Panel Principal" class="grid">
-                <flux:navlist.item icon="information-circle" :href="route('app-info')" :current="request()->routeIs('app-info')"
-                    wire:navigate>{{ __('Introduccion') }}
-                </flux:navlist.item>
                 <flux:navlist.item icon="home" :href="route('home')" :current="request()->routeIs('home')"
                     wire:navigate>{{ __('Inicio') }}
                 </flux:navlist.item>
