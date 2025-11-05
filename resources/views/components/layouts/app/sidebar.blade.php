@@ -6,21 +6,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
-<body class="min-h-screen flex flex-col bg-white dark:bg-zinc-800">    <flux:sidebar sticky stashable class="z-25 border-r border-zinc-200 bg-zinc-50
-                                     dark:border-zinc-700 dark:bg-zinc-900">
+<body class="min-h-screen flex flex-col bg-white dark:bg-zinc-800">    
+    <flux:sidebar sticky stashable 
+        class="z-25 border-r border-zinc-200 bg-zinc-300
+            dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
-
-        {{-- My web icon --}}
-        <div class="">
-            <a href="https://diegochacondev.es" target="_blank">
-                <img src="{{ asset('img/logos/my-web-logo.webp') }}" class="w-[50px] h-[40px]"
-                    alt="logo Diego Chacon que redirige a su sitio web" title="Ir a portfolio Diego Chacon" />
-            </a>
-        </div>
 
         {{-- Main Panel --}}
         <flux:navlist variant="outline">
-            <flux:navlist.group heading="Panel Principal" class="grid">
+            <flux:navlist.group heading="Panel Principal" class="grid font-bold">
                 <flux:navlist.item icon="home" :href="route('home')" :current="request()->routeIs('home')"
                     wire:navigate>{{ __('Inicio') }}
                 </flux:navlist.item>
@@ -44,7 +38,7 @@
         {{-- Admin Panel --}}
         @can('admin.panel')
             <flux:navlist variant="outline">
-                <flux:navlist.group heading="Gestion Operativa" class="grid">
+                <flux:navlist.group heading="Gestion Operativa" class="grid font-bold text-red-500">
                     {{-- Subscription Stats --}}
                     @can('admin.subscriptions.stats')
                         <flux:navlist.item icon="chart-pie" :href="route('admin.subscriptions.stats')"

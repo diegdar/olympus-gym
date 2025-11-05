@@ -11,7 +11,14 @@
             {{-- logo --}}
             <div class="flex w-full max-w-sm flex-col gap-2">
                 <a href="{{ route('home') }}" class="flex flex-col items-center gap-2 font-medium" wire:navigate>
-                        <img src="{{ asset('img/logos/gym-logo.webp') }}" class="w-[100px] h-[80px]" alt="logo gimnasio" />
+                        <!-- logo: light-mode -->
+                        <img src="{{ asset('img/logos/gym-logo-for-light-mode.webp') }}"
+                            alt="Logo del gimnasio" 
+                            class="block dark:hidden w-[120px] h-[100px] object-contain" />
+                        <!-- logo: dark-mode -->
+                        <img src="{{ asset('img/logos/gym-logo-for-dark-mode.webp') }}"
+                            alt="Logo del gimnasio" 
+                            class="hidden dark:block w-[120px] h-[100px] object-contain" />                         
                         <p class="text-sm fond-bold">Olympus Gym</p>
                     <span class="sr-only">{{ config('app.name', 'Laravel') }}</span>
                 </a>

@@ -1,9 +1,6 @@
 # LINKS
 [Consulta creacion BD-GEMINI][https://gemini.google.com/app/b0af00bbe67eece1]
 
-# DarkMode
-- hacer que las vistas Inicio, Instalaciones, Servicios y Contacto muestren un fondo claro en modo claro.
-
 # footer
 Agregar mas cosas en el footer:
 - Mover Telefono(desde contacto) al footer.
