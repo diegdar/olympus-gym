@@ -1,12 +1,6 @@
 # LINKS
 [Consulta creacion BD-GEMINI][https://gemini.google.com/app/b0af00bbe67eece1]
 
-# footer
-Agregar mas cosas en el footer:
-- Mover Telefono(desde contacto) al footer.
-- Mover email(desde contacto) al footer. 
-- Mover(desde contacto) redes sociales al footer.
-
 # vista Instalaciones, Servicios
 Hacer la vista mas parecida a un gym real, cambiar el texto por bullet points, hacer que las imagenes tengan una estructura mas moderna(utilizar grid).
 
