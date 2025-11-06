@@ -204,10 +204,8 @@
     </flux:header>
 
     {{ $slot }}
-
+    
     @fluxScripts
-
-    <x-footer />
 </body>
-
+ 
 </html>
