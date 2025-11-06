@@ -1,0 +1,41 @@
+{
+    "name": "Laravel Gym",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "windsorf.codeium",
+                "kilocode.kilo-code",
+                "devsense.phptools-vscode",
+                "winnie.laravel-extension-pack",
+                "donjayamanne.git-extension-pack",
+                "mhutchie.git-graph",
+                "oderwat.indent-rainbow",
+                "bradlc.vscode-tailwindcss",
+                "formulahendry.auto-rename-tag",
+                "formulahendry.auto-close-tag",
+                "ms-azuretools.vscode-docker",
+                "database-client.database-client",
+                "database-client.database-client-jdbc"
+            ]
+        }
+    },
+    "forwardPorts": [8089, 5173, 3308],
+    "portsAttributes": {
+        "8089": {
+            "label": "Laravel App",
+            "onAutoForward": "notify"
+        },
+        "5173": {
+            "label": "Application",
+            "onAutoForward": "notify"
+        },
+        // "8081": {
+        //     "label": "phpMyAdmin",
+        //     "onAutoForward": "notify"
+        // },
+        "3307": {
+            "label": "MySQL",
+            "onAutoForward": "notify"
+        }
+    }
+}

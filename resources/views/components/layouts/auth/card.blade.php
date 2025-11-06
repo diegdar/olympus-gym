@@ -8,7 +8,12 @@
             <div class="flex w-full max-w-md flex-col gap-6">
                 <a href="{{ route('home') }}" class="flex flex-col items-center gap-2 font-medium" wire:navigate>
                     <span class="flex h-9 w-9 items-center justify-center rounded-md">
-                        <img src="{{ asset('img/logos/gym-logo.webp') }}" alt="Logo del gimnasio" class="h-9 w-9 object-contain" />
+                        <img src="{{ asset('img/logos/gym-logo-for-light-mode.webp') }}"
+                            alt="Logo del gimnasio" 
+                            class="block dark:hidden h-9 w-9 object-contain" />
+                        <img src="{{ asset('img/logos/gym-logo-for-dark-mode.webp') }}"
+                            alt="Logo del gimnasio" 
+                            class="hidden dark:block h-9 w-9 object-contain" />
                     </span>
 
                     <span class="sr-only">{{ config('app.name', 'Laravel') }}</span>

@@ -34,7 +34,7 @@
 
 <div {{ $attributes->class('block space-y-[2px]') }}>
     <div class="px-1 py-2">
-        <div class="inline-block text-md font-bold border-b-2 border-yellow-400 text-zinc-400">{{ $heading }}</div>
+        <div class="inline-block text-xl font-bold border-b-3 border-black dark:border-yellow-400 text-yellow-600 dark:boder-yellow-400 dark:text-zinc-400">{{ $heading }}</div>
     </div>
 
     <div>

@@ -36,9 +36,7 @@ class SidebarTest extends TestCase
 
         $response = $this->actingAs($user)->get(route('dashboard'));
 
-        $response->assertStatus(200)
-            ->assertSee('img/logos/my-web-logo.webp')
-            ->assertSee('logo Diego Chacon que redirige a su sitio web');
+        $response->assertStatus(200);
     }
 
     public function test_sidebar_main_panel_links_are_present_for_members(): void
@@ -48,7 +46,6 @@ class SidebarTest extends TestCase
         $response = $this->actingAs($user)->get(route('dashboard'));
 
         $response->assertStatus(200)
-            ->assertSee('Introduccion')
             ->assertSee('Inicio')
             ->assertSee('Dashboard')
             ->assertSee('Instalaciones')

@@ -9,7 +9,14 @@
                 <div class="absolute inset-0 bg-neutral-900"></div>
                 <a href="{{ route('home') }}" class="relative z-20 flex items-center text-lg font-medium" wire:navigate>
                     <span class="flex h-10 w-10 items-center justify-center rounded-md">
-                    <img src="{{ asset('img/logos/gym-logo.webp') }}" class="w-[50px] h-[40px]" alt="logo gimnasio" />
+                    <!-- logo: light-mode -->
+                    <img src="{{ asset('img/logos/gym-logo-for-light-mode.webp') }}"
+                        alt="Logo del gimnasio" 
+                        class="block dark:hidden w-[120px] h-[100px] object-contain" />
+                    <!-- logo: dark-mode -->
+                    <img src="{{ asset('img/logos/gym-logo-for-dark-mode.webp') }}"
+                        alt="Logo del gimnasio" 
+                        class="hidden dark:block w-[120px] h-[100px] object-contain" />                         
                     <p class="text-sm fond-bold">Olympus Gym</p>                    </span>
                     {{ config('app.name', 'Laravel') }}
                 </a>

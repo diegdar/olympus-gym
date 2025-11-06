@@ -69,7 +69,7 @@
             placeholder="Tu mensaje" 
             autocomplete="off"
             {{ $isSubmitted ? 'disabled' : '' }}
-            class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-2 focus:border-[#fec544] focus:ring focus:ring-blue-200 disabled:bg-black-100 disabled:cursor-not-allowed"></textarea>
+            class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-2 focus:border-[#fec544] focus:ring focus:ring-blue-200 disabled:bg-black-100 disabled:cursor-not-allowed resize-y min-h-[150px] max-h-[300px] field-sizing-content"></textarea>
             @error('message') 
                 <div class="mt-1 text-sm text-red-600">*{{ $message }}</div> 
             @enderror

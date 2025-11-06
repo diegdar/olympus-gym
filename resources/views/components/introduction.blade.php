@@ -1,13 +1,13 @@
-<div>
+<div class="mb-20">
     <h1 class="font-bold text-center mb-2 text-2nd">Bienvenido a Olympus Gym</h1>
     <p class="text-2xl font-semibold text-center font-shadows-light mb-2">tu santuario del fitness</p>
     <!-- abanico de imagenes -->
     <section class="flex w-full h-[430px]">
-        <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hidden sm:block hover:contrast-125" src="{{ asset('img/home/crossfit_class.webp') }}" alt="personas haciendo crossfit">
-        <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hidden sm:block hover:contrast-125" src="{{ asset('img/home/exercise_two_girls.webp') }}" alt="una chica instruyendo a otra como hacer ejercicio">
-        <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hidden md:block hover:contrast-125" src="{{ asset('img/home/girl_using_small_weights.webp') }}" alt="chica haciendo ejercicio con pequeños pesos">
-        <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/home/spinning.webp') }}" alt="chico haciendo spinning">
-        <img class="w-0 grow object-cover opacity-50 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/home/zumba_class.webp') }}" alt="personas haciendo una clase de zumba">
+        <img class="w-0 grow object-cover opacity-70 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hidden sm:block hover:contrast-125" src="{{ asset('img/home/crossfit_class.webp') }}" alt="personas haciendo crossfit">
+        <img class="w-0 grow object-cover opacity-70 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hidden sm:block hover:contrast-125" src="{{ asset('img/home/exercise_two_girls.webp') }}" alt="una chica instruyendo a otra como hacer ejercicio">
+        <img class="w-0 grow object-cover opacity-70 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hidden md:block hover:contrast-125" src="{{ asset('img/home/girl_using_small_weights.webp') }}" alt="chica haciendo ejercicio con pequeños pesos">
+        <img class="w-0 grow object-cover opacity-100 sm:opacity-70 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/home/spinning.webp') }}" alt="chico haciendo spinning">
+        <img class="w-0 grow object-cover opacity-100 sm:opacity-70 transition-all duration-300 ease-in-out hover:cursor-crosshair hover:w-[300px] hover:opacity-100 hover:contrast-125" src="{{ asset('img/home/zumba_class.webp') }}" alt="personas haciendo una clase de zumba">
     </section>
     <!-- introduction gym text -->
     <section class="m-5 mt-3 sm:mt-15">

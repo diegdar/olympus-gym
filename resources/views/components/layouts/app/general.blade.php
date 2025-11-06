@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -17,6 +17,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     {{-- Tailwind styles --}}
     @vite('resources/css/app.css')
+    @fluxAppearance
     <title>{{ $title ?? 'Home' }}</title>
 </head>
 
@@ -24,6 +25,9 @@
     <!-- Navbar -->
     <x-navbar>
     </x-navbar>
+    
+    <!-- Floating Intro Button -->
+    <x-floating-intro-button />
     
     <!-- Main -->
     <main>

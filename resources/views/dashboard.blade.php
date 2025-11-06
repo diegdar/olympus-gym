@@ -1,7 +1,7 @@
 <x-layouts.app>
     @section('title', 'Dashboard')
 
-        <section class="space-y-8 mx-2 sm:mx-3 mt-2">
+        <section class="space-y-8 mx-2 sm:mx-3 mt-2 mb-8">
             {{-- Name and avatar --}}
             <div class="flex flex-col sm:flex-row sm:items-center gap-4">
                 <div class="flex items-center gap-4 justify-center sm:justify-start w-full sm:w-auto">
