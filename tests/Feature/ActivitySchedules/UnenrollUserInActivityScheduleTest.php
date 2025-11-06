@@ -32,8 +32,8 @@ class UnenrollUserInActivityScheduleTest extends TestCase
         ]);
 
     $activitySchedule->refresh();
-    $this->assertEquals(1, $activitySchedule->users()->count());  
-    }    
+    $this->assertEquals(1, $activitySchedule->users()->count());
+    }
 
     private function performUnenrollmentRequest(ActivitySchedule $activitySchedule)
     {
@@ -43,14 +43,14 @@ class UnenrollUserInActivityScheduleTest extends TestCase
     public function test_authorized_user_can_unenroll_in_an_activity_schedule(): void
     {
         $activitySchedule = ActivitySchedule::factory()->create();
-        
+
         foreach (
             $this->getAuthorizedRoles('activity.schedules.unenroll')
             as $authorizedRole
         ) {
-            $user = $this->createUserAndAssignRole($authorizedRole);
+            $user = $this->createUserAndSignIn($authorizedRole);
 
-            $this->performEnrollmentRequest($activitySchedule, $user);           
+            $this->performEnrollmentRequest($activitySchedule, $user);
 
              $this->performUnenrollmentRequest($activitySchedule)
                   ->assertStatus(302)
@@ -70,7 +70,7 @@ class UnenrollUserInActivityScheduleTest extends TestCase
     public function test_unauthorized_user_cannot_unenroll_in_an_activity_schedule(): void
     {
         $activitySchedule = ActivitySchedule::factory()->create();
-        $enrolledUser = $this->createUserAndAssignRole(
+        $enrolledUser = $this->createUserAndSignIn(
                 $this->getAuthorizedRoles('activity.schedules.enroll')[0]);
         $this->performEnrollmentRequest($activitySchedule, $enrolledUser);
 
@@ -78,14 +78,14 @@ class UnenrollUserInActivityScheduleTest extends TestCase
             $this->getUnauthorizedRoles('activity.schedules.unenroll')
             as $unauthorizedRole
         ) {
-            $this->createUserAndAssignRole($unauthorizedRole);
+            $this->createUserAndSignIn($unauthorizedRole);
 
             $this->performUnenrollmentRequest($activitySchedule);
             $this->assertDatabaseHas('activity_schedule_user', [
                 'activity_schedule_id' => $activitySchedule->id,
                 'user_id' => $enrolledUser->id,
             ]);
-            
+
             $activitySchedule->refresh();
             $this->assertEquals(1, $activitySchedule->users()->count());
         }

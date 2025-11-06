@@ -56,7 +56,7 @@ class ChangeSubscriptionTest extends TestCase
 
     public function test_validation_requires_subscription_id(): void
     {
-        $user = $this->createUserAndAssignRole('member');
+        $user = $this->createUserAndSignIn('member');
 
         $this->actingAs($user)
              ->from(route('member.subscription'))

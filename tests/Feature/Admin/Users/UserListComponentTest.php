@@ -84,7 +84,7 @@ class UserListComponentTest extends TestCase
     {
         User::factory()->count(15)->create();
         foreach ($this->authRolesForUsersList as $authorizedRole) {
-            $authorizedUser = $this->createUserAndAssignRole(roleName: $authorizedRole);
+            $authorizedUser = $this->createUserAndSignIn(roleName: $authorizedRole);
             Livewire::actingAs($authorizedUser)
                 ->test(UsersList::class)
                 ->set('search', 'test')
@@ -97,7 +97,7 @@ class UserListComponentTest extends TestCase
         User::factory()->create(['name' => 'Jane Smith']);
 
         foreach ($this->authRolesForUsersList as $authorizedRole) {
-            $authorizedUser = $this->createUserAndAssignRole(roleName: $authorizedRole);
+            $authorizedUser = $this->createUserAndSignIn(roleName: $authorizedRole);
             Livewire::actingAs($authorizedUser)
                 ->test(UsersList::class)
                 ->set('search', 'John')
@@ -111,7 +111,7 @@ class UserListComponentTest extends TestCase
         $user2 = User::factory()->create(['id' => 456]);
 
         foreach ($this->authRolesForUsersList as $authorizedRole) {
-            $authorizedUser = $this->createUserAndAssignRole(roleName: $authorizedRole);
+            $authorizedUser = $this->createUserAndSignIn(roleName: $authorizedRole);
             Livewire::actingAs($authorizedUser)
                 ->test(UsersList::class)
                 ->set('search', '123')
@@ -122,10 +122,10 @@ class UserListComponentTest extends TestCase
 
     public function test_can_filter_users_by_email()
     {
-        $user1 = $this->createUserAndAssignRole(attributes: ['email' => 'john@example.com']);
-        $user2 = $this->createUserAndAssignRole(attributes: ['email' => 'jane@test.com']);
+        $user1 = $this->createUserAndSignIn(attributes: ['email' => 'john@example.com']);
+        $user2 = $this->createUserAndSignIn(attributes: ['email' => 'jane@test.com']);
         foreach ($this->authRolesForUsersList as $authorizedRole) {
-            $authorizedUser = $this->createUserAndAssignRole(roleName: $authorizedRole);
+            $authorizedUser = $this->createUserAndSignIn(roleName: $authorizedRole);
             Livewire::actingAs($authorizedUser)
                 ->test(UsersList::class)
                 ->set('search', '@example.com')
@@ -139,11 +139,11 @@ class UserListComponentTest extends TestCase
         $role1 = Role::create(['name' => 'editor']);
         $role2 = Role::create(['name' => 'blogger']);
 
-        $user1 = $this->createUserAndAssignRole($role1->name);
-        $user2 = $this->createUserAndAssignRole($role2->name);
+        $user1 = $this->createUserAndSignIn($role1->name);
+        $user2 = $this->createUserAndSignIn($role2->name);
 
         foreach ($this->authRolesForUsersList as $authorizedRole) {
-            $authorizedUser = $this->createUserAndAssignRole(roleName: $authorizedRole);
+            $authorizedUser = $this->createUserAndSignIn(roleName: $authorizedRole);
             Livewire::actingAs($authorizedUser)
                 ->test(UsersList::class)
                 ->set('search', $role1->name)
@@ -157,12 +157,12 @@ class UserListComponentTest extends TestCase
         if (file_exists('/.dockerenv')) {
             $this->markTestSkipped('Skipped in Docker environment');
             return;
-        }        
+        }
 
         User::factory()->count(15)->create();
 
         foreach ($this->authRolesForUsersList as $authorizedRole) {
-            $authorizedUser = $this->createUserAndAssignRole(roleName: $authorizedRole);
+            $authorizedUser = $this->createUserAndSignIn(roleName: $authorizedRole);
             Livewire::actingAs($authorizedUser)
                 ->test(UsersList::class)
                 ->set('numberRows', 10)
@@ -177,7 +177,7 @@ class UserListComponentTest extends TestCase
     public function test_the_updateList_method_does_nothing_but_is_present_for_event_listening()
     {
         foreach ($this->authRolesForUsersList as $authorizedRole) {
-            $authorizedUser = $this->createUserAndAssignRole(roleName: $authorizedRole);
+            $authorizedUser = $this->createUserAndSignIn(roleName: $authorizedRole);
             Livewire::actingAs($authorizedUser)
                 ->test(UsersList::class)
                 ->call('updateList')
@@ -188,7 +188,7 @@ class UserListComponentTest extends TestCase
     private function assertButtonsVisibility(array $roles, string $text, bool $shouldSee): void
     {
         foreach ($roles as $roleName) {
-            $user = $this->createUserAndAssignRole(roleName: $roleName);
+            $user = $this->createUserAndSignIn(roleName: $roleName);
 
             $test = Livewire::actingAs($user)->test(UsersList::class);
 

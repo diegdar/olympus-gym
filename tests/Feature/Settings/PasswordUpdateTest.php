@@ -23,7 +23,7 @@ class PasswordUpdateTest extends TestCase
 
     public function test_password_can_be_updated(): void
     {
-        $user = $this->createUserAndAssignRole(attributes: ['password' => Hash::make('password')]);
+        $user = $this->createUserAndSignIn(attributes: ['password' => Hash::make('password')]);
 
         $this->actingAs($user);
 
@@ -40,7 +40,7 @@ class PasswordUpdateTest extends TestCase
 
     public function test_correct_password_must_be_provided_to_update_password(): void
     {
-        $user = $this->createUserAndAssignRole(attributes: ['password' => Hash::make('password')]);
+        $user = $this->createUserAndSignIn(attributes: ['password' => Hash::make('password')]);
 
         $this->actingAs($user);
 

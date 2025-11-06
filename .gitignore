@@ -20,9 +20,9 @@ yarn-error.log
 /.fleet
 /.idea
 /.nova
-/.vscode
 /.zed
 Pruebas-creacionBD-insercion_datos.sql
 /.github/copilot-instructions.md
 /packages-microsoft-prod.deb.2
 /docker/mysql-data
+.devcontainer/devcontainer.json

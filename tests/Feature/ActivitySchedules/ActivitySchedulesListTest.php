@@ -60,7 +60,7 @@ class ActivitySchedulesListTest extends TestCase
     private function assertButtonVisible(string $permission, string $text): void
     {
         foreach (
-            $this->getAuthorizedRoles($permission) 
+            $this->getAuthorizedRoles($permission)
             as $authorizedRole
         ) {
             $response = $this->getActivitiesScheduleListAs($authorizedRole);
@@ -140,7 +140,7 @@ class ActivitySchedulesListTest extends TestCase
             'Borrar'
         );
     }
-    
+
     public function test_enroll_button_is_visible_depends_on_permission(): void
     {
         ActivitySchedule::factory()->create();
@@ -165,11 +165,11 @@ class ActivitySchedulesListTest extends TestCase
             'end_datetime' => now()->addDay()->setTime(19, 30),
         ]);
 
-        $u1 = $this->createUserAndAssignRole('member');
-        $u2 = $this->createUserAndAssignRole('member');
+        $u1 = $this->createUserAndSignIn('member');
+        $u2 = $this->createUserAndSignIn('member');
         $schedule->users()->attach([$u1->id, $u2->id]);
 
-        $admin = $this->createUserAndAssignRole('admin');
+        $admin = $this->createUserAndSignIn('admin');
         $resp = $this->actingAs($admin)->get(route('activity.schedules.index'));
 
         $resp->assertStatus(200)

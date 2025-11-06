@@ -10,6 +10,7 @@ use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Settings\TwoFactorAuthentication;
 
 Route::get('/', function () {
     return view('home');
@@ -50,9 +51,14 @@ Route::middleware(['auth'])->group(function () {
 
     // Settings
     Route::redirect('settings', 'settings/profile');
-    Route::get('settings/profile', Profile::class)->name('settings.profile');
-    Route::get('settings/password', Password::class)->name('settings.password');
-    Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
+    Route::get('settings/profile', Profile::class)
+        ->name('settings.profile');
+    Route::get('settings/password', Password::class)
+        ->name('settings.password');
+    Route::get('settings/appearance', Appearance::class)
+        ->name('settings.appearance');
+    Route::get('settings/two-factor', TwoFactorAuthentication::class)
+        ->name('settings.two-factor');
 
     // Rooms
     Route::resource('rooms', RoomController::class)->names('rooms');
@@ -61,7 +67,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('activities', ActivityController::class)->names('activities');
 
     // ActivitiesSchedule
-    Route::prefix('activity-schedules')->group(function () {        
+    Route::prefix('activity-schedules')->group(function () {
         Route::get('my-reservations', [ActivityScheduleController::class, 'showUserReservations'])
             ->name('user.reservations');
 
@@ -77,8 +83,8 @@ Route::middleware(['auth'])->group(function () {
             ->name('activity.schedules.unenroll');
     });
     Route::resource('activity-schedules', ActivityScheduleController::class)
-    ->names('activity.schedules');   
-    
+    ->names('activity.schedules');
+
     // Subscriptions
     Route::get('member/my-subscription', [SubscriptionController::class, 'index'])
         ->name('member.subscription');

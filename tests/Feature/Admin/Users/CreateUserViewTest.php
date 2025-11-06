@@ -29,7 +29,7 @@ class CreateUserViewTest extends TestCase
     public function test_create_user_form_is_visible_for_authorized_users()
     {
         foreach ($this->authRolesToCreateUser as $authorizedRole) {
-            $user = $this->createUserAndAssignRole($authorizedRole);
+            $user = $this->createUserAndSignIn($authorizedRole);
 
             $response = $this->actingAs($user)->get(route('admin.users.index'));
 
@@ -46,7 +46,7 @@ class CreateUserViewTest extends TestCase
     public function test_create_user_form_is_hidden_for_unauthorized_users()
     {
         foreach ($this->unauthRolesToCreateUser as $unauthorizedRole) {
-            $user = $this->createUserAndAssignRole($unauthorizedRole);
+            $user = $this->createUserAndSignIn($unauthorizedRole);
 
             $response = $this->actingAs($user)->get(route('admin.users.index'));
 

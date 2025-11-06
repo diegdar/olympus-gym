@@ -1,0 +1,11 @@
+{
+    "code-runner.runInTerminal": true,
+    "code-runner.clearPreviousOutput": true,
+    "code-runner.executorMap": {
+        "javascript": "node"
+    },
+    "code-runner.saveFileBeforeRun": true,
+    "code-runner.reuseTerminal": true,
+    "code-runner.preserveFocus": false,
+    "workbench.editor.enablePreview": false
+}
