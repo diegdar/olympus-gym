@@ -10,7 +10,7 @@ use App\Models\Subscription;
 
 trait TestHelper
 {
-    /** 
+    /**
      * Get an array of authorized roles for a given permission name.
      *
      * @param string $permissionName
@@ -40,6 +40,18 @@ trait TestHelper
     }
 
     /**
+     * Creates a new user and assigns the specified role to the user.
+     *
+     * @param string $roleName The name of the role to assign to the user. Defaults to 'member'.
+     * @return User The created user with the assigned role.
+     */
+    public function createUser(string $roleName = 'member'): User
+    {
+        return User::factory()
+                ->create()->assignRole($roleName);
+    }
+
+    /**
      * Perform an action as a user with the specified role.
      *
      * @param string $roleName The name of the role to assign to the user.
@@ -47,32 +59,36 @@ trait TestHelper
      */
     public function actingAsRole(string $roleName): self
     {
-        $user = User::factory()->create()->assignRole($roleName);
+        $user = User::factory()
+                 ->create()
+                    ->assignRole($roleName);
         return $this->actingAs($user);
     }
-    
+
     /**
-     * Create a user with the specified attributes and assign a role to the user.
+     * Create User and sign in as that user.
      *
-     * @param string $roleName The name of the role to assign to the user. Defaults to 'member'.
-     * @param array $attributes An array of attributes to set on the user.
-     * @return User The created user instance with the assigned role.
+     * @param string $roleName The name of the role to assign to the user.
+     * @param array $attributes The attributes to create the user with.
+     * @return User The created user.
      */
-    public function createUserAndAssignRole(string $roleName = 'member', array $attributes = []): User
+    public function createUserAndSignIn(string $roleName = 'member', array $attributes = []): User
     {
-        $user = User::factory()->create($attributes)->assignRole($roleName);
+        $user = User::factory()
+                 ->create($attributes)
+                    ->assignRole($roleName);
         $this->actingAs($user);
         return $user;
     }
 
     /**
      * Create a user with a 'member' role and assign a subscription to the user.
-     * 
+     *
      * The subscription's start date is set to the current date and time. The end date is
      * calculated by adding the duration of the subscription's fee to the start date. The
      * subscription's status will be set to 'active' by default, but can be changed by
      * passing a different value to the $status parameter.
-     * 
+     *
      * @param string $status The status to assign to the subscription. Defaults to 'active'.
      * @return array An array containing the created user, the assigned subscription, the start date,
      * and the end date.
@@ -80,11 +96,11 @@ trait TestHelper
     public function createSubscription(string $status = 'active'): array
     {
         $subscription = Subscription::where('fee', 'monthly')->first();
-        $user = $this->createUserAndAssignRole('member');
-        
+        $user = $this->createUserAndSignIn('member');
+
         $startDate = now();
         $endDate = $startDate->copy()->addMonths($subscription->duration);
-        
+
         $user->subscriptions()->attach($subscription->id, [
             'start_date' => $startDate,
             'end_date' => $endDate,
@@ -93,7 +109,7 @@ trait TestHelper
         ]);
 
         return [$user, $subscription, $startDate, $endDate];
-    }    
+    }
 
 
 }
