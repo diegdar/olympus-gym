@@ -26,11 +26,6 @@ class Login extends Component
 
     /**
      * Handle an incoming authentication request.
-     *
-     * Validates the input, checks for rate limiting, attempts login,
-     * handles two-factor authentication if required, and completes the login process.
-     *
-     * @return void
      */
     public function login(): void
     {
@@ -38,7 +33,7 @@ class Login extends Component
 
         $this->ensureIsNotRateLimited();
 
-        if (!$this->attemptLogin()) {
+        if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
             RateLimiter::hit($this->throttleKey());//increment number of failed login attempts
 
             throw ValidationException::withMessages([
@@ -46,78 +41,14 @@ class Login extends Component
             ]);
         }
 
-        RateLimiter::clear($this->throttleKey());
-
-        if ($this->requiresTwoFactor()) {
-            $this->initiateTwoFactorChallenge();
-            return;
-        }
-
-        $this->completeLogin();
-    }
-
-    /**
-     * Attempt to authenticate the user.
-     */
-    private function attemptLogin(): bool
-    {
-        return Auth::attempt(
-                [
-                    'email' => $this->email,
-                    'password' => $this->password
-                ],
-                $this->remember);
-    }
-
-    /**
-     * Check if the user requires two-factor authentication.
-     */
-    private function requiresTwoFactor(): bool
-    {
-        $user = Auth::user();
-        return $user->two_factor_secret
-            && $user->two_factor_confirmed_at;
-    }
-
-
-    /**
-     * Initiate a two-factor authentication challenge.
-     *
-     * Stores the user ID in the session to be used later, due to the the user is logged out for security, regenerates the session,
-     * and redirects the user to the two-factor login page.
-     * @return void
-     */
-    private function initiateTwoFactorChallenge(): void
-    {
-        Session::put('login.id', Auth::user()->id);
-        Auth::logout();
+        RateLimiter::clear($this->throttleKey());//clear failed login attempts
         Session::regenerate();
-        $this->redirect(route('two-factor.login'),
-                navigate: true);
+
+        $this->redirectIntended(default: $this->postLoginRedirect(), navigate: true);
     }
 
     /**
-     * Completes the login process after the user has been authenticated.
-     *
-     * Generates a new session ID to protect against session fixation attacks,
-     * and redirects the user to their intended destination.
-     *
-     * @return void
-     */
-    private function completeLogin(): void
-    {
-        Session::regenerate();
-        $this->redirectIntended(default: $this->postLoginRedirect(),
-                navigate: true);
-    }
-
-    /**
-     * Returns the URL that the user should be redirected to after logging in.
-     *
-     * If the user has the "member" role, redirects to the dashboard.
-     * Otherwise, redirects to the admin subscription statistics page.
-     *
-     * @return string
+     * Decide post-login redirect based on role.
      */
     private function postLoginRedirect(): string
     {
@@ -125,20 +56,11 @@ class Login extends Component
         if ($user?->hasRole('member')) {
             return route('dashboard', absolute: false);
         }
-        return route('admin.subscriptions.stats',
-                absolute: false);
+        return route('admin.subscriptions.stats', absolute: false);
     }
 
-
     /**
-     * Checks if the user has exceeded the maximum number of login attempts
-     * and throws a ValidationException if so.
-     *
-     * If the user has exceeded the maximum number of login attempts, a Lockout
-     * event is triggered and a validation exception is thrown with a message
-     * showing the user the number of seconds they should wait before trying again.
-     *
-     * @throws ValidationException
+     * Ensure the authentication request is not rate limited.
      */
     protected function ensureIsNotRateLimited(): void
     {
@@ -159,12 +81,7 @@ class Login extends Component
     }
 
     /**
-     * Returns a throttle key combining the email and IP to track the number of failed login attempts.
-     *
-     * The throttle key is used to identify the user and their IP address, and is used to
-     * rate limit the number of login attempts from a given IP address.
-     *
-     * @return string
+     * Get the authentication rate limiting throttle key.
      */
     protected function throttleKey(): string
     {

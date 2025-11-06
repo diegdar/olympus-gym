@@ -21,7 +21,7 @@ class SidebarTest extends TestCase
 
     public function test_sidebar_renders_on_dashboard_page(): void
     {
-        $user = $this->createUserAndSignIn('member');
+        $user = $this->createUserAndAssignRole('member');
 
         $response = $this->actingAs($user)->get(route('dashboard'));
 
@@ -32,7 +32,7 @@ class SidebarTest extends TestCase
 
     public function test_sidebar_logo_is_present(): void
     {
-        $user = $this->createUserAndSignIn('member');
+        $user = $this->createUserAndAssignRole('member');
 
         $response = $this->actingAs($user)->get(route('dashboard'));
 
@@ -43,7 +43,7 @@ class SidebarTest extends TestCase
 
     public function test_sidebar_main_panel_links_are_present_for_members(): void
     {
-        $user = $this->createUserAndSignIn('member');
+        $user = $this->createUserAndAssignRole('member');
 
         $response = $this->actingAs($user)->get(route('dashboard'));
 
@@ -58,7 +58,7 @@ class SidebarTest extends TestCase
 
     public function test_sidebar_admin_panel_is_visible_for_admins(): void
     {
-        $user = $this->createUserAndSignIn('admin');
+        $user = $this->createUserAndAssignRole('admin');
 
         $response = $this->actingAs($user)->get(route('admin.users.index'));
 
@@ -74,7 +74,7 @@ class SidebarTest extends TestCase
 
     public function test_sidebar_admin_panel_is_hidden_for_members(): void
     {
-        $user = $this->createUserAndSignIn('member');
+        $user = $this->createUserAndAssignRole('member');
 
         $response = $this->actingAs($user)->get(route('dashboard'));
 
@@ -85,7 +85,7 @@ class SidebarTest extends TestCase
 
     public function test_sidebar_member_panel_links_are_present(): void
     {
-        $user = $this->createUserAndSignIn('member');
+        $user = $this->createUserAndAssignRole('member');
 
         $response = $this->actingAs($user)->get(route('dashboard'));
 
@@ -97,7 +97,7 @@ class SidebarTest extends TestCase
 
     public function test_sidebar_navigation_links_have_correct_routes(): void
     {
-        $user = $this->createUserAndSignIn('member');
+        $user = $this->createUserAndAssignRole('member');
 
         $response = $this->actingAs($user)->get(route('dashboard'));
 
@@ -112,7 +112,7 @@ class SidebarTest extends TestCase
 
     public function test_sidebar_highlights_active_link(): void
     {
-        $user = $this->createUserAndSignIn('member');
+        $user = $this->createUserAndAssignRole('member');
 
         // Test dashboard page highlights dashboard link
         $response = $this->actingAs($user)->get(route('dashboard'));
@@ -122,7 +122,7 @@ class SidebarTest extends TestCase
 
     public function test_sidebar_user_profile_dropdown_is_present(): void
     {
-        $user = $this->createUserAndSignIn('member');
+        $user = $this->createUserAndAssignRole('member');
 
         $response = $this->actingAs($user)->get(route('dashboard'));
 
@@ -136,7 +136,7 @@ class SidebarTest extends TestCase
 
     public function test_sidebar_reservations_link_is_visible_with_permission(): void
     {
-        $user = $this->createUserAndSignIn('member');
+        $user = $this->createUserAndAssignRole('member');
 
         $response = $this->actingAs($user)->get(route('dashboard'));
 
@@ -147,7 +147,7 @@ class SidebarTest extends TestCase
 
     public function test_sidebar_subscription_link_is_visible_with_permission(): void
     {
-        $user = $this->createUserAndSignIn('member');
+        $user = $this->createUserAndAssignRole('member');
 
         $response = $this->actingAs($user)->get(route('dashboard'));
 
@@ -166,15 +166,15 @@ class SidebarTest extends TestCase
                 'member',
                 [
                 // Panel Principal
-                    'home',
-                    'app-info',
-                    'dashboard',
-                    'facilities',
-                    'services',
-                    'contact',
+                    'home', 
+                    'app-info', 
+                    'dashboard', 
+                    'facilities', 
+                    'services', 
+                    'contact', 
                 //   Mis Gestiones
-                    'activity.schedules.index',
-                    'user.reservations',
+                    'activity.schedules.index', 
+                    'user.reservations', 
                     'member.subscription'
                 ],
                 [
@@ -191,8 +191,8 @@ class SidebarTest extends TestCase
                 'admin',
                 [
                 // Panel Principal
-                    'home',
-                    'app-info',
+                    'home', 
+                    'app-info', 
                 //   Gestion Operativa
                     'admin.subscriptions.stats',
                     'admin.users.index',
@@ -203,12 +203,12 @@ class SidebarTest extends TestCase
                 ],
                 [
                 // Panel Principal
-                    'dashboard',
-                    'facilities',
-                    'services',
+                    'dashboard', 
+                    'facilities', 
+                    'services', 
                     'contact',
                 //   Mis Gestiones
-                    'user.reservations',
+                    'user.reservations', 
                     'member.subscription'
                 ],
                 'admin.subscriptions.stats'
@@ -217,8 +217,8 @@ class SidebarTest extends TestCase
                 'super-admin',
                 [
                 // Panel Principal
-                    'home',
-                    'app-info',
+                    'home', 
+                    'app-info', 
                 //   Gestion Operativa
                     'admin.subscriptions.stats',
                     'admin.users.index',
@@ -226,17 +226,17 @@ class SidebarTest extends TestCase
                 ],
                 [
                 // Panel Principal
-                    'dashboard',
-                    'facilities',
-                    'services',
+                    'dashboard', 
+                    'facilities', 
+                    'services', 
                     'contact',
                 //   Mis Gestiones
-                    'user.reservations',
+                    'user.reservations', 
                     'member.subscription',
                 // Gestion Operativa
                     'rooms.index',
                     'activities.index',
-                    'activity.schedules.index',
+                    'activity.schedules.index',                
                 ],
                 'admin.subscriptions.stats'
             ],
@@ -246,7 +246,7 @@ class SidebarTest extends TestCase
     #[DataProvider('roleBasedSidebarProvider')]
     public function test_sidebar_shows_correct_panels_and_routes_based_on_role(string $role, array $expectedRoutes, array $hiddenRoutes, string $baseRoute = 'dashboard'): void
     {
-        $user = $this->createUserAndSignIn($role);
+        $user = $this->createUserAndAssignRole($role);
 
         $response = $this->actingAs($user)->get(route($baseRoute));
 

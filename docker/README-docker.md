@@ -4,8 +4,8 @@ Esta guía explica cómo trabajar con los contenedores Docker del proyecto Larav
 
 ## URLs del Proyecto
 
-- **Aplicación Web**: [http://localhost:8089](http://localhost:8089)
-- **phpMyAdmin**: [http://localhost:8082](http://localhost:8082)
+- **Aplicación Web**: [http://localhost:8090](http://localhost:8090)
+- **phpMyAdmin**: [http://localhost:8083](http://localhost:8083)
   - Usuario: root
   - Contraseña: root
 
@@ -115,10 +115,9 @@ Si la base de datos no se puede conectar:
 
 ## Puertos Utilizados
 
-- **8089**: Apache (Aplicación Laravel)
+- **8090**: Apache (Aplicación Laravel)
 - **8082**: phpMyAdmin
-- **3308**: MySQL
-- **5173**: Vite
+- **3307**: MySQL
 
 ## Notas Importantes
 

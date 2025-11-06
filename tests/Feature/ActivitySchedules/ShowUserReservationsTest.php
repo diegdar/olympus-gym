@@ -108,8 +108,7 @@ class ShowUserReservationsTest extends TestCase
         $activitySchedule = ActivitySchedule::factory()->create();
 
         foreach ($this->getAuthorizedRoles('activity.schedules.unenroll') as $role) {
-            $user = $this->createUserAndSignIn($role);
-            $this->actingAs($user);
+            $user = $this->createUserAndAssignRole($role);
 
             $this->performEnrollmentRequest($activitySchedule, $user);
 
@@ -132,13 +131,13 @@ class ShowUserReservationsTest extends TestCase
     public function test_unauthorized_user_cannot_unenroll_from_reservation(): void
     {
         $activitySchedule = ActivitySchedule::factory()->create();
-        $authorizedUser = $this->createUserAndSignIn(
+        $authorizedUser = $this->createUserAndAssignRole(
             $this->getAuthorizedRoles('activity.schedules.enroll')[0]
         );
         $this->performEnrollmentRequest($activitySchedule, $authorizedUser);
 
         foreach ($this->getUnauthorizedRoles('activity.schedules.unenroll') as $role) {
-            $this->createUserAndSignIn($role);
+            $this->createUserAndAssignRole($role);
 
             $this->from(route('user.reservations'))
                 ->delete(route('activity.schedules.unenroll', $activitySchedule))
@@ -156,7 +155,7 @@ class ShowUserReservationsTest extends TestCase
         $activitySchedule = ActivitySchedule::factory()->create();
 
         foreach ($this->getAuthorizedRoles('user.reservations') as $role) {
-            $user = $this->createUserAndSignIn($role);
+            $user = $this->createUserAndAssignRole($role);
 
             $this->performEnrollmentRequest($activitySchedule, $user);
 

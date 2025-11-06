@@ -49,9 +49,9 @@ class ShowUserSubscriptionTest extends TestCase
                     ->translatedFormat('j \d\e F \d\e Y'));
     }
 
-    public function test_user_with_no_subscription_sees_not_assigned_message(): void
+    public function test_user_with_no_subscription_sees_not_assigned_message(): void 
     {
-        $user = $this->createUserAndSignIn('member');
+        $user = $this->createUserAndAssignRole('member');
 
         $response = $this->actingAs($user)->get(route(self::ROUTE));
 

@@ -3,8 +3,7 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite --force", 
-        "dev:watch": "vite --watch --poll 500"
+        "dev": "vite"
     },
     "dependencies": {
         "@tailwindcss/vite": "^4.0.7",

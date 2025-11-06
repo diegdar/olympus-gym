@@ -31,18 +31,18 @@ class ShowActivityScheduleTest extends TestCase
         foreach (
                 $this->getAuthorizedRoles('activity.schedules.show')
                 as $authorizedRole
-            )
+            ) 
         {
             $activitySchedule = ActivitySchedule::factory()->create();
 
-            $dayDateFormatted = Carbon::parse($activitySchedule->start_datetime)->translatedFormat('l, d F');
+            $dayDateFormatted = Carbon::parse($activitySchedule->start_datetime)->translatedFormat('l, d F'); 
             $startTime = Carbon::parse($activitySchedule->start_datetime)->format('G:i');
             $availableSlots = (string) (
-                                    $activitySchedule->max_enrollment
+                                    $activitySchedule->max_enrollment 
                                     - $activitySchedule->users()->count()
                                 );
 
-            $response = $this->showActivitySchedule($authorizedRole, $activitySchedule->id);
+            $response = $this->showActivitySchedule($authorizedRole, $activitySchedule->id);         
 
             $response->assertStatus(200)
                      ->assertSeeInOrder(
@@ -75,7 +75,7 @@ class ShowActivityScheduleTest extends TestCase
             'max_enrollment' => 5,
         ]);
 
-        $member = $this->createUserAndSignIn('member');
+        $member = $this->createUserAndAssignRole('member');
 
         $resp = $this->actingAs($member)->get(route('activity.schedules.show', $schedule));
         $resp->assertStatus(200)
@@ -89,7 +89,7 @@ class ShowActivityScheduleTest extends TestCase
             'max_enrollment' => 5,
         ]);
 
-        $member = $this->createUserAndSignIn('member');
+        $member = $this->createUserAndAssignRole('member');
         // attach enrollment
         $schedule->users()->attach($member->id);
 
@@ -108,7 +108,7 @@ class ShowActivityScheduleTest extends TestCase
         $another = User::factory()->create();
         $schedule->users()->attach($another->id);
 
-        $member = $this->createUserAndSignIn('member');
+        $member = $this->createUserAndAssignRole('member');
         $resp = $this->actingAs($member)->get(route('activity.schedules.show', $schedule));
         $resp->assertStatus(200)
              ->assertSee('Sin plazas disponibles');

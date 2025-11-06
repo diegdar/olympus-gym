@@ -14,13 +14,11 @@ use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Subscription;
 use App\Models\SubscriptionUser;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles, TwoFactorAuthenticatable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -31,10 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'birth_date',
-        'two_factor_secret',
-        'two_factor_recovery_codes',
-        'two_factor_confirmed_at',
+    'birth_date',
     ];
 
     /**
@@ -92,8 +87,6 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'birth_date' => 'date',
             'password' => 'hashed',
-            'two_factor_confirmed_at' => 'datetime',
-            'two_factor_recovery_codes' => 'json',
         ];
     }
 

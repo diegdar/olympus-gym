@@ -83,7 +83,7 @@ class CreateUserComponentTest extends TestCase
         $userNumber = 1;
         foreach ($this->authRolesToCreateUser as $authorizedRole) {
             $this->actingAsRole($authorizedRole);
-            $authorizedUser = $this->createUserAndSignIn(roleName: $authorizedRole);
+            $authorizedUser = $this->createUserAndAssignRole(roleName: $authorizedRole);
                 $this->createUserComponent($authorizedUser, [
                     'name' => 'John Doe',
                     'email' => "john.doe{$userNumber}@example.com",
@@ -108,7 +108,7 @@ class CreateUserComponentTest extends TestCase
     public function test_user_creation_validation_rules(array $formData, array $expectedErrors): void
     {
         foreach ($this->authRolesToCreateUser as $authorizedRole) {
-            $authorizedUser = $this->createUserAndSignIn(roleName: $authorizedRole);
+            $authorizedUser = $this->createUserAndAssignRole(roleName: $authorizedRole);
                 $this->createUserComponent($authorizedUser, $formData)
                     ->call('createUser')
                     ->assertHasErrors($expectedErrors);
@@ -212,7 +212,7 @@ class CreateUserComponentTest extends TestCase
                     'role' => 3,
                     'birth_date' => '1900-01-01',
                 ],
-                'expectedErrors' => ['birth_date' => 'after'],
+                'expectedErrors' => ['birth_date' => 'after'],    
             ],
             'birth_date must be before or equal to 14 years ago' => [
                 'formData' => [
@@ -231,7 +231,7 @@ class CreateUserComponentTest extends TestCase
         $userNumber = 1;
         foreach ($this->authRolesToCreateUser as $authorizedRole) {
             $this->actingAsRole($authorizedRole);
-            $authorizedUser = $this->createUserAndSignIn(roleName: $authorizedRole);
+            $authorizedUser = $this->createUserAndAssignRole(roleName: $authorizedRole);
                 $this->createUserComponent($authorizedUser, [
                     'name' => 'john Doe',
                     'email' => "john.doe{$userNumber}@example.com",
