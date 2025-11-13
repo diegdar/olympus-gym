@@ -27,6 +27,8 @@
                 </div>
             </div>
         </div>
+        <x-footer></x-footer>
+
         @fluxScripts
     </body>
     @vite('resources/js/navbar.js')

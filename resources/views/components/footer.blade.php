@@ -1,4 +1,4 @@
-<footer class="mb-10 w-full text-center pt-2 bg-gray-500 text-white dark:bg-bg_darkMode dark:text-white z-20 
+<footer class="mb-8 w-full text-center pt-2 bg-gray-500 text-white dark:bg-bg_darkMode dark:text-white z-20 
     flex flex-col justify-around">
     <!-- Contact info -->
     <div class="flex flex-wrap justify-around gap-4 px-3 py-3">

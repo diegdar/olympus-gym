@@ -7,9 +7,8 @@
 </head>
 
 <body class="min-h-screen flex flex-col bg-white dark:bg-zinc-800">    
-    <flux:sidebar sticky stashable 
-        class="z-25 border-r border-zinc-200 bg-zinc-300
-            dark:border-zinc-700 dark:bg-zinc-900">
+    <flux:sidebar sticky stashable
+        class="z-25 border-r border-zinc-200 bg-zinc-300 min-w-max dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
         {{-- Main Panel --}}
@@ -204,6 +203,9 @@
     </flux:header>
 
     {{ $slot }}
+
+    <div class="[grid-area:footer]" style="padding: 0 !important;">
+    </div>
     
     @fluxScripts
 </body>

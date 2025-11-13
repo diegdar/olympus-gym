@@ -6,7 +6,7 @@
         {{ $slot }}
     </flux:main>
 
-    <flux:footer class="!p-0 !lg:p-0">
+    <flux:footer class="!p-0">
         <x-footer></x-footer>
     </flux:footer>
     

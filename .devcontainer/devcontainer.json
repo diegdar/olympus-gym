@@ -1,5 +1,8 @@
 {
     "name": "Laravel Gym",
+    "features": {
+        "ghcr.io/devcontainers/features/powershell": "latest"
+    },
     "customizations": {
         "vscode": {
             "extensions": [
@@ -16,7 +19,10 @@
                 "ms-azuretools.vscode-docker",
                 "database-client.database-client",
                 "database-client.database-client-jdbc"
-            ]
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "pwsh"
+            }
         }
     },
     "forwardPorts": [8089, 5173, 3308],
