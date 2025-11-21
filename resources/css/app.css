@@ -26,7 +26,8 @@
     --color-zinc-900: #171717;
     --color-zinc-950: #0a0a0a;
     --color-bg_darkMode: #0c0c0c;
-    --color-2nd: #fec544;
+    --color-2nd: #977528;
+    --color-2nd-darkM: #fec544;
 
     --breakpoint-2xs: 20rem; /* 320px */
     --breakpoint-xs: 23rem; /* 368px */

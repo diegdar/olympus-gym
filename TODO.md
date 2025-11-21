@@ -4,8 +4,12 @@
 # vista Instalaciones, Servicios
 Hacer la vista mas parecida a un gym real, cambiar el texto por bullet points, hacer que las imagenes tengan una estructura mas moderna(utilizar grid).
 
-## ⚠️⚠️Hostinger
-Preguntar porque me muestra en algunas redes la pagina como peligrosa.
+##  Cambiar a inactivo suscripciones caducadas
+hacer que cuando la fecha de end_date pase la fecha de hoy el valor del campo status pase a inactive  
+
+# modal y view cookies
+- crear vista y modal de cookies
+([consulta chatgpt](https://chatgpt.com/c/67ed1102-4b64-8005-be3b-37ee37785a34?src=history_search))
 
 # introduccion
 -poner que hay verificacion de cuenta por email
@@ -17,13 +21,6 @@ Preguntar porque me muestra en algunas redes la pagina como peligrosa.
 # ActivitySchedule
 -hacer que en los dispositivos de tablet y movil se quede fija la hora de cada actividad al hacer scroll vertical.
 -agregar email confirmacion suscripcion actividad y agregar al calendario del usuario
-
-##  Cambiar a inactivo suscripciones caducadas
-hacer que cuando la fecha de end_date pase la fecha de hoy el valor del campo status pase a inactive  
-
-# modal y view cookies
-- crear vista y modal de cookies
-([consulta chatgpt](https://chatgpt.com/c/67ed1102-4b64-8005-be3b-37ee37785a34?src=history_search))
 
 # usuarios
 - agregar campos:

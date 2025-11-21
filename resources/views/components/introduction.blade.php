@@ -1,5 +1,5 @@
 <div class="mb-20">
-    <h1 class="font-bold text-center mb-2 text-2nd">Bienvenido a Olympus Gym</h1>
+    <h1 class="font-bold text-center mb-2 text-2nd dark:text-2nd-darkM">Bienvenido a Olympus Gym</h1>
     <p class="text-2xl font-semibold text-center font-shadows-light mb-2">tu santuario del fitness</p>
     <!-- abanico de imagenes -->
     <section class="flex w-full h-[430px]">
@@ -17,25 +17,25 @@
         </p>
         <ul>
             <li>
-                <p class="mt-2"><span class="text-2nd font-semibold">Entrenadores expertos: </span>Nuestro equipo de profesionales certificados te guiará en cada paso de tu camino, diseñando planes personalizados y brindándote el apoyo que necesitas para alcanzar tus objetivos.
+                <p class="mt-2"><span class="text-2nd dark:text-2nd-darkM font-semibold">Entrenadores expertos: </span>Nuestro equipo de profesionales certificados te guiará en cada paso de tu camino, diseñando planes personalizados y brindándote el apoyo que necesitas para alcanzar tus objetivos.
                 </p>
             </li>
             <li>
-                <p class="mt-2"><span class="text-2nd font-semibold">Variedad de clases: </span>Desde sesiones de alta intensidad hasta clases de yoga y pilates, ofrecemos una amplia gama de opciones para que encuentres la actividad que mejor se adapte a tus gustos y necesidades.
+                <p class="mt-2"><span class="text-2nd dark:text-2nd-darkM font-semibold">Variedad de clases: </span>Desde sesiones de alta intensidad hasta clases de yoga y pilates, ofrecemos una amplia gama de opciones para que encuentres la actividad que mejor se adapte a tus gustos y necesidades.
                 </p>
             </li>
             <li>
-                <p class="mt-2"><span class="text-2nd font-semibold">Comunidad inspiradora: </span>Únete a un grupo de personas motivadas que comparten tu pasión por el fitness y te impulsarán a superar tus propios límites.</p>
+                <p class="mt-2"><span class="text-2nd dark:text-2nd-darkM font-semibold">Comunidad inspiradora: </span>Únete a un grupo de personas motivadas que comparten tu pasión por el fitness y te impulsarán a superar tus propios límites.</p>
             </li>
             <li>
-                <p class="mt-2"><span class="text-2nd font-semibold">Ambiente motivador: </span>En Olympus Gym, te sentirás como en casa. Nuestra atmósfera cálida y acogedora te inspirará a dar lo mejor de ti en cada entrenamiento.
+                <p class="mt-2"><span class="text-2nd dark:text-2nd-darkM font-semibold">Ambiente motivador: </span>En Olympus Gym, te sentirás como en casa. Nuestra atmósfera cálida y acogedora te inspirará a dar lo mejor de ti en cada entrenamiento.
                 </p>
             </li>
         </ul>
         <p class="mt-2">
             Te invitamos a explorar nuestra página web y descubrir todo lo que Olympus Gym tiene para ofrecerte. ¡Contáctanos para programar una visita y comenzar a construir la mejor versión de ti mismo!
         </p>
-        <p class="font-permanent-marker text-right text-2nd text-2xl">
+        <p class="font-permanent-marker text-right text-2nd dark:text-2nd-darkM text-2xl">
             ¡En Olympus Gym, tu éxito es nuestra meta!
         </p>
     </section>
@@ -88,16 +88,4 @@
             </article>
         </section>             
     @endif
-    <!-- gym schedule -->
-    <section class="m-5">
-        <h2>Horario del gym</h2>
-        <ul>
-            <li class="my-2"><span class="font-bold text-2nd">Lunes a viernes: </span>de 07:00 a 23:00 h</li>
-            <li class="my-2"><span class="font-bold text-2nd">Sábados: </span>de 09:00 a 21:00 h</li>
-            <li class="my-2"><span class="font-bold text-2nd">Domingos: </span>de 09:00 a 14:00 h</li>
-        </ul>
-        <p class="italic mt-3">
-            *Club abierto todo el año, salvo 25 de diciembre y 1 de enero.
-        </p>
-    </section>
 </div>
