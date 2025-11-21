@@ -2,5 +2,6 @@
     <x-slot name="title">Olympus Gym: Home</x-slot>
     <x-slot name="content">
         <x-introduction></x-introduction>
+        <x-faq></x-faq>
     </x-slot>
 </x-layouts.app.general>
