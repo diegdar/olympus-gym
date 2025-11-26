@@ -89,7 +89,7 @@ class IntroductionTest extends TestCase
             ->assertSee('de 07:00 a 23:00 h')
             ->assertSee('Sábados:')
             ->assertSee('de 09:00 a 21:00 h')
-            ->assertSee('Domingos:')
+            ->assertSee('Domingos/festivos:')
             ->assertSee('de 09:00 a 14:00 h')
             ->assertSee('*Club abierto todo el año, salvo 25 de diciembre y 1 de enero.');
     }
