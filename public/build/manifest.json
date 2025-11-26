@@ -33,7 +33,7 @@
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app-CvzG5CQ1.css",
+    "file": "assets/app-DySyoRHf.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -64,6 +64,12 @@
     "file": "assets/app-l0sNRNKZ.js",
     "name": "app",
     "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/carousel.js": {
+    "file": "assets/carousel-D7pHIso1.js",
+    "name": "carousel",
+    "src": "resources/js/carousel.js",
     "isEntry": true
   },
   "resources/js/dashboard/memberCharts.js": {

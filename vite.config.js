@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/css/tableList.css',
                 'resources/js/app.js',
                 'resources/js/navbar.js',
+                'resources/js/carousel.js',
                 'resources/js/passwordVisibility.js',
                 'resources/js/hideTableHeaders.js',
                 'resources/js/messageTransition.js',
