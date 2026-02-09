@@ -19,7 +19,7 @@ class RoomFactory extends Factory
     {
         return [
             'name' => fake()->unique()
-                        ->text(rand(5, 15)),
+                ->words(rand(1, 3), true),
             'description' => fake()->sentence( 150),
         ];
     }
