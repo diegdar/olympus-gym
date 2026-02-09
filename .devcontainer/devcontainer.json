@@ -39,7 +39,7 @@
         //     "label": "phpMyAdmin",
         //     "onAutoForward": "notify"
         // },
-        "3307": {
+        "3308": {
             "label": "MySQL",
             "onAutoForward": "notify"
         }
