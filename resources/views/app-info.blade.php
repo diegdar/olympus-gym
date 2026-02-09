@@ -9,7 +9,7 @@
                 pensada tanto para administradores como para socios.
             </p>
             <div class="text-center my-6">
-                <a href="https://project-gym.diegochacondev.es/"
+                <a href="https://olympus-gym.diegochacondev.es/"
                     class="inline-block px-6 py-3 text-lg font-semibold text-white bg-green-800 hover:bg-green-600 rounded-lg shadow">
                     🌐 Entra a la pagina principal del gimnasio
                 </a>
