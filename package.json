@@ -9,7 +9,7 @@
     "dependencies": {
         "@tailwindcss/vite": "^4.0.7",
         "autoprefixer": "^10.4.20",
-        "axios": "^1.8.2",
+        "axios": "^1.13.5",
         "chart.js": "^4.4.6",
         "chartjs-plugin-datalabels": "^2.2.0",
         "concurrently": "^9.0.1",
